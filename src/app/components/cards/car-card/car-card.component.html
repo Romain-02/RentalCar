@@ -1,6 +1,8 @@
 <div class="carCard">
   <img [src]="car.image" alt="Image du véhicule">
-  <h3>{{car.name}}</h3>
-  <p class="infos">{{car.miles}} | agence_name</p>
+  <span>
+    <h3>{{car.name}}</h3>
+    <p class="infos">{{car.miles}} miles | {{car.agency.name}}</p>
+  </span>
   <p>{{car.description}}</p>
 </div>
