@@ -6,6 +6,7 @@ import {LoginComponent} from './components/login/login.component';
 import {CarListComponent} from './components/car-list/car-list.component';
 import {ListAgencyComponent} from './components/list-agency/list-agency.component';
 import {GuaranteesPageComponent} from './components/guarantees-page/guarantees-page.component';
+import {OptionsPageComponent} from './components/option-page/option-page.component';
 
 
 export const routes: Routes = [
@@ -42,6 +43,11 @@ export const routes: Routes = [
         path: 'guarantees/:carId',
         title: 'guarantees',
         component: GuaranteesPageComponent
+      },
+      {
+        path: 'options/:carId',
+        title: 'options',
+        component: OptionsPageComponent
       }
     ]
   }

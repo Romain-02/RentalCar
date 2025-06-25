@@ -1,28 +1,29 @@
+// src/app/components/option-page/option-page.component.ts
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { GuaranteesService } from '../../services/guarantees.service';
-import { Guarantees } from '../../models/guarantees';
+import { OptionsService } from '../../services/options.service';
+import { Option, Options } from '../../models/Option';
 import { Car } from '../../models/Car';
 import { CarsService } from '../../services/cars.service';
 
 @Component({
-  selector: 'app-guarantees-page',
+  selector: 'app-options-page',
   standalone: true,
   imports: [CommonModule, RouterLink],
-  templateUrl: './guarantees-page.component.html',
-  styleUrl: './guarantees-page.component.scss'
+  templateUrl: './option-page.component.html',
+  styleUrl: './option-page.component.scss'
 })
-export class GuaranteesPageComponent implements OnInit {
+export class OptionsPageComponent implements OnInit {
   carId: number | null = null;
   car: Car | null = null;
-  guarantees: Guarantees[] = [];
-  selectedGuarantee: number | null = null;
+  options: Options = [];
+  selectedOptions: number[] = [];
   loading = true;
   error = false;
 
   private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly guaranteesService = inject(GuaranteesService);
+  private readonly optionsService = inject(OptionsService);
   private readonly carsService = inject(CarsService);
 
   async ngOnInit() {
@@ -36,8 +37,8 @@ export class GuaranteesPageComponent implements OnInit {
           const cars = await this.carsService.getAllCars();
           this.car = cars.find(car => car.id === this.carId) || null;
 
-          // Récupérer toutes les garanties disponibles
-          this.guarantees = await this.guaranteesService.getAllGuarantees();
+          // Récupérer toutes les options disponibles
+          this.options = await this.optionsService.getAllOptions();
           this.loading = false;
         } catch (error) {
           console.error('Erreur lors de la récupération des données:', error);
@@ -48,11 +49,22 @@ export class GuaranteesPageComponent implements OnInit {
     });
   }
 
-  selectGuarantee(guaranteeId: number): void {
-    this.selectedGuarantee = guaranteeId;
+  toggleOption(optionId: number): void {
+    const index = this.selectedOptions.indexOf(optionId);
+    if (index > -1) {
+      this.selectedOptions.splice(index, 1);
+    } else {
+      this.selectedOptions.push(optionId);
+    }
   }
 
-  isGuaranteeSelected(guaranteeId: number): boolean {
-    return this.selectedGuarantee === guaranteeId;
+  isOptionSelected(optionId: number): boolean {
+    return this.selectedOptions.includes(optionId);
+  }
+
+  getTotalPrice(): number {
+    return this.options
+      .filter(option => this.selectedOptions.includes(option.id))
+      .reduce((total, option) => total + option.price, 0);
   }
 }
