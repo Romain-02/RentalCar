@@ -30,6 +30,7 @@ export class DefaultLayoutComponent implements OnInit {
     this.items = [
       { label: 'Accueil', routerLink: '/' },
       { label: 'Véhicule', routerLink: '/cars' },
+      { label: 'Agences', routerLink: '/list-agency' },
       ...(isLoggedIn
         ? [
           { label: 'Profil', routerLink: '/profil' },

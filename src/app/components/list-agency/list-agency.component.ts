@@ -1,7 +1,7 @@
 import {Component, effect, inject, OnInit, WritableSignal} from '@angular/core';
 import {PrimeTemplate} from 'primeng/api';
 import {TableModule} from 'primeng/table';
-import {AgenciesService} from '../../services/agencies/agencies.service';
+import {AgenciesService} from '../../services/api/agencies.service';
 import {Agencies} from '../../models/Agency';
 
 @Component({
