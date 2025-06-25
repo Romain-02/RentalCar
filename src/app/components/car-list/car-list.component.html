@@ -1,0 +1,6 @@
+<h2>Liste des voitures </h2>
+<div class="carList">
+  @for(car of cars; track car.id){
+    <app-car-card [car]="car" />
+  }
+</div>

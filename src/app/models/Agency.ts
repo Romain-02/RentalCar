@@ -5,7 +5,7 @@ export type Agency = {
   city: string,
   address: string,
   phone: string,
-  mail: string,
-}
+  mail: string
+};
 
 export type Agencies = Agency[];
