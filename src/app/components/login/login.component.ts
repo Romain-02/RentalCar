@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth-service.service';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -17,12 +18,13 @@ export class LoginComponent {
   password: string = '';
   errorMessage: string | null = null;
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   onSubmit() {
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
         console.log('Login réussi:', response);
+        this.router.navigate(['/']);
       },
       error: (error) => {
         this.errorMessage = 'Email ou mot de passe incorrect.';
