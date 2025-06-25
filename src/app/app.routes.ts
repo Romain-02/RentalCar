@@ -3,6 +3,7 @@ import {DefaultLayoutComponent} from './components/default-layout/default-layout
 import {HomePageComponent} from './components/home-page/home-page.component';
 import {RegisterComponent} from './components/register/register.component';
 import {LoginComponent} from './components/login/login.component';
+import {CarListComponent} from './components/car-list/car-list.component';
 
 
 export const routes: Routes = [
@@ -27,7 +28,8 @@ export const routes: Routes = [
       },
       {
         path: 'cars',
-        loadComponent: () => import('./components/car-list/car-list.component').then((x) => x.CarListComponent),
+        title: 'cars',
+        component: CarListComponent
       }
     ]
   }
