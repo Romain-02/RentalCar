@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
 @Injectable({
@@ -8,25 +8,30 @@ import { tap } from 'rxjs/operators';
 })
 export class AuthService {
   private apiUrl = 'http://localhost:8000/api';
+  private loggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
+
+  isLoggedIn$ = this.loggedInSubject.asObservable();
 
   constructor(private http: HttpClient) {}
+
+  private hasToken(): boolean {
+    return typeof localStorage !== 'undefined' && !!localStorage.getItem('token');
+  }
 
   login(email: string, password: string): Observable<any> {
     const body = { email, password };
     return this.http.post(`${this.apiUrl}/login`, body).pipe(
       tap((response: any) => {
-        if (response && response.authorisation && response.authorisation.access_token) {
+        if (response?.authorisation?.access_token) {
           localStorage.setItem('token', response.authorisation.access_token);
+          this.loggedInSubject.next(true);
         }
       })
     );
   }
 
   getToken(): string | null {
-    if (typeof localStorage !== 'undefined') {
-      return localStorage.getItem('token');
-    }
-    return null;
+    return typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null;
   }
 
   logout(): void {
@@ -37,14 +42,17 @@ export class AuthService {
       }).subscribe({
         next: () => {
           localStorage.removeItem('token');
+          this.loggedInSubject.next(false);
         },
         error: (err) => {
           console.error('Logout failed', err);
           localStorage.removeItem('token');
+          this.loggedInSubject.next(false);
         }
       });
     } else {
       localStorage.removeItem('token');
+      this.loggedInSubject.next(false);
     }
   }
 }

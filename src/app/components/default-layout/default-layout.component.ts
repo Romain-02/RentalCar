@@ -3,6 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
 import { AuthService } from '../../services/auth-service.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-default-layout',
@@ -17,30 +18,32 @@ export class DefaultLayoutComponent implements OnInit {
 
   items: MenuItem[] = [];
 
-  constructor(private authService: AuthService) {}
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
-    this.updateMenuItems();
+    this.authService.isLoggedIn$.subscribe((isLoggedIn) => {
+      this.updateMenuItems(isLoggedIn);
+    });
   }
 
-  updateMenuItems() {
-    const isLoggedIn = !!this.authService.getToken();
-
+  updateMenuItems(isLoggedIn: boolean) {
     this.items = [
       { label: 'Accueil', routerLink: '/' },
       { label: 'Véhicule', routerLink: '/cars' },
       ...(isLoggedIn
-        ? [{ label: 'Profil', routerLink: '/profil' },
-          { label: 'Déconnexion', command: () => this.logout() }]
+        ? [
+          { label: 'Profil', routerLink: '/profil' },
+          { label: 'Déconnexion', command: () => this.logout() }
+        ]
         : [
           { label: 'Connexion', routerLink: '/login' },
-          { label: 'Inscription', routerLink: '/register' },
-        ]),
+          { label: 'Inscription', routerLink: '/register' }
+        ])
     ];
   }
 
   logout() {
     this.authService.logout();
-    this.updateMenuItems();
+    this.router.navigate(['/']);
   }
 }
