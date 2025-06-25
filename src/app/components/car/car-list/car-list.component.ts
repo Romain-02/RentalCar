@@ -1,5 +1,5 @@
 import {Component, effect, inject, OnInit, signal, WritableSignal} from '@angular/core';
-import { Cars } from '../../../models/Car';
+import { Cars } from '../../../models/api/Car';
 import { CarsService } from '../../../services/api/cars.service';
 import {CarCardComponent} from '../../cards/car-card/car-card.component';
 import {CarFilterComponent} from '../car-filter/car-filter.component';

@@ -3,8 +3,8 @@ import {DefaultLayoutComponent} from './components/default-layout/default-layout
 import {HomePageComponent} from './components/home-page/home-page.component';
 import {RegisterComponent} from './components/register/register.component';
 import {LoginComponent} from './components/login/login.component';
-import {CarListComponent} from './components/car-list/car-list.component';
-import {ListAgencyComponent} from './components/list-agency/list-agency.component';
+import {ListAgencyComponent} from './components/agency/list-agency/list-agency.component';
+import {CarListComponent} from './components/car/car-list/car-list.component';
 
 
 export const routes: Routes = [

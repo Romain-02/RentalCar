@@ -9,10 +9,3 @@ export type Agency = {
 };
 
 export type Agencies = Agency[];
-
-export type AgencyFilter = {
-  id: number,
-  name: string
-}
-
-export type AgencyFilters = AgencyFilter[]
