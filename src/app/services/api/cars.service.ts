@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import {inject, Injectable, signal, WritableSignal} from '@angular/core';
-import {Cars} from '../../models/Car';
+import {Cars} from '../../models/api/Car';
 import {catchError, map, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 
