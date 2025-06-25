@@ -1,0 +1,76 @@
+.guarantees-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+
+  h2 {
+    margin-bottom: 20px;
+    color: #333;
+  }
+
+  .loading, .error {
+    padding: 20px;
+    border-radius: 8px;
+    text-align: center;
+  }
+
+  .loading {
+    background-color: #f8f9fa;
+  }
+
+  .error {
+    background-color: #f8d7da;
+    color: #721c24;
+  }
+
+  .car-info {
+    margin-bottom: 30px;
+
+    .car-details {
+      display: flex;
+      gap: 20px;
+      background-color: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+      img {
+        width: 300px;
+        border-radius: 8px;
+        object-fit: cover;
+      }
+
+      .car-text {
+        flex: 1;
+
+        h4 {
+          margin-top: 0;
+          color: #333;
+        }
+      }
+    }
+  }
+
+  .guarantees-list {
+    background-color: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+    .guarantee-item {
+      padding: 15px;
+      margin-bottom: 15px;
+      border: 1px solid #e0e0e0;
+      border-radius: 8px;
+
+      h4 {
+        margin-top: 0;
+        color: #4CAF50;
+      }
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+}

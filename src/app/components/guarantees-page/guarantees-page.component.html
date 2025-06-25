@@ -1,0 +1,39 @@
+<div class="guarantees-container">
+  <h2>Réservation et garanties</h2>
+
+  <div *ngIf="loading" class="loading">
+    Chargement des informations...
+  </div>
+
+  <div *ngIf="error" class="error">
+    Une erreur s'est produite lors du chargement des données.
+  </div>
+
+  <div *ngIf="!loading && !error">
+    <div *ngIf="car" class="car-info">
+      <h3>Véhicule sélectionné</h3>
+      <div class="car-details">
+        <img [src]="car.image" alt="Image du véhicule">
+        <div class="car-text">
+          <h4>{{car.name}}</h4>
+          <p>{{car.miles}} miles | {{car.agency.name}}</p>
+          <p>{{car.description}}</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="guarantees-list">
+      <h3>Garanties disponibles</h3>
+      <div *ngIf="guarantees.length === 0">
+        Aucune garantie disponible pour ce véhicule.
+      </div>
+
+      <div *ngFor="let guarantee of guarantees" class="guarantee-item">
+        <h4>Garantie #{{guarantee.id}}</h4>
+        <p>État: {{guarantee.state}}</p>
+        <p>Montant: {{guarantee.amount}} €</p>
+        <p>Créée le: {{guarantee.createdAt | date:'dd/MM/yyyy'}}</p>
+      </div>
+    </div>
+  </div>
+</div>
