@@ -1,0 +1,18 @@
+<div class="p-4 bg-black text-white space-y-4">
+  @for(agency of agencies(); track agency.id){
+    <div class="bg-gray-900 p-4 rounded-lg shadow-md">
+      <h2 class="text-xl font-bold">{{ agency.name }}</h2>
+      <p><strong>Adresse :</strong> {{ agency.address }}, {{ agency.postalCode }} {{ agency.city }}</p>
+      <p><strong>Téléphone :</strong> {{ agency.phone }}</p>
+      <p><strong>Email :</strong> {{ agency.mail }}</p>
+      <p><strong>Ville :</strong> {{ agency.city }}</p>
+      <p><strong>Code postal :</strong> {{ agency.city }}</p>
+    </div>
+  }
+
+  @if(agencies().length === 0){
+    <div class="text-center text-gray-400 mt-4">
+      Aucune agence trouvée.
+    </div>
+  }
+</div>
