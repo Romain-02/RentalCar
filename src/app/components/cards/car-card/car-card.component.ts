@@ -8,6 +8,7 @@ import { Car } from '../../../models/Car';
   selector: 'app-car-card',
   imports: [],
   templateUrl: './car-card.component.html',
+  standalone: true,
   styleUrl: './car-card.component.scss'
 })
 export class CarCardComponent {
