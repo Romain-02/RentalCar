@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable } from 'rxjs';
+import {BehaviorSubject, map, Observable} from 'rxjs';
 import { tap } from 'rxjs/operators';
+import {User} from '../models/User';
 
 @Injectable({
   providedIn: 'root'
@@ -54,5 +55,28 @@ export class AuthService {
       localStorage.removeItem('token');
       this.loggedInSubject.next(false);
     }
+  }
+
+  getMe(): Observable<User> {
+    const token = this.getToken();
+    if (!token) {
+      return new Observable<User>((observer) => {
+        observer.error(new Error('No token found'));
+      });
+    }
+    return this.http.get(`${this.apiUrl}/me`, {
+      headers: { Authorization: `Bearer ${token}` }
+    }).pipe(
+      map((response: any) => {
+        const user = response?.data?.user;
+        if (user) {
+          return {
+            name: user.name,
+            mail: user.email
+          } as User;
+        }
+        throw new Error('Invalid response format');
+      }),
+    );
   }
 }
