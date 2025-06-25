@@ -1,0 +1,29 @@
+.carCard {
+  width: 600px;
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  border-radius: 24px;
+  gap: 8px;
+  background-color: #fff ;
+  color: #000;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.30), 0 1.5px 4px rgba(0,0,0,0.12);
+  transition: 1.5s;
+
+  img {
+    width: 100%;
+    height: 50%;
+    border-radius: 8px;
+  }
+}
+
+.infos {
+  color: gray;
+}
+
+.carCard:hover {
+  cursor: pointer;
+  scale: 1.01;
+  box-shadow: 0 10px 16px rgba(0, 0, 0, 0.60), 0 1.5px 4px rgba(0,0,0,0.12);
+}
