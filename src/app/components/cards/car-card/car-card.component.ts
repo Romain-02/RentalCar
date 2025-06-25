@@ -1,12 +1,15 @@
 import { Component, Input } from '@angular/core';
 import { Car } from '../../../models/Car';
+import {RouterLink} from "@angular/router";
 
 // ==============================================
 
 
 @Component({
   selector: 'app-car-card',
-  imports: [],
+    imports: [
+        RouterLink
+    ],
   templateUrl: './car-card.component.html',
   styleUrl: './car-card.component.scss'
 })
