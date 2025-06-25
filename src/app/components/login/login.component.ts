@@ -3,13 +3,19 @@ import { AuthService } from '../../services/auth-service.service';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import { Router } from '@angular/router';
+import {InputText} from 'primeng/inputtext';
+import {PasswordDirective} from 'primeng/password';
+import {ButtonDirective} from 'primeng/button';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   imports: [
     FormsModule,
-    NgIf
+    NgIf,
+    InputText,
+    PasswordDirective,
+    ButtonDirective
   ],
   styleUrls: ['./login.component.scss']
 })
@@ -23,12 +29,10 @@ export class LoginComponent {
   onSubmit() {
     this.authService.login(this.email, this.password).subscribe({
       next: (response) => {
-        console.log('Login réussi:', response);
-        this.router.navigate(['/']);
+        window.location.href = '/';
       },
       error: (error) => {
         this.errorMessage = 'Email ou mot de passe incorrect.';
-        console.error('Erreur lors du login:', error);
       }
     });
   }
