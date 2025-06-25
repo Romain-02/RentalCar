@@ -19,7 +19,8 @@ export class DefaultLayoutComponent implements OnInit {
   ngOnInit() {
     this.items = [
       { label: 'Accueil', routerLink: '/' },
-      { label: 'Véhicule', routerLink: '/vehicules' }
+      { label: 'Véhicule', routerLink: '/vehicules' },
+      { label: 'Inscription', routerLink: '/register' },
     ];
   }
 }
