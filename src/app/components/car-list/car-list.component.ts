@@ -12,6 +12,7 @@ import {CarCardComponent} from '../cards/car-card/car-card.component';
     CarCardComponent
   ],
   templateUrl: './car-list.component.html',
+  standalone: true,
   styleUrl: './car-list.component.scss'
 })
 export class CarListComponent implements OnInit {
