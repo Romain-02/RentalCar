@@ -3,13 +3,15 @@ import { AuthService } from '../../services/auth-service.service';
 import { User } from '../../models/User';
 import {ButtonDirective} from 'primeng/button';
 import {NgIf} from '@angular/common';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-profil',
   templateUrl: './profil.component.html',
   imports: [
     ButtonDirective,
-    NgIf
+    NgIf,
+    FormsModule
   ],
   styleUrls: ['./profil.component.scss']
 })
@@ -35,7 +37,7 @@ export class ProfilComponent implements OnInit {
   toggleEdit(): void {
     this.isEditing = !this.isEditing;
     if (!this.isEditing && this.user) {
-      this.authService.updateMe(this.user).subscribe({
+      this.authService.updateMe(this.user.id, this.user).subscribe({
         next: (updatedUser) => {
           this.user = updatedUser;
           console.log('User data updated successfully:', this.user);

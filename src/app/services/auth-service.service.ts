@@ -56,6 +56,7 @@ export class AuthService {
         const client = response?.data?.client;
         if (user && client) {
           return {
+            id: client.id,
             name: user.name,
             firstname: client.firstname,
             lastname: client.lastname,
@@ -71,7 +72,7 @@ export class AuthService {
     );
   }
 
-  updateMe(user: User): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/client`, user);
+  updateMe(id: any, user: User): Observable<User> {
+    return this.http.patch<User>(`${this.apiUrl}/clients/${id}`, user);
   }
 }
