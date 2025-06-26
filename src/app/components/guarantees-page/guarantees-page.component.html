@@ -9,16 +9,16 @@
     Une erreur s'est produite lors du chargement des données.
   </div>
 
-  @if(!car() || !loading && !error){
+  @if(!car() || loading && !error){
     <p-progress-spinner />
   }@else{
-    <div class="car-info">
+    <div *ngIf="car()" class="car-info">
       <h3>Véhicule sélectionné</h3>
       <div class="car-details">
         <img [src]="car()?.image" alt="Image du véhicule">
         <div class="car-text">
           <h4>{{car()?.name}}</h4>
-          <p>{{car()?.miles}} miles | {{car()?.agency.name}}</p>
+          <p>{{car()?.miles}} miles | {{car()?.agency?.name ?? ""}}</p>
           <p>{{car()?.description}}</p>
         </div>
       </div>

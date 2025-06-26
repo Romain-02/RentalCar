@@ -22,14 +22,14 @@ export class OptionsPageComponent implements OnInit {
 
   protected options: WritableSignal<Options> = this.optionsService.options;
   protected cars: WritableSignal<Cars> = this.carsService.cars;
-  protected car: Signal<Car> = computed(() => this.cars().find((car) =>
+  protected car: Signal<Car | undefined> = computed(() => this.cars().find((car) =>
     car.id === this.carId
   ));
 
-  private carId: number | null = null;
-  private selectedOptions: number[] = [];
-  private loading: boolean = true;
-  private error: boolean = false;
+  protected carId: number | null = null;
+  protected selectedOptions: number[] = [];
+  protected loading: boolean = true;
+  protected error: boolean = false;
 
   async ngOnInit() {
     this.activatedRoute.paramMap.subscribe(async params => {
