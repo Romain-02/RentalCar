@@ -1,13 +1,17 @@
 import {Component, effect, inject, OnInit, WritableSignal} from '@angular/core';
 import {PrimeTemplate} from 'primeng/api';
 import {TableModule} from 'primeng/table';
-import {AgenciesService} from '../../services/agencies/agencies.service';
-import {Agencies} from '../../models/Agency';
+import {AgenciesService} from '../../../services/api/agencies.service';
+import {Agencies} from '../../../models/api/Agency';
+import {CarFilterComponent} from '../../car/car-filter/car-filter.component';
+import {AgencyFilterComponent} from '../agency-filter/agency-filter.component';
 
 @Component({
   selector: 'app-list-agency',
   imports: [
-    TableModule
+    TableModule,
+    CarFilterComponent,
+    AgencyFilterComponent
   ],
   templateUrl: './list-agency.component.html',
   standalone: true,

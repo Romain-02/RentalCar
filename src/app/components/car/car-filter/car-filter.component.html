@@ -1,0 +1,8 @@
+<p-dropdown
+  [options]="agenciesWithAll()"
+  optionLabel="agencyName"
+  placeholder="Sélectionnez une agence"
+  [styleClass]="'w-full md:w-60 bg-gray-900 text-white border-gray-700'"
+  (onChange)="setAgencyFilter($event.value)">
+</p-dropdown>
+

@@ -1,49 +1,44 @@
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, inject, OnInit, computed, WritableSignal, Signal} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { GuaranteesService } from '../../services/guarantees.service';
+import { GuaranteesService } from '../../services/api/guarantees.service';
 import { Guarantees } from '../../models/guarantees';
-import { Car } from '../../models/Car';
-import { CarsService } from '../../services/cars.service';
+import { CarsService } from '../../services/api/cars.service';
+import {Car, Cars} from '../../models/api/Car';
+import {ProgressSpinner} from 'primeng/progressspinner';
 
 @Component({
   selector: 'app-guarantees-page',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, RouterLink, ProgressSpinner],
   templateUrl: './guarantees-page.component.html',
   styleUrl: './guarantees-page.component.scss'
 })
 export class GuaranteesPageComponent implements OnInit {
-  carId: number | null = null;
-  car: Car | null = null;
-  guarantees: Guarantees[] = [];
-  selectedGuarantee: number | null = null;
-  loading = true;
-  error = false;
+  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private readonly guaranteesService: GuaranteesService = inject(GuaranteesService);
+  private readonly carsService: CarsService = inject(CarsService);
 
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly guaranteesService = inject(GuaranteesService);
-  private readonly carsService = inject(CarsService);
+  protected carId: number | null = null;
+  protected cars: WritableSignal<Cars> = this.carsService.cars;
+  protected car: Signal<Car | undefined> = computed(() => this.cars().find((car) =>
+    car.id === this.carId
+  ));
+  protected guarantees: Signal<Guarantees> = this.guaranteesService.guarantees;
+  protected selectedGuarantee: number | null = null;
+  protected loading: boolean = true;
+  protected error: boolean = false;
 
-  async ngOnInit() {
+
+  ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(async params => {
-      const id = params.get('carId');
+      const id: string | null = params.get('carId');
       this.carId = id ? +id : null;
 
-      if (this.carId) {
-        try {
-          // Récupérer les informations de la voiture
-          const cars = await this.carsService.getAllCars();
-          this.car = cars.find(car => car.id === this.carId) || null;
-
-          // Récupérer toutes les garanties disponibles
-          this.guarantees = await this.guaranteesService.getAllGuarantees();
-          this.loading = false;
-        } catch (error) {
-          console.error('Erreur lors de la récupération des données:', error);
-          this.error = true;
-          this.loading = false;
-        }
+      if (this.carId !== null) {
+        this.carsService.fetchCars();
+        this.loading = false;
+        this.guaranteesService.fetchAllGuarantees();
       }
     });
   }
@@ -53,6 +48,7 @@ export class GuaranteesPageComponent implements OnInit {
   }
 
   isGuaranteeSelected(guaranteeId: number): boolean {
+    console.log(guaranteeId);
     return this.selectedGuarantee === guaranteeId;
   }
 }

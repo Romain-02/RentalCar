@@ -9,35 +9,53 @@
     Une erreur s'est produite lors du chargement des données.
   </div>
 
-  <div *ngIf="!loading && !error">
-    <div *ngIf="car" class="car-info">
+  @if(!car() || loading && !error){
+    <p-progress-spinner />
+  }@else{
+    <div *ngIf="car()" class="car-info">
       <h3>Véhicule sélectionné</h3>
       <div class="car-details">
-        <img [src]="car.image" alt="Image du véhicule">
+        <img [src]="car()?.image" alt="Image du véhicule">
         <div class="car-text">
-          <h4>{{car.name}}</h4>
-          <p>{{car.miles}} miles | {{car.agency.name}}</p>
-          <p>{{car.description}}</p>
+          <h4>{{car()?.name}}</h4>
+          <p>{{car()?.miles}} miles | {{car()?.agency?.name ?? ""}}</p>
+          <p>{{car()?.description}}</p>
         </div>
       </div>
     </div>
 
     <div class="guarantees-list">
-      <h3>Garanties disponibles</h3>
-      <div *ngIf="guarantees.length === 0">
-        Aucune garantie disponible pour ce véhicule.
+      <h3>Choisissez votre garantie</h3>
+      <div *ngIf="guarantees().length === 0">
+        Aucune garantie disponible.
       </div>
 
-      <div *ngFor="let guarantee of guarantees" class="guarantee-item">
-        <h4>Garantie #{{guarantee.id}}</h4>
-        <p>État: {{guarantee.state}}</p>
-        <p>Montant: {{guarantee.amount}} €</p>
-        <p>Créée le: {{guarantee.createdAt | date:'dd/MM/yyyy'}}</p>
+      <div *ngFor="let guarantee of guarantees()"
+           class="guarantee-item"
+           [class.selected]="isGuaranteeSelected(guarantee.id)"
+           (click)="selectGuarantee(guarantee.id)">
+        <div class="guarantee-content">
+          <h4>Garantie #{{guarantee.id}}</h4>
+          <p>État: {{guarantee.state}}</p>
+          <p class="amount">Montant: {{guarantee.amount}} €</p>
+          <p>Créée le: {{guarantee.createdAt | date:'dd/MM/yyyy'}}</p>
+        </div>
+        <div class="radio">
+          <span *ngIf="isGuaranteeSelected(guarantee.id)" class="check-icon">✓</span>
+        </div>
       </div>
     </div>
 
     <div class="actions">
-      <button class="continue-button" [routerLink]="['/options', carId]">Continuer vers les options</button>
+      <button class="continue-button"
+              [routerLink]="['/options', carId]"
+              [disabled]="selectedGuarantee === null">
+        Continuer vers les options
+      </button>
     </div>
+  }
+
+  <div *ngIf="!loading && !error">
+
   </div>
 </div>

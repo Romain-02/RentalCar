@@ -10,25 +10,25 @@
   </div>
 
   <div *ngIf="!loading && !error">
-    <div *ngIf="car" class="car-info">
+    <div *ngIf="car()" class="car-info">
       <h3>Véhicule sélectionné</h3>
       <div class="car-details">
-        <img [src]="car.image" alt="Image du véhicule">
+        <img [src]="car()?.image" alt="Image du véhicule">
         <div class="car-text">
-          <h4>{{car.name}}</h4>
-          <p>{{car.miles}} miles | {{car.agency.name}}</p>
-          <p>{{car.description}}</p>
+          <h4>{{car()?.name}}</h4>
+          <p>{{car()?.miles}} miles | {{car()?.agency?.name}}</p>
+          <p>{{car()?.description}}</p>
         </div>
       </div>
     </div>
 
     <div class="options-list">
       <h3>Options disponibles</h3>
-      <div *ngIf="options.length === 0">
+      <div *ngIf="options()?.length === 0">
         Aucune option disponible.
       </div>
 
-      <div *ngFor="let option of options" class="option-item" [class.selected]="isOptionSelected(option.id)" (click)="toggleOption(option.id)">
+      <div *ngFor="let option of options()" class="option-item" [class.selected]="isOptionSelected(option.id)" (click)="toggleOption(option.id)">
         <div class="option-content">
           <h4>{{option.name}}</h4>
           <p class="price">{{option.price}} €</p>
