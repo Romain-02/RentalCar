@@ -19,3 +19,10 @@ export type Car = {
 };
 
 export type Cars = Car[];
+
+export type CarFilter = {
+  agencyId: number,
+  agencyName: string
+}
+
+export type CarFilters = CarFilter[]

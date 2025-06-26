@@ -1,11 +1,12 @@
 // src/app/components/option-page/option-page.component.ts
-import { Component, inject, OnInit } from '@angular/core';
+import {Component, computed, inject, OnInit, Signal, WritableSignal} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { OptionsService } from '../../services/options.service';
-import { Option, Options } from '../../models/Option';
-import { Car } from '../../models/Car';
-import { CarsService } from '../../services/cars.service';
+import { OptionsService } from '../../services/api/options.service';
+import { Options } from '../../models/Option';
+import {CarsService} from '../../services/api/cars.service';
+import {Car, Cars} from '../../models/api/Car';
+import {Guarantees} from '../../models/guarantees';
 
 @Component({
   selector: 'app-options-page',
@@ -15,36 +16,30 @@ import { CarsService } from '../../services/cars.service';
   styleUrl: './option-page.component.scss'
 })
 export class OptionsPageComponent implements OnInit {
-  carId: number | null = null;
-  car: Car | null = null;
-  options: Options = [];
-  selectedOptions: number[] = [];
-  loading = true;
-  error = false;
+  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private readonly optionsService: OptionsService = inject(OptionsService);
+  private readonly carsService: CarsService = inject(CarsService);
 
-  private readonly activatedRoute = inject(ActivatedRoute);
-  private readonly optionsService = inject(OptionsService);
-  private readonly carsService = inject(CarsService);
+  protected options: WritableSignal<Options> = this.optionsService.options;
+  protected cars: WritableSignal<Cars> = this.carsService.cars;
+  protected car: Signal<Car> = computed(() => this.cars().find((car) =>
+    car.id === this.carId
+  ));
+
+  private carId: number | null = null;
+  private selectedOptions: number[] = [];
+  private loading: boolean = true;
+  private error: boolean = false;
 
   async ngOnInit() {
     this.activatedRoute.paramMap.subscribe(async params => {
-      const id = params.get('carId');
+      const id: string | null = params.get('carId');
       this.carId = id ? +id : null;
 
       if (this.carId) {
-        try {
-          // Récupérer les informations de la voiture
-          const cars = await this.carsService.getAllCars();
-          this.car = cars.find(car => car.id === this.carId) || null;
-
-          // Récupérer toutes les options disponibles
-          this.options = await this.optionsService.getAllOptions();
-          this.loading = false;
-        } catch (error) {
-          console.error('Erreur lors de la récupération des données:', error);
-          this.error = true;
-          this.loading = false;
-        }
+        this.carsService.fetchCars();
+        this.optionsService.fetchAllOptions();
+        this.loading = false;
       }
     });
   }
@@ -63,7 +58,7 @@ export class OptionsPageComponent implements OnInit {
   }
 
   getTotalPrice(): number {
-    return this.options
+    return this.options()
       .filter(option => this.selectedOptions.includes(option.id))
       .reduce((total, option) => total + option.price, 0);
   }

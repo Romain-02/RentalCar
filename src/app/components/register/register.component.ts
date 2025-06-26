@@ -1,7 +1,7 @@
 import {Component, inject} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
-import {RegisterService} from '../../services/register.service';
+import {RegisterService} from '../../services/auth/register.service';
 import {Router} from '@angular/router';
 import {InputText} from 'primeng/inputtext';
 import {PasswordDirective} from 'primeng/password';
