@@ -1,0 +1,13 @@
+.carousel {
+  position: relative;
+  overflow: hidden;
+
+  .carousel-inner {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+  }
+
+  .carousel-item {
+    flex: 0 0 100%;
+  }
+}
