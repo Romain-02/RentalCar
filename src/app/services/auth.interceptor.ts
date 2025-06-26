@@ -5,19 +5,19 @@ import { Observable } from 'rxjs';
 
 export function authInterceptor(req: HttpRequest<unknown>, next: HttpHandlerFn): Observable<HttpEvent<unknown>> {
   const auth = inject(AuthService);
-  const token = auth.getToken()
+  const token = auth.getToken();
 
   if (!token) {
-    return next(req)
+    return next(req);
   }
 
   const headers = new HttpHeaders({
-    Authorization: token
-  })
+    Authorization: `Bearer ${token}`
+  });
 
   const newReq = req.clone({
     headers
-  })
+  });
 
-  return next(newReq)
+  return next(newReq);
 }
