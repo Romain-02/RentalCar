@@ -46,7 +46,8 @@
     }
 
     input[type="number"],
-    input[type="text"] {
+    input[type="text"],
+    select{
       width: 100%;
       padding: 11px 13px;
       border: 1.5px solid #ddd;
@@ -93,6 +94,10 @@ input::placeholder {
 .submitButton:hover{
   transform: translateY(-10px);
   cursor: pointer;
+}
+
+.submitButton:disabled{
+  opacity: 0.5;
 }
 
 .subTitle {

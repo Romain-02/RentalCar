@@ -21,16 +21,26 @@
     </div>
     <div class="form-group">
       <label for="interiorState">État intérieur du véhicule *</label>
-      <input id="interiorState" type="text" placeholder="État intérieur" [(ngModel)]="interiorState" name="interiorState" required>
+      <select [(ngModel)]="interiorState" id="interiorState">
+        <option value="DAMAGED">Endomagée</option>
+        <option value="POOR">Acceptable</option>
+        <option value="GOOD">Bien</option>
+        <option value="EXCELLENT">Excellent</option>
+      </select>
     </div>
     <div class="form-group">
       <label for="exteriorState">État extérieur du véhicule *</label>
-      <input id="exteriorState" type="text" placeholder="État extérieur" [(ngModel)]="exteriorState" name="exteriorState" required>
-    </div>
+      <select [(ngModel)]="exteriorState" id="exteriorState">
+        <option value="DAMAGED">Endomagée</option>
+        <option value="POOR">Acceptable</option>
+        <option value="GOOD">Bien</option>
+        <option value="EXCELLENT">Excellent</option>
+      </select>    </div>
     <div class="form-group">
       <label for="commentary">Commentaire *</label>
       <input id="commentary" type="text" placeholder="Commentaire" [(ngModel)]="commentary" name="commentary">
     </div>
-    <button (click)="submit()" class="submitButton">Programmer le retrait</button>
+
+    <button (click)="submit()" [disabled]="!canSubmit()" class="submitButton">Programmer le retrait</button>
   </div>
 </div>
