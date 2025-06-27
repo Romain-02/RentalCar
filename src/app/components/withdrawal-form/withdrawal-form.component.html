@@ -1,0 +1,36 @@
+<div class="withdrawalForm">
+  <div class="rental-summary">
+    <h3 class="subTitle">Informations de la réservation</h3>
+    <ul>
+      <li class="client-name"><u>Client:</u> {{rental().client.lastName}} {{rental().client.firstname}}</li>
+      <li class="rental-id"><u>ID:</u> Réservation n°{{rental().id}}</li>
+      <li class="car-name"><u>Voiture:</u>{{rental().car.name}}</li>
+      <li class="rental-dates">{{rental().startDate}} - {{rental().endDate}}</li>
+    </ul>
+  </div>
+
+  <div class="withdrawal-form-fields">
+    <div class="form-group">
+      <label for="miles">Kilométrage *</label>
+      <input id="miles" type="number" placeholder="Kilométrage" [(ngModel)]="miles" name="miles" required>
+    </div>
+    <div class="form-group">
+      <label for="fuel">Niveau de carburant *</label>
+      <input id="fuel" type="number" placeholder="Niveau de carburant" [(ngModel)]="fuel" name="fuel" required>
+      <span class="help-text">=> En litre</span>
+    </div>
+    <div class="form-group">
+      <label for="interiorState">État intérieur du véhicule *</label>
+      <input id="interiorState" type="text" placeholder="État intérieur" [(ngModel)]="interiorState" name="interiorState" required>
+    </div>
+    <div class="form-group">
+      <label for="exteriorState">État extérieur du véhicule *</label>
+      <input id="exteriorState" type="text" placeholder="État extérieur" [(ngModel)]="exteriorState" name="exteriorState" required>
+    </div>
+    <div class="form-group">
+      <label for="commentary">Commentaire *</label>
+      <input id="commentary" type="text" placeholder="Commentaire" [(ngModel)]="commentary" name="commentary">
+    </div>
+    <button (click)="submit()" class="submitButton">Programmer le retrait</button>
+  </div>
+</div>
