@@ -1,9 +1,8 @@
-import {Component, computed, inject, OnInit, signal, Signal} from '@angular/core';
-import {RentalsService} from '../../services/api/rentals.service';
-import {Rental} from '../../models/api/Rental';
-import {ActivatedRoute} from '@angular/router';
-import {FormsModule} from '@angular/forms';
-import {compileClassMetadata} from '@angular/compiler';
+import { Component, computed, inject, OnInit, signal, Signal } from '@angular/core';
+import { RentalsService } from '../../services/api/rentals.service';
+import { ActivatedRoute } from '@angular/router';
+import { FormsModule } from '@angular/forms';
+import { WithdrawalsService } from '../../services/api/withdrawals.service';
 
 // ==============================================
 
@@ -19,6 +18,7 @@ import {compileClassMetadata} from '@angular/compiler';
 export class WithdrawalFormComponent implements OnInit {
   private rentalService: RentalsService = inject(RentalsService);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private withdrawalService = inject(WithdrawalsService);
   protected rentalId = signal<number | null>(null);
   private rentals: Signal<any[]> = this.rentalService.rentals;
   protected rental = computed(() => {
@@ -42,8 +42,21 @@ export class WithdrawalFormComponent implements OnInit {
     });
   }
 
-  public submit(): void {
+  public canSubmit(): boolean {
+    return this.miles > 0 && this.fuel > 0 && this.exteriorState !== '' && this.exteriorState !== '' && this.commentary !== "";
+  }
 
+  public submit(): void {
+    this.withdrawalService.scheduleWithdrawal({
+      dateRetrait: new Date().toString(),
+      idVoiture: this.rental().car.id,
+      idReservation: this.rental().id,
+      kilometrage: this.miles,
+      niveauEssence: this.fuel,
+      etatExterieur: this.exteriorState,
+      etatInterieur: this.interiorState,
+      commentaire: this.commentary
+    });
   }
 
 }
