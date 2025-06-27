@@ -1,0 +1,36 @@
+<p-dropdown
+  [options]="cityFilters()"
+  placeholder="Filtrer par ville"
+  [styleClass]="'w-full md:w-60 bg-gray-900 text-white border-gray-700'"
+  (onChange)="addAgencyFilter('city_filter', $event.value)">
+</p-dropdown>
+
+<p-dropdown
+  [options]="postalCodeFilters()"
+  placeholder="Filtrer par code postal"
+  [styleClass]="'w-full md:w-60 bg-gray-900 text-white border-gray-700'"
+  (onChange)="addAgencyFilter('postalCode_filter', $event.value)">
+</p-dropdown>
+
+<p-dropdown
+  [options]="orders"
+  optionLabel="name"
+  placeholder="Trieer par ville"
+  [styleClass]="'w-full md:w-60 bg-gray-900 text-white border-gray-700'"
+  (onChange)="addAgencyFilter('city_order', $event.value.order)">
+</p-dropdown>
+
+<p-dropdown
+  [options]="orders"
+  optionLabel="name"
+  placeholder="Trieer code postal"
+  [styleClass]="'w-full md:w-60 bg-gray-900 text-white border-gray-700'"
+  (onChange)="addAgencyFilter('postalCode_order', $event.value.order)">
+</p-dropdown>
+
+
+
+
+
+
+
