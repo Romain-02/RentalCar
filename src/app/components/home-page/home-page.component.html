@@ -1,8 +1,26 @@
-<section class="h-[300px] w-full text-black flex items-center justify-center">
-  <h1 class="text-3xl font-medium">Bienvenu sur RentalCarLens</h1>
+<section class="h-[150px] w-full text-black flex items-center justify-center">
+  <h1 class="text-3xl font-medium">Bienvenue sur RentalCarLens</h1>
 </section>
 
 <section class="container mx-auto p-4">
+  <h3 class="text-xl font-medium mb-4">Nos Véhicules</h3>
+
+  <div class="carousel relative">
+    <button class="absolute left-0 top-1/2 transform -translate-y-1/2 bg-black text-white p-2 rounded z-10" (click)="prevSlide()">&#8249;</button>    <div class="carousel-inner flex transition-transform" [style.transform]="transform">
+      <div *ngFor="let car of cars(); let i = index" class="carousel-item flex-none w-full">
+        <img [src]="car.image" alt="{{car.name}}" class="w-full h-[350px] object-cover rounded-md">
+        <div class="p-4">
+          <h3 class="font-medium text-xl">{{car.name}}</h3>
+          <p class="text-sm">{{car.miles}} miles | {{car.agency.name}}</p>
+          <p class="text-sm">{{car.description}}</p>
+        </div>
+      </div>
+    </div>
+    <button class="absolute right-0 top-1/2 transform -translate-y-1/2 bg-black text-white p-2 rounded" (click)="nextSlide()">&#8250;</button>
+  </div>
+</section>
+
+<!--<section class="container mx-auto p-4">
   <h3 class="text-xl font-medium">Nos Véhicules</h3>
 
   <div class="grid grid-cols-4 gap-4">
@@ -18,4 +36,4 @@
       </div>
     </div>
   </div>
-</section>
+</section>-->

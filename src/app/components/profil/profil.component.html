@@ -1,8 +1,14 @@
-<div class="profil-container max-w-md mx-auto mt-8 p-6 bg-white rounded shadow space-y-6">
+<div class="profil-container max-w-md mx-auto mt-8 p-6 bg-white rounded shadow space-y-6" *ngIf="user">
   <h1 class="text-2xl font-bold text-gray-800">Profil</h1>
   <div class="profil-details space-y-4" *ngIf="!isEditing">
-    <p><strong>Nom:</strong> Test Name</p>
-    <p><strong>Email:</strong> Test&#64;gmail.com</p>
+    <ul class="space-y-2">
+      <li><strong>Nom:</strong> {{ user.name }}</li>
+      <li><strong>Email:</strong> {{ user.email }}</li>
+      <li><strong>Ville:</strong> {{ user.city }}</li>
+      <li><strong>Pays:</strong> {{ user.country }}</li>
+      <li><strong>Code postal:</strong> {{ user.postalCode }}</li>
+      <li><strong>Téléphone:</strong> {{ user.phone }}</li>
+    </ul>
     <button
       pButton
       type="button"
@@ -15,27 +21,27 @@
   <div class="profil-edit space-y-4" *ngIf="isEditing">
     <label>
       <span>Nom :</span>
-      <input type="text" class="w-full border rounded p-2" placeholder="Test Name">
+      <input type="text" class="w-full border rounded p-2" [(ngModel)]="user.name">
     </label>
     <label>
       <span>Email :</span>
-      <input type="email" class="w-full border rounded p-2" placeholder="Test@gmail.com">
+      <input type="email" class="w-full border rounded p-2" [(ngModel)]="user.email">
     </label>
     <label>
       <span>Ville :</span>
-      <input type="text" class="w-full border rounded p-2" placeholder="Lens">
+      <input type="text" class="w-full border rounded p-2" [(ngModel)]="user.city">
     </label>
     <label>
       <span>Pays :</span>
-      <input type="text" class="w-full border rounded p-2" placeholder="France">
+      <input type="text" class="w-full border rounded p-2" [(ngModel)]="user.country">
     </label>
     <label>
       <span>Code postal :</span>
-      <input type="text" class="w-full border rounded p-2" placeholder="62300">
+      <input type="text" class="w-full border rounded p-2" [(ngModel)]="user.postalCode">
     </label>
     <label>
-      <span>Telephone :</span>
-      <input type="text" class="w-full border rounded p-2" placeholder="0654789234">
+      <span>Téléphone :</span>
+      <input type="text" class="w-full border rounded p-2" [(ngModel)]="user.phone">
     </label>
     <br/>
     <br/>

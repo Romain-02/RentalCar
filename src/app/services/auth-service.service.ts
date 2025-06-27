@@ -36,47 +36,43 @@ export class AuthService {
   }
 
   logout(): void {
-    const token = this.getToken();
-    if (token) {
-      this.http.post(`${this.apiUrl}/logout`, {}, {
-        headers: { Authorization: token }
-      }).subscribe({
-        next: () => {
-          localStorage.removeItem('token');
-          this.loggedInSubject.next(false);
-        },
-        error: (err) => {
-          console.error('Logout failed', err);
-          localStorage.removeItem('token');
-          this.loggedInSubject.next(false);
-        }
-      });
-    } else {
-      localStorage.removeItem('token');
-      this.loggedInSubject.next(false);
-    }
+    this.http.post(`${this.apiUrl}/logout`, {}).subscribe({
+      next: () => {
+        localStorage.removeItem('token');
+        this.loggedInSubject.next(false);
+      },
+      error: (err) => {
+        console.error('Logout failed', err);
+        localStorage.removeItem('token');
+        this.loggedInSubject.next(false);
+      }
+    });
   }
 
   getMe(): Observable<User> {
-    const token = this.getToken();
-    if (!token) {
-      return new Observable<User>((observer) => {
-        observer.error(new Error('No token found'));
-      });
-    }
-    return this.http.get(`${this.apiUrl}/me`, {
-      headers: { Authorization: `Bearer ${token}` }
-    }).pipe(
+    return this.http.get(`${this.apiUrl}/me`).pipe(
       map((response: any) => {
         const user = response?.data?.user;
-        if (user) {
+        const client = response?.data?.client;
+        if (user && client) {
           return {
+            id: client.id,
             name: user.name,
-            mail: user.email
+            firstname: client.firstname,
+            lastname: client.lastname,
+            email: user.email,
+            city: client.city,
+            country: client.country,
+            postalCode: client.postalCode,
+            phone: client.phone
           } as User;
         }
         throw new Error('Invalid response format');
       }),
     );
+  }
+
+  updateMe(id: any, user: User): Observable<User> {
+    return this.http.patch<User>(`${this.apiUrl}/clients/${id}`, user);
   }
 }
