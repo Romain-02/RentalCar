@@ -19,9 +19,12 @@ import {compileClassMetadata} from '@angular/compiler';
 export class WithdrawalFormComponent implements OnInit {
   private rentalService: RentalsService = inject(RentalsService);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
-  private rentalId = signal<number | null>(null);
+  protected rentalId = signal<number | null>(null);
   private rentals: Signal<any[]> = this.rentalService.rentals;
-  protected rental: any | null = computed(() => this.rentalService.rentals().find((rent: Rental) => rent.id === Number(this.rentalId())) ?? null);
+  protected rental = computed(() => {
+    const id = this.rentalId();
+    return this.rentals().find((rent) => rent.id === id) ?? null;
+  });
 
   protected miles !: number;
   protected fuel !: number;
@@ -29,17 +32,18 @@ export class WithdrawalFormComponent implements OnInit {
   protected exteriorState !: string;
   protected commentary !: string;
 
+
   public ngOnInit(): void {
     this.rentalService.fetchRentals();
 
-    console.log(this.rentals());
-
-    this.activatedRoute.paramMap.subscribe(async (params: any) => {
+    this.activatedRoute.paramMap.subscribe((params: any) => {
       const id: string | null = params.get('rentalId');
       this.rentalId.set(Number(id));
     });
+  }
 
-    console.log(this.rental());
+  public submit(): void {
+
   }
 
 }

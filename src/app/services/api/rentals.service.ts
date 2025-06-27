@@ -11,7 +11,7 @@ import {environment} from '../../../environments/environment';
   providedIn: 'root'
 })
 export class RentalsService {
-  public readonly rentals: WritableSignal<Rental[]> = signal<any[]>([]);
+  public rentals: WritableSignal<Rental[]> = signal([]);
   private httpClient: HttpClient = inject(HttpClient);
 
   public fetchRentals (): void {
