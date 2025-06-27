@@ -1,0 +1,29 @@
+.withdrawalForm {
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+  padding: 25px;
+  height: 90vh;
+
+  input, select {
+    border-width: 2px;
+    border-style: solid;
+    border-color: rgba(0, 0, 0, 0.2);
+    border-radius: 14px;
+    padding: 5px;
+    width: 40%;
+  }
+
+  select {
+    height: 50px;
+  }
+
+  .submitButton {
+    background-color: #6464ff;
+    color: white;
+    font-weight: bold;
+    padding: 14px;
+    width: fit-content;
+    border-radius: 12px;
+  }
+}
