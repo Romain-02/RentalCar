@@ -1,2 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @import "tailwindcss";
+@import 'remixicon/fonts/remixicon.css';
+
+body {
+  @apply bg-white text-gray-900 dark:bg-gray-900 dark:text-white tracking-wider;
+}
