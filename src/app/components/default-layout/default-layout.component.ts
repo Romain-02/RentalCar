@@ -2,7 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
-import { AuthService } from '../../services/auth-service.service';
+import { AuthService } from '../../services/auth/auth-service.service';
 import { Router } from '@angular/router';
 
 @Component({

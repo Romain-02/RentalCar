@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { AuthService } from '../../services/auth-service.service';
+import { AuthService } from '../../services/auth/auth-service.service';
 import { User } from '../../models/User';
 import {ButtonDirective} from 'primeng/button';
 import {NgIf} from '@angular/common';
