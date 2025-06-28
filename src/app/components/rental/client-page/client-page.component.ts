@@ -1,8 +1,8 @@
-import {Component, inject, Input, OnInit, WritableSignal} from '@angular/core';
+import {Component, inject, OnInit, WritableSignal} from '@angular/core';
 import {DEFAULT_USER, User} from "../../../models/api/User";
 import {DEFAULT_RENTAL_FORM_ERRORS, RentalFormErrors} from "../../../models/api/Rental";
 import {AuthService} from '../../../services/auth/auth-service.service';
-import {FormBuilder, FormGroup, FormsModule, Validators} from '@angular/forms';
+import {FormsModule} from '@angular/forms';
 import {RegisterService} from '../../../services/auth/register.service';
 import {Router} from '@angular/router';
 import {Step, StepList, StepPanel, StepPanels, Stepper} from 'primeng/stepper';
@@ -11,6 +11,7 @@ import {LoginFormComponent} from '../../login/login-form/login-form.component';
 import {Button} from 'primeng/button';
 import {ClientFormComponent} from '../../register/client-form/client-form.component';
 import {DriverInfoFormComponent} from '../../register/driver-info-form/driver-info-form.component';
+import {Client} from '../../../models/api/Client';
 
 @Component({
   selector: 'app-client-page',
@@ -31,9 +32,7 @@ import {DriverInfoFormComponent} from '../../register/driver-info-form/driver-in
   standalone: true,
   styleUrl: './client-page.component.scss'
 })
-export class ClientPageComponent implements OnInit{
-  protected activeIndex: number = 1;
-
+export class ClientPageComponent{
   private readonly authService: AuthService = inject(AuthService);
   private readonly registerService: RegisterService = inject(RegisterService);
   private readonly router: Router = inject(Router);
@@ -42,15 +41,18 @@ export class ClientPageComponent implements OnInit{
   protected user: User = this.actualUser() ?? DEFAULT_USER;
   protected rentalFormErrors: RentalFormErrors = DEFAULT_RENTAL_FORM_ERRORS;
 
+  protected activeIndex: number = 1;
   protected alreadyAccount: boolean = false;
   protected loading: boolean = false;
   protected errorMessage: string | null = null;
+  protected alreadyConnected: boolean = !!this.actualUser();
 
   register(): void{
     this.loading = true;
     this.registerService.register(this.user.name, this.user.email, this.user.password).subscribe({
       next: (response) => {
         console.log('Inscription success :', response);
+        this.user = {...this.user, client: response.user?.client}
         this.activeIndex++;
         this.loading = false;
       },
@@ -64,6 +66,9 @@ export class ClientPageComponent implements OnInit{
 
   login():void{
     this.authService.login(this.user.email, this.user.password).subscribe({
+      next: (response) => {
+        this.user = {...this.user, client: response.user.client}
+      },
       error: (_) => {
         this.errorMessage = 'Email ou mot de passe incorrect.';
       }
@@ -73,27 +78,31 @@ export class ClientPageComponent implements OnInit{
   updateUserInfo(): void{
     if(this.alreadyAccount){
       this.login();
+      this.activeIndex++;
     }else{
       this.register()
+      if(!this.actualUser()){
+        this.login();
+      }
     }
   }
 
   updateClientInfo(): void{
     this.loading = true;
-    if(!this.actualUser()){
-      this.login();
+    if(this.user.client){
+      this.authService.updateMe(this.user.client?.id, this.user.client).subscribe({
+        next: (updatedClient: Client) => {
+          console.log('Client data updated successfully:', updatedClient);
+          this.router.navigate(['/rental/confirmation'])
+          this.loading = false;
+        },
+        error: (err) => {
+          console.error('Failed to update user data:', err);
+          this.errorMessage = "Il y a eu une erreur avec l'enregistrement des informations"
+          this.loading = false;
+        }
+      });
     }
-    this.authService.updateMe(this.user.client?.id, this.user).subscribe({
-      next: (updatedUser) => {
-        this.user = updatedUser;
-        console.log('User data updated successfully:', this.user);
-        this.loading = false;
-      },
-      error: (err) => {
-        console.error('Failed to update user data:', err);
-        this.loading = false;
-      }
-    });
   }
 
   changeAlreadyAccount(): void{
@@ -106,6 +115,10 @@ export class ClientPageComponent implements OnInit{
 
   next(): void{
     this.activeIndex++;
+  }
+
+  last(): void{
+    this.activeIndex--;
   }
 
   isFirstStepValid(): boolean{
@@ -129,6 +142,7 @@ export class ClientPageComponent implements OnInit{
   isSecondStepValid(): boolean{
     this.rentalFormErrors = {...DEFAULT_RENTAL_FORM_ERRORS};
     let isValid: boolean = true;
+    console.log(this.user)
 
     if(!this.user.client?.firstname){
       this.rentalFormErrors.firstname = this.getEmptyFieldError("prénom")
@@ -174,10 +188,4 @@ export class ClientPageComponent implements OnInit{
     }
     return isValid;
   }
-
-  ngOnInit(): void {
-    console.log(this.user)
-  }
-
-  protected readonly DEFAULT_USER = DEFAULT_USER;
 }

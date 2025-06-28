@@ -2,19 +2,15 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth/auth-service.service';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
-import { Router } from '@angular/router';
-import {InputText} from 'primeng/inputtext';
-import {PasswordDirective} from 'primeng/password';
 import {ButtonDirective} from 'primeng/button';
 import {LoginFormComponent} from './login-form/login-form.component';
-import {DEFAULT_USER, User} from '../../models/api/User';
+import {User} from '../../models/api/User';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   imports: [
     FormsModule,
-    NgIf,
     ButtonDirective,
     LoginFormComponent
   ],

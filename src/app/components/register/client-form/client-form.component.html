@@ -10,7 +10,7 @@
         <li><strong>Téléphone:</strong> {{ user.client?.phone }}</li>
       </ul>
     </div>
-  } @else if(!!user.client){
+  } @else if(user.client){
     <div class="profil-edit space-y-4">
       <label>
         <span>Prénom :</span>

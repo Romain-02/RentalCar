@@ -2,9 +2,10 @@ import {computed, inject, Injectable, Signal, signal, WritableSignal} from '@ang
 import { HttpClient } from '@angular/common/http';
 import {map, Observable} from 'rxjs';
 import { tap } from 'rxjs/operators';
-import {DEFAULT_USER, User} from '../../models/api/User';
+import {User} from '../../models/api/User';
 import {environment} from '../../../environments/environment';
 import {DEFAULT_DRIVER_INFO} from '../../models/api/DriverInfo';
+import {Client} from '../../models/api/Client';
 
 @Injectable({
   providedIn: 'root'
@@ -49,6 +50,7 @@ export class AuthService {
 
   restoreSession(): void{
     if(typeof localStorage !== 'undefined'){
+      console.log(JSON.parse(localStorage.getItem('user') ?? ""), "tet")
       if (!this.token()) {
         const token: string | null = localStorage.getItem('token');
         if (token) {
@@ -95,7 +97,16 @@ export class AuthService {
     );
   }
 
-  updateMe(id: any, user: User): Observable<User> {
-    return this.http.patch<User>(`${this.apiUrl}/clients/${id}`, user);
+  updateMe(id: any, client: Client): Observable<Client> {
+    const response: Observable<Client> = this.http.patch<Client>(`${this.apiUrl}/clients/${id}`, client)
+    response.subscribe({
+      next: (updatedClient: Client) => {
+        const currentUser: User | null = this.user();
+        if (currentUser) {
+          this.user.set({...currentUser, client: updatedClient});
+        }
+      }
+    });
+    return response;
   }
 }

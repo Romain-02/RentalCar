@@ -9,6 +9,7 @@ import {ProfilComponent} from './components/profil/profil.component';
 import {ListAgencyComponent} from './components/agency/list-agency/list-agency.component';
 import {CarListComponent} from './components/car/car-list/car-list.component';
 import {ClientPageComponent} from './components/rental/client-page/client-page.component';
+import {WithdrawalFormComponent} from './components/withdrawal-form/withdrawal-form.component';
 
 
 export const routes: Routes = [
@@ -55,6 +56,11 @@ export const routes: Routes = [
         path: 'rental/options/:carId',
         title: 'options',
         component: OptionsPageComponent
+      },
+      {
+        path: 'withdrawal/:rentalId',
+        title: "Retrait d'une voiture",
+        component: WithdrawalFormComponent
       },
       {
         path: 'rental/client-info/:carId',

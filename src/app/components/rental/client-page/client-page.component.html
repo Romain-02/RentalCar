@@ -1,18 +1,18 @@
-<form (ngSubmit)="updateClientInfo()" #loginForm="ngForm" class="mx-auto mt-8 p-6 rounded shadow space-y-6">
+<form (ngSubmit)="updateClientInfo()" #loginForm="ngForm" class="dark:bg-gray-900 mx-auto mt-8 p-6 shadow space-y-6">
 
   <p-stepper [value]="activeIndex" class="basis-[50rem]" [linear]="true">
     <p-step-list>
-      @if(!actualUser()){
+      @if(!alreadyConnected){
         <p-step [value]="1">Connexion</p-step>
       }
-      <p-step [value]="!actualUser() && alreadyAccount ? 2 : 1">Infos</p-step>
-      <p-step [value]="!actualUser() && alreadyAccount ? 3 : 2">Infos conducteur</p-step>
+      <p-step [value]="alreadyConnected ? 1 : 2">Infos</p-step>
+      <p-step [value]="alreadyConnected ? 2 : 3">Infos conducteur</p-step>
     </p-step-list>
     <p-step-panels>
 
-      @if(!actualUser() && alreadyAccount){
-        <p-step-panel [value]="1">
-          <ng-template #content let-activateCallback="activateCallback">
+      @if(!actualUser()){
+        <p-step-panel [value]="1" >
+          <ng-template #content>
             <div class="flex flex-col h-48">
               @if(!alreadyAccount) {
                 <app-user-form [user]="user" [userFormErrors]="rentalFormErrors" />
@@ -29,29 +29,26 @@
         </p-step-panel>
       }
 
-      <p-step-panel [value]="!actualUser() && alreadyAccount ? 2 : 1">
-        <ng-template #content let-activateCallback="activateCallback">
+      <p-step-panel [value]="alreadyConnected ? 1 : 2">
+        <ng-template #content>
           <div class="flex flex-col h-48">
             <app-client-form [isEditing]="true" [user]="user" [clientFormErrors]="rentalFormErrors" />
             <div class="flex pt-6 justify-between">
-              @if(!actualUser() && alreadyAccount){
-                <p-button label="Back" severity="secondary" icon="pi pi-arrow-left" (onClick)="next()" />
-              }@else{
-                <p></p>
-              }
+              <p></p>
               <p-button [disabled]="!isSecondStepValid()" label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="next()" />
             </div>
           </div>
         </ng-template>
       </p-step-panel>
 
-      <p-step-panel [value]="!actualUser() && alreadyAccount ? 3 : 2">
-        <ng-template #content let-activateCallback="activateCallback">
+      <p-step-panel [value]="alreadyConnected ? 2 : 3">
+        <ng-template #content>
           <div class="flex flex-col h-48">
             <app-driver-info-form [user]="user" [isEditing]="true" [driverInfoFormErrors]="rentalFormErrors"/>
             <div class="flex pt-6 justify-start">
-              <p-button label="Back" icon="pi pi-arrow-left" iconPos="right" (onClick)="next()" />
+              <p-button label="Back" icon="pi pi-arrow-left" iconPos="right" (onClick)="last()" />
               <p-button [disabled]="!isThridStepValid()" label="Enregistrer" icon="pi pi-arrow-left" iconPos="right" type="submit" />
+              <p class="text-red-500 text-sm mt-1">{{ errorMessage }}</p>
             </div>
           </div>
         </ng-template>

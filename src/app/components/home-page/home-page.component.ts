@@ -2,18 +2,17 @@ import { Component, inject, OnInit, WritableSignal } from '@angular/core';
 import { CarsService } from '../../services/api/cars.service';
 import { Cars } from '../../models/api/Car';
 import {NgForOf} from '@angular/common';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
   standalone: true,
-  imports: [
-    NgForOf
-  ]
 })
 export class HomePageComponent implements OnInit {
   private carsService: CarsService = inject(CarsService);
+  private router: Router = inject(Router);
 
   protected cars: WritableSignal<Cars> = this.carsService.cars;
 
@@ -36,6 +35,32 @@ export class HomePageComponent implements OnInit {
   public prevSlide(): void {
     if (this.currentIndex > 0) {
       this.currentIndex--;
+    }
+  }
+
+  // Naviguer vers liste des agences
+  public navigateToAgencies(): void {
+    this.router.navigate(['/list-agency']);
+  }
+
+  // Naviguer vers la liste des voitures
+  public navigateToCars(): void {
+    this.router.navigate(['/cars']);
+  }
+
+  // Récup la lamborghini
+  public getLamborghiniId(): number | null{
+    const lamborghini = this.cars().find(car =>
+    car.name.toLowerCase().includes('lamborghini') && car.name.toLowerCase().includes('huracán')
+    );
+    return lamborghini ? lamborghini.id : null;
+  }
+
+  // Pour utiliser dans le template
+  public navigateToLamborghini(): void {
+    const lambId = this.getLamborghiniId();
+    if (lambId) {
+      this.router.navigate(['/guarantees', lambId]);
     }
   }
 }

@@ -2,7 +2,7 @@
   <h1 class="text-2xl font-bold text-gray-800">Profil</h1>
   <div class="profil-details space-y-4" *ngIf="!isEditing">
     <app-user-form [user]="user" />
-    <app-client-form [isEditing]="isEditing" />
+    <app-client-form [isEditing]="isEditing" [user]="user" />
     <button
       pButton
       type="button"
@@ -13,7 +13,7 @@
   </div>
 
   <div class="profil-edit space-y-4" *ngIf="isEditing">
-    <app-client-form />
+    <app-client-form [isEditing]="isEditing" [user]="user" />
     <br/>
     <br/>
     <button
