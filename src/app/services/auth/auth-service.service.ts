@@ -1,50 +1,84 @@
-import { Injectable } from '@angular/core';
+import {computed, inject, Injectable, Signal, signal, WritableSignal} from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import {BehaviorSubject, map, Observable} from 'rxjs';
+import {map, Observable} from 'rxjs';
 import { tap } from 'rxjs/operators';
-import {User} from '../../models/User';
+import {DEFAULT_USER, User} from '../../models/api/User';
+import {environment} from '../../../environments/environment';
+import {DEFAULT_DRIVER_INFO} from '../../models/api/DriverInfo';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private apiUrl = 'http://localhost:8000/api';
-  private loggedInSubject = new BehaviorSubject<boolean>(this.hasToken());
+  private http: HttpClient = inject(HttpClient);
 
-  isLoggedIn$ = this.loggedInSubject.asObservable();
+  private apiUrl: string = environment.apiUrl;
+  public user: WritableSignal<User | null> = signal(null);
+  public token: WritableSignal<string | null> = signal(null);
+  public isLoggedIn: Signal<boolean> = computed(() => !!this.token());
 
-  constructor(private http: HttpClient) {}
-
-  private hasToken(): boolean {
-    return typeof localStorage !== 'undefined' && !!localStorage.getItem('token');
+  constructor() {
+    this.restoreSession();
   }
+
+  responseToUser(response: any): User{
+    return {
+      ...response.user,
+      client: {
+        ...response.user.client,
+        driverInfo: DEFAULT_DRIVER_INFO
+      }
+    }
+  }
+
 
   login(email: string, password: string): Observable<any> {
     const body = { email, password };
     return this.http.post(`${this.apiUrl}/login`, body).pipe(
       tap((response: any) => {
         if (response?.authorisation?.access_token) {
-          localStorage.setItem('token', response.authorisation.access_token);
-          this.loggedInSubject.next(true);
+          const user: User = this.responseToUser(response);
+          this.token.set(response.authorisation.access_token)
+          this.user.set(user);
+          localStorage.setItem('token', JSON.stringify(response.authorisation.access_token))
+          localStorage.setItem('user', JSON.stringify(user))
         }
       })
     );
   }
 
-  getToken(): string | null {
-    return typeof localStorage !== 'undefined' ? localStorage.getItem('token') : null;
+  restoreSession(): void{
+    if(typeof localStorage !== 'undefined'){
+      if (!this.token()) {
+        const token: string | null = localStorage.getItem('token');
+        if (token) {
+          this.token.set(JSON.parse(token));
+        }
+      }
+
+      if(!this.user()){
+        const user: string | null = localStorage.getItem('user');
+        if(user){
+          this.user.set(JSON.parse(user));
+        }
+      }
+    }
   }
 
   logout(): void {
     this.http.post(`${this.apiUrl}/logout`, {}).subscribe({
       next: () => {
-        localStorage.removeItem('token');
-        this.loggedInSubject.next(false);
-      },
+        localStorage.setItem('token', JSON.stringify(null))
+        localStorage.setItem('user', JSON.stringify(null))
+        this.token.set(null)
+        this.user.set(null);
+        },
       error: (err) => {
         console.error('Logout failed', err);
-        localStorage.removeItem('token');
-        this.loggedInSubject.next(false);
+        localStorage.setItem('token', JSON.stringify(null))
+        localStorage.setItem('user', JSON.stringify(null))
+        this.token.set(null)
+        this.user.set(null);
       }
     });
   }
@@ -52,20 +86,9 @@ export class AuthService {
   getMe(): Observable<User> {
     return this.http.get(`${this.apiUrl}/me`).pipe(
       map((response: any) => {
-        const user = response?.data?.user;
-        const client = response?.data?.client;
-        if (user && client) {
-          return {
-            id: client.id,
-            name: user.name,
-            firstname: client.firstname,
-            lastname: client.lastname,
-            email: user.email,
-            city: client.city,
-            country: client.country,
-            postalCode: client.postalCode,
-            phone: client.phone
-          } as User;
+        const user: User | undefined = response?.data?.user;
+        if (user) {
+          return user
         }
         throw new Error('Invalid response format');
       }),

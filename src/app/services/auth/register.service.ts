@@ -1,14 +1,15 @@
 import {inject, Injectable} from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {environment} from '../../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegisterService {
 
-  private readonly httpClient = inject(HttpClient);
-  private apiUrl = 'http://localhost:8000/api'
+  private readonly httpClient: HttpClient = inject(HttpClient);
+  private readonly apiUrl: string =  environment.apiUrl;
 
   register(name: string, email: string, password: string): Observable<any> {
     const body = {

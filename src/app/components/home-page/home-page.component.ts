@@ -7,6 +7,7 @@ import {NgForOf} from '@angular/common';
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
+  standalone: true,
   imports: [
     NgForOf
   ]

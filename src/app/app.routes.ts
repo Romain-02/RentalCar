@@ -3,11 +3,12 @@ import {DefaultLayoutComponent} from './components/default-layout/default-layout
 import {HomePageComponent} from './components/home-page/home-page.component';
 import {RegisterComponent} from './components/register/register.component';
 import {LoginComponent} from './components/login/login.component';
-import {GuaranteesPageComponent} from './components/guarantees-page/guarantees-page.component';
-import {OptionsPageComponent} from './components/option-page/option-page.component';
+import {GuaranteesPageComponent} from './components/rental/guarantees-page/guarantees-page.component';
+import {OptionsPageComponent} from './components/rental/option-page/option-page.component';
 import {ProfilComponent} from './components/profil/profil.component';
 import {ListAgencyComponent} from './components/agency/list-agency/list-agency.component';
 import {CarListComponent} from './components/car/car-list/car-list.component';
+import {ClientPageComponent} from './components/rental/client-page/client-page.component';
 
 
 export const routes: Routes = [
@@ -46,14 +47,19 @@ export const routes: Routes = [
         component: ListAgencyComponent
       },
       {
-        path: 'guarantees/:carId',
+        path: 'rental/guarantees/:carId',
         title: 'guarantees',
         component: GuaranteesPageComponent
       },
       {
-        path: 'options/:carId',
+        path: 'rental/options/:carId',
         title: 'options',
         component: OptionsPageComponent
+      },
+      {
+        path: 'rental/client-info/:carId',
+        title: 'options',
+        component: ClientPageComponent
       }
     ]
   }

@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { Options } from '../../models/Option';
+import { Options } from '../../models/api/Option';
 import {catchError, map, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 

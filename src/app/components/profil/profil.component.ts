@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth/auth-service.service';
-import { User } from '../../models/User';
+import {DEFAULT_USER, User} from '../../models/api/User';
 import {ButtonDirective} from 'primeng/button';
 import {NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
+import {ClientFormComponent} from '../register/client-form/client-form.component';
+import {UserFormComponent} from '../register/user-form/user-form.component';
 
 @Component({
   selector: 'app-profil',
@@ -11,12 +13,15 @@ import {FormsModule} from '@angular/forms';
   imports: [
     ButtonDirective,
     NgIf,
-    FormsModule
+    FormsModule,
+    ClientFormComponent,
+    UserFormComponent
   ],
+  standalone: true,
   styleUrls: ['./profil.component.scss']
 })
 export class ProfilComponent implements OnInit {
-  user: User | null = null;
+  user: User = DEFAULT_USER;
   isEditing: boolean = false;
 
 

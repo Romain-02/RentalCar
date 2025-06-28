@@ -10,7 +10,6 @@ import {AgencyFilterComponent} from '../agency-filter/agency-filter.component';
   selector: 'app-list-agency',
   imports: [
     TableModule,
-    CarFilterComponent,
     AgencyFilterComponent
   ],
   templateUrl: './list-agency.component.html',
