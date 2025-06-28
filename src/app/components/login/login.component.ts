@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import {InputText} from 'primeng/inputtext';
 import {PasswordDirective} from 'primeng/password';
 import {ButtonDirective} from 'primeng/button';
+import {LoginFormComponent} from './login-form/login-form.component';
+import {DEFAULT_USER, User} from '../../models/api/User';
 
 @Component({
   selector: 'app-login',
@@ -13,27 +15,28 @@ import {ButtonDirective} from 'primeng/button';
   imports: [
     FormsModule,
     NgIf,
-    InputText,
-    PasswordDirective,
-    ButtonDirective
+    ButtonDirective,
+    LoginFormComponent
   ],
+  standalone: true,
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
+  protected user: Partial<User> = {email: "", password: ""};
   errorMessage: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService) {}
 
-  onSubmit() {
-    this.authService.login(this.email, this.password).subscribe({
-      next: (response) => {
-        window.location.href = '/';
-      },
-      error: (error) => {
-        this.errorMessage = 'Email ou mot de passe incorrect.';
-      }
-    });
+  onSubmit(): void {
+    if(this.user.email && this.user.password){
+      this.authService.login(this.user.email, this.user.password).subscribe({
+        next: (response) => {
+          window.location.href = '/';
+        },
+        error: (error) => {
+          this.errorMessage = error;
+        }
+      });
+    }
   }
 }
