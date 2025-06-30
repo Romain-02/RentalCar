@@ -22,10 +22,8 @@ export class RentalsService {
 
   public updateRentalBody(rentalBody: Partial<RentalBody>): void{
     const currentRentalBody: RentalBody = this.rentalBody();
-    console.log({...currentRentalBody, ...rentalBody}, "update test")
     const newRentalBody: RentalBody = {...currentRentalBody, ...rentalBody};
     if(typeof localStorage !== 'undefined') {
-      console.log(newRentalBody, "current")
       localStorage.setItem('rentalBody', JSON.stringify(newRentalBody));
     }
     this.rentalBody.set(newRentalBody);
@@ -45,7 +43,6 @@ export class RentalsService {
       .pipe(map(response => response.data), catchError(() => of(null)))
       .subscribe(data => {
         if(data){
-          console.log(data, "create")
           this.rentalResult.set(data)
         }}
       );
@@ -55,7 +52,6 @@ export class RentalsService {
     this.httpClient.get<{ data: any[] }>(`${environment.apiUrl}/rentals`)
       .pipe(map(response => response.data), catchError(() => of([])))
       .subscribe(data => {
-        console.log(data, "fetch r")
         this.rentals.set(data);
       }
     );
@@ -64,9 +60,7 @@ export class RentalsService {
   restoreRentalBody(): void{
     if(typeof localStorage !== 'undefined'){
       const rentalBody: string | null = localStorage.getItem('rentalBody');
-      console.log(rentalBody && JSON.parse(rentalBody),  this.rentalBody(), "current")
       if (this.rentalBody().car.id === -1 && rentalBody) {
-        console.log(rentalBody, "restore")
           this.rentalBody.set(JSON.parse(rentalBody));
       }
     }

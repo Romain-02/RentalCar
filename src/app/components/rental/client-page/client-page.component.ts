@@ -55,7 +55,6 @@ export class ClientPageComponent implements OnInit{
   protected alreadyConnected: boolean = !!this.actualUser();
 
   ngOnInit(): void {
-    console.log(this.actualUser(), "actual")
     this.activatedRoute.paramMap.subscribe(async params => {
       const id: string | null = params.get('carId');
       this.carId = id ? +id : null;
@@ -68,7 +67,6 @@ export class ClientPageComponent implements OnInit{
       next: (response) => {
         console.log('Inscription success :', response);
         this.user = {...this.user, client: response.user?.client}
-        console.log( this.user, "user test")
         this.activeIndex++;
         this.loading = false;
       },
@@ -84,7 +82,6 @@ export class ClientPageComponent implements OnInit{
     this.authService.login(this.user.email, this.user.password).subscribe({
       next: (response) => {
         this.user = {...this.user, client: response.user.client}
-        console.log( this.user, "user test")
       },
       error: (_) => {
         this.errorMessage = 'Email ou mot de passe incorrect.';
@@ -110,7 +107,6 @@ export class ClientPageComponent implements OnInit{
       this.authService.updateMe(this.user.client?.id, this.user.client).subscribe({
         next: (updatedClient: {data: Client}) => {
           console.log('Client data updated successfully:', updatedClient);
-          console.log(this.rentalService.rentalBody().car.id);
           this.router.navigate(['rental', 'confirmation',this.carId])
           this.rentalService.updateRentalBody({client: this.user.client})
           this.loading = false;
@@ -161,7 +157,6 @@ export class ClientPageComponent implements OnInit{
   isSecondStepValid(): boolean{
     this.rentalFormErrors = {...DEFAULT_RENTAL_FORM_ERRORS};
     let isValid: boolean = true;
-    console.log(this.user)
 
     if(!this.user.client?.firstname){
       this.rentalFormErrors.firstname = this.getEmptyFieldError("prénom")
