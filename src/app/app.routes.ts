@@ -10,6 +10,7 @@ import {ListAgencyComponent} from './components/agency/list-agency/list-agency.c
 import {CarListComponent} from './components/car/car-list/car-list.component';
 import {ClientPageComponent} from './components/rental/client-page/client-page.component';
 import {WithdrawalFormComponent} from './components/withdrawal-form/withdrawal-form.component';
+import {RentalConfirmationComponent} from './components/rental/rental-confirmation/rental-confirmation.component';
 
 
 export const routes: Routes = [
@@ -66,6 +67,11 @@ export const routes: Routes = [
         path: 'rental/client-info/:carId',
         title: 'options',
         component: ClientPageComponent
+      },
+      {
+        path: 'rental/confirmation/:carId',
+        title: 'confirmation',
+        component: RentalConfirmationComponent
       }
     ]
   }

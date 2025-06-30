@@ -1,10 +1,10 @@
-import {Component, inject, OnInit, WritableSignal} from '@angular/core';
+import {Component, computed, effect, inject, OnInit, Signal, WritableSignal} from '@angular/core';
 import {DEFAULT_USER, User} from "../../../models/api/User";
 import {DEFAULT_RENTAL_FORM_ERRORS, RentalFormErrors} from "../../../models/api/Rental";
 import {AuthService} from '../../../services/auth/auth-service.service';
 import {FormsModule} from '@angular/forms';
 import {RegisterService} from '../../../services/auth/register.service';
-import {Router} from '@angular/router';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
 import {Step, StepList, StepPanel, StepPanels, Stepper} from 'primeng/stepper';
 import {UserFormComponent} from '../../register/user-form/user-form.component';
 import {LoginFormComponent} from '../../login/login-form/login-form.component';
@@ -12,6 +12,9 @@ import {Button} from 'primeng/button';
 import {ClientFormComponent} from '../../register/client-form/client-form.component';
 import {DriverInfoFormComponent} from '../../register/driver-info-form/driver-info-form.component';
 import {Client} from '../../../models/api/Client';
+import {RentalsService} from '../../../services/api/rentals.service';
+import {CarsService} from '../../../services/api/cars.service';
+import {Car, Cars} from '../../../models/api/Car';
 
 @Component({
   selector: 'app-client-page',
@@ -26,26 +29,37 @@ import {Client} from '../../../models/api/Client';
     LoginFormComponent,
     Button,
     ClientFormComponent,
-    DriverInfoFormComponent
+    DriverInfoFormComponent,
+    RouterLink
   ],
   templateUrl: './client-page.component.html',
   standalone: true,
   styleUrl: './client-page.component.scss'
 })
-export class ClientPageComponent{
+export class ClientPageComponent implements OnInit{
   private readonly authService: AuthService = inject(AuthService);
+  private readonly rentalService: RentalsService = inject(RentalsService);
   private readonly registerService: RegisterService = inject(RegisterService);
   private readonly router: Router = inject(Router);
+  private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
 
   protected actualUser: WritableSignal<User | null>  = this.authService.user;
   protected user: User = this.actualUser() ?? DEFAULT_USER;
   protected rentalFormErrors: RentalFormErrors = DEFAULT_RENTAL_FORM_ERRORS;
+  protected carId: number | null = null;
 
   protected activeIndex: number = 1;
   protected alreadyAccount: boolean = false;
   protected loading: boolean = false;
   protected errorMessage: string | null = null;
   protected alreadyConnected: boolean = !!this.actualUser();
+
+  ngOnInit(): void {
+    this.activatedRoute.paramMap.subscribe(async params => {
+      const id: string | null = params.get('carId');
+      this.carId = id ? +id : null;
+    });
+  }
 
   register(): void{
     this.loading = true;
@@ -93,7 +107,9 @@ export class ClientPageComponent{
       this.authService.updateMe(this.user.client?.id, this.user.client).subscribe({
         next: (updatedClient: Client) => {
           console.log('Client data updated successfully:', updatedClient);
-          this.router.navigate(['/rental/confirmation'])
+          console.log(this.rentalService.rentalBody().car.id);
+          this.router.navigate(['rental', 'confirmation',this.carId])
+          this.rentalService.updateRentalBody({client: this.user.client})
           this.loading = false;
         },
         error: (err) => {
