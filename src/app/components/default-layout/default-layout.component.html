@@ -44,7 +44,7 @@
               <!--Boutons d'action-->
               @if (item.command) {
                 <button
-                  (click)="item.command && item.command({})"
+                  (click)="item.command({})"
                   class="relative px-6 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-all duration-300 rounded-full flex items-center gap-2 group-hover:bg-white/60 dark:group-hover:bg-gray-700/60">
                   {{ item.label }}
                   <i class="ri-logout-box-line text-sm"></i>
