@@ -1,0 +1,39 @@
+@if(user.client && user.client.driverInfo){
+  @if(!isEditing){
+    <div class="profil-details space-y-4">
+      <ul class="space-y-2">
+        <li><strong>Date de naissance:</strong> {{ user.client.driverInfo.birthDate }}</li>
+        <li><strong>Numéro de permis:</strong> {{ user.client.driverInfo.drivingLicenseNumber }}</li>
+        <li><strong>Date d'obtention du permis:</strong> {{ user.client.driverInfo.drivingLicenseAcquisition }}</li>
+        <li><strong>Date de validation du permis:</strong> {{ user.client.driverInfo.drivingLicenseValidation }}</li>
+        <li><strong>Pays d'obtention:</strong> {{ user.client.driverInfo.drivingLicenseCountry }}</li>
+      </ul>
+    </div>
+  } @else{
+    <div class="profil-edit space-y-4">
+      <label>
+        <span>Date de naissance :</span>
+        <input type="date" class="w-full border rounded p-2" [(ngModel)]="user.client.driverInfo.birthDate">
+      </label>
+      <label>
+        <span>Numéro de permis :</span>
+        <input type="email" class="w-full border rounded p-2" [(ngModel)]="user.client.driverInfo.drivingLicenseNumber">
+        <p class="text-red-500 text-sm mt-1">{{ driverInfoFormErrors.drivingLicenseNumber }}</p>
+      </label>
+      <label>
+        <span>Date d'obtention du permis :</span>
+        <input type="date" class="w-full border rounded p-2" [(ngModel)]="user.client.driverInfo.drivingLicenseAcquisition">
+      </label>
+      <label>
+        <span>Date de validation du permis :</span>
+        <input type="date" class="w-full border rounded p-2" [(ngModel)]="user.client.driverInfo.drivingLicenseValidation">
+      </label>
+      <label>
+        <span>Pays d'obtention :</span>
+        <input type="text" class="w-full border rounded p-2" [(ngModel)]="user.client.driverInfo.drivingLicenseCountry">
+        <p class="text-red-500 text-sm mt-1">{{ driverInfoFormErrors.drivingLicenseCountry }}</p>
+      </label>
+    </div>
+  }
+
+}

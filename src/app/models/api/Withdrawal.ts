@@ -1,5 +1,5 @@
-import { User } from '../User';
 import { Rental } from './Rental';
+import {User} from './User';
 
 // ==============================================
 

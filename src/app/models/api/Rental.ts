@@ -1,9 +1,9 @@
 // Types
-import { Guarantees } from '../guarantees';
 import { Withdrawal } from './Withdrawal';
-import { User } from '../User';
 import {ReturnCar} from './ReturnCar';
 import {Car} from './Car';
+import {Guarantees} from './Guarantee';
+import {User} from './User';
 
 // ==============================================
 
@@ -20,4 +20,34 @@ export type Rental = {
   "returnCar": ReturnCar | null,
   "additionalClause": null,
   "car": Car
+};
+
+export type RentalFormErrors = {
+  name: string,
+  password: string,
+  email: string
+  firstname: string,
+  lastname: string,
+  city: string,
+  postalCode: string,
+  phone: string,
+  country: string,
+  billingAdress: string,
+  drivingLicenseNumber: string,
+  drivingLicenseCountry: string
+};
+
+export const DEFAULT_RENTAL_FORM_ERRORS: RentalFormErrors = {
+  name: "",
+  password: "",
+  email: "",
+  firstname: "",
+  lastname: "",
+  city: "",
+  postalCode: "",
+  phone: "",
+  country: "",
+  billingAdress: "",
+  drivingLicenseNumber: "",
+  drivingLicenseCountry: ""
 };

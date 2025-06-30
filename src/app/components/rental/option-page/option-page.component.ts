@@ -2,11 +2,10 @@
 import {Component, computed, inject, OnInit, Signal, WritableSignal} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { OptionsService } from '../../services/api/options.service';
-import { Options } from '../../models/Option';
-import {CarsService} from '../../services/api/cars.service';
-import {Car, Cars} from '../../models/api/Car';
-import {Guarantees} from '../../models/guarantees';
+import { OptionsService } from '../../../services/api/options.service';
+import { Options } from '../../../models/api/Option';
+import {CarsService} from '../../../services/api/cars.service';
+import {Car, Cars} from '../../../models/api/Car';
 
 @Component({
   selector: 'app-options-page',

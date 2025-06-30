@@ -1,10 +1,10 @@
 import {Component, inject, OnInit, computed, WritableSignal, Signal} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { GuaranteesService } from '../../services/api/guarantees.service';
-import { Guarantees } from '../../models/guarantees';
-import { CarsService } from '../../services/api/cars.service';
-import {Car, Cars} from '../../models/api/Car';
+import { GuaranteesService } from '../../../services/api/guarantees.service';
+import {Guarantee, Guarantees} from '../../../models/api/Guarantee';
+import { CarsService } from '../../../services/api/cars.service';
+import {Car, Cars} from '../../../models/api/Car';
 import {ProgressSpinner} from 'primeng/progressspinner';
 
 @Component({
@@ -48,7 +48,6 @@ export class GuaranteesPageComponent implements OnInit {
   }
 
   isGuaranteeSelected(guaranteeId: number): boolean {
-    console.log(guaranteeId);
     return this.selectedGuarantee === guaranteeId;
   }
 }

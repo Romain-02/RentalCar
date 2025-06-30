@@ -1,0 +1,58 @@
+<form (ngSubmit)="updateClientInfo()" #loginForm="ngForm" class="dark:bg-gray-900 mx-auto mt-8 p-6 shadow space-y-6">
+
+  <p-stepper [value]="activeIndex" class="basis-[50rem]" [linear]="true">
+    <p-step-list>
+      @if(!alreadyConnected){
+        <p-step [value]="1">Connexion</p-step>
+      }
+      <p-step [value]="alreadyConnected ? 1 : 2">Infos</p-step>
+      <p-step [value]="alreadyConnected ? 2 : 3">Infos conducteur</p-step>
+    </p-step-list>
+    <p-step-panels>
+
+      @if(!actualUser()){
+        <p-step-panel [value]="1" >
+          <ng-template #content>
+            <div class="flex flex-col h-48">
+              @if(!alreadyAccount) {
+                <app-user-form [user]="user" [userFormErrors]="rentalFormErrors" />
+              }@else{
+                <app-login-form [user]="user" [userFormErrors]="rentalFormErrors" />
+              }
+              <div class="flex pt-6 justify-end">
+                <p class="text-red-500 text-sm mt-1">{{ errorMessage }}</p>
+                <p-button [label]="!alreadyAccount ? 'Se connecter' : 'S\'enregistrer'" icon="pi pi-arrow-right" iconPos="right" (onClick)="changeAlreadyAccount()" />
+                <p-button [disabled]="!isFirstStepValid()" label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="updateUserInfo()" />
+              </div>
+            </div>
+          </ng-template>
+        </p-step-panel>
+      }
+
+      <p-step-panel [value]="alreadyConnected ? 1 : 2">
+        <ng-template #content>
+          <div class="flex flex-col h-48">
+            <app-client-form [isEditing]="true" [user]="user" [clientFormErrors]="rentalFormErrors" />
+            <div class="flex pt-6 justify-between">
+              <p></p>
+              <p-button [disabled]="!isSecondStepValid()" label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="next()" />
+            </div>
+          </div>
+        </ng-template>
+      </p-step-panel>
+
+      <p-step-panel [value]="alreadyConnected ? 2 : 3">
+        <ng-template #content>
+          <div class="flex flex-col h-48">
+            <app-driver-info-form [user]="user" [isEditing]="true" [driverInfoFormErrors]="rentalFormErrors"/>
+            <div class="flex pt-6 justify-start">
+              <p-button label="Back" icon="pi pi-arrow-left" iconPos="right" (onClick)="last()" />
+              <p-button [disabled]="!isThridStepValid()" label="Enregistrer" icon="pi pi-arrow-left" iconPos="right" type="submit" />
+              <p class="text-red-500 text-sm mt-1">{{ errorMessage }}</p>
+            </div>
+          </div>
+        </ng-template>
+      </p-step-panel>
+    </p-step-panels>
+  </p-stepper>
+</form>

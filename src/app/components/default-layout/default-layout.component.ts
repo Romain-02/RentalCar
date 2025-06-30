@@ -1,9 +1,8 @@
-import {Component, OnInit} from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import {Component, computed, effect, inject, OnInit, Signal} from '@angular/core';
+import {Router, RouterOutlet} from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
 import { AuthService } from '../../services/auth/auth-service.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-default-layout',
@@ -12,22 +11,19 @@ import { Router } from '@angular/router';
     Menubar,
   ],
   templateUrl: './default-layout.component.html',
+  standalone: true,
   styleUrl: './default-layout.component.scss'
 })
-export class DefaultLayoutComponent implements OnInit {
+export class DefaultLayoutComponent{
+  private authService: AuthService = inject(AuthService);
+  private router: Router = inject(Router);
 
-  items: MenuItem[] = [];
+  private isLoggedIn: Signal<boolean> = this.authService.isLoggedIn;
+  protected items: Signal<MenuItem[]> = computed(() => this.updateMenuItems(this.isLoggedIn()));
 
-  constructor(private authService: AuthService, private router: Router) {}
-
-  ngOnInit() {
-    this.authService.isLoggedIn$.subscribe((isLoggedIn) => {
-      this.updateMenuItems(isLoggedIn);
-    });
-  }
 
   updateMenuItems(isLoggedIn: boolean) {
-    this.items = [
+    return [
       { label: 'Accueil', routerLink: '/' },
       { label: 'Véhicule', routerLink: '/cars' },
       { label: 'Agences', routerLink: '/list-agency' },

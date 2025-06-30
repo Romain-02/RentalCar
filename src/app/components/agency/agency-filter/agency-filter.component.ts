@@ -3,7 +3,7 @@ import {DropdownModule} from 'primeng/dropdown';
 import {AgenciesService} from '../../../services/api/agencies.service';
 import {Agencies} from '../../../models/api/Agency';
 import {ParamService} from '../../../services/utils/ParamService';
-import {DEFAULT_VALUE_ORDER, orders} from '../../../models/Orders';
+import {DEFAULT_VALUE_ORDER, orders} from '../../../models/filter/Orders';
 
 const DEFAULT_VALUE_FILTER: string = "Tous"
 

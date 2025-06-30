@@ -8,9 +8,7 @@ import {Router} from '@angular/router';
   selector: 'app-home-page',
   templateUrl: './home-page.component.html',
   styleUrls: ['./home-page.component.scss'],
-  imports: [
-    NgForOf
-  ]
+  standalone: true,
 })
 export class HomePageComponent implements OnInit {
   private carsService: CarsService = inject(CarsService);

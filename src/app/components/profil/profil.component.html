@@ -1,14 +1,8 @@
 <div class="profil-container max-w-md mx-auto mt-8 p-6 bg-white rounded shadow space-y-6" *ngIf="user">
   <h1 class="text-2xl font-bold text-gray-800">Profil</h1>
   <div class="profil-details space-y-4" *ngIf="!isEditing">
-    <ul class="space-y-2">
-      <li><strong>Nom:</strong> {{ user.name }}</li>
-      <li><strong>Email:</strong> {{ user.email }}</li>
-      <li><strong>Ville:</strong> {{ user.city }}</li>
-      <li><strong>Pays:</strong> {{ user.country }}</li>
-      <li><strong>Code postal:</strong> {{ user.postalCode }}</li>
-      <li><strong>Téléphone:</strong> {{ user.phone }}</li>
-    </ul>
+    <app-user-form [user]="user" />
+    <app-client-form [isEditing]="isEditing" [user]="user" />
     <button
       pButton
       type="button"
@@ -19,30 +13,7 @@
   </div>
 
   <div class="profil-edit space-y-4" *ngIf="isEditing">
-    <label>
-      <span>Nom :</span>
-      <input type="text" class="w-full border rounded p-2" [(ngModel)]="user.name">
-    </label>
-    <label>
-      <span>Email :</span>
-      <input type="email" class="w-full border rounded p-2" [(ngModel)]="user.email">
-    </label>
-    <label>
-      <span>Ville :</span>
-      <input type="text" class="w-full border rounded p-2" [(ngModel)]="user.city">
-    </label>
-    <label>
-      <span>Pays :</span>
-      <input type="text" class="w-full border rounded p-2" [(ngModel)]="user.country">
-    </label>
-    <label>
-      <span>Code postal :</span>
-      <input type="text" class="w-full border rounded p-2" [(ngModel)]="user.postalCode">
-    </label>
-    <label>
-      <span>Téléphone :</span>
-      <input type="text" class="w-full border rounded p-2" [(ngModel)]="user.phone">
-    </label>
+    <app-client-form [isEditing]="isEditing" [user]="user" />
     <br/>
     <br/>
     <button

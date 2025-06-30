@@ -1,8 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, signal, WritableSignal } from '@angular/core';
-import { Guarantees } from '../../models/guarantees';
-import {catchError, firstValueFrom, map, of} from 'rxjs';
-import {Cars} from '../../models/api/Car';
+import {Guarantees} from '../../models/api/Guarantee';
+import {catchError, map, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
 
 @Injectable({

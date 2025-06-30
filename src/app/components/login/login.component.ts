@@ -2,38 +2,37 @@ import { Component } from '@angular/core';
 import { AuthService } from '../../services/auth/auth-service.service';
 import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
-import { Router } from '@angular/router';
-import {InputText} from 'primeng/inputtext';
-import {PasswordDirective} from 'primeng/password';
 import {ButtonDirective} from 'primeng/button';
+import {LoginFormComponent} from './login-form/login-form.component';
+import {User} from '../../models/api/User';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   imports: [
     FormsModule,
-    NgIf,
-    InputText,
-    PasswordDirective,
-    ButtonDirective
+    ButtonDirective,
+    LoginFormComponent
   ],
+  standalone: true,
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  email: string = '';
-  password: string = '';
+  protected user: Partial<User> = {email: "", password: ""};
   errorMessage: string | null = null;
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService) {}
 
-  onSubmit() {
-    this.authService.login(this.email, this.password).subscribe({
-      next: (response) => {
-        window.location.href = '/';
-      },
-      error: (error) => {
-        this.errorMessage = 'Email ou mot de passe incorrect.';
-      }
-    });
+  onSubmit(): void {
+    if(this.user.email && this.user.password){
+      this.authService.login(this.user.email, this.user.password).subscribe({
+        next: (response) => {
+          window.location.href = '/';
+        },
+        error: (response) => {
+          this.errorMessage = response.error.message;
+        }
+      });
+    }
   }
 }
