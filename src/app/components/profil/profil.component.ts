@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import { AuthService } from '../../services/auth/auth-service.service';
 import {DEFAULT_USER, User} from '../../models/api/User';
 import {ButtonDirective} from 'primeng/button';
@@ -7,6 +7,7 @@ import {FormsModule} from '@angular/forms';
 import {ClientFormComponent} from '../register/client-form/client-form.component';
 import {UserFormComponent} from '../register/user-form/user-form.component';
 import {Client} from '../../models/api/Client';
+import {DriverInfoFormComponent} from '../register/driver-info-form/driver-info-form.component';
 
 @Component({
   selector: 'app-profil',
@@ -16,17 +17,17 @@ import {Client} from '../../models/api/Client';
     NgIf,
     FormsModule,
     ClientFormComponent,
-    UserFormComponent
+    UserFormComponent,
+    DriverInfoFormComponent
   ],
   standalone: true,
   styleUrls: ['./profil.component.scss']
 })
 export class ProfilComponent implements OnInit {
+  private authService: AuthService = inject(AuthService);
+
   user: User = DEFAULT_USER;
   isEditing: boolean = false;
-
-
-  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.authService.getMe().subscribe({

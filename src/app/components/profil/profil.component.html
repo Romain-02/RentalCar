@@ -1,21 +1,12 @@
-<div class="profil-container max-w-md mx-auto mt-8 p-6 bg-white rounded shadow space-y-6" *ngIf="user">
-  <h1 class="text-2xl font-bold text-gray-800">Profil</h1>
-  <div class="profil-details space-y-4" *ngIf="!isEditing">
-    <app-user-form [user]="user" />
-    <app-client-form [isEditing]="isEditing" [user]="user" />
-    <button
-      pButton
-      type="button"
-      label="Modifier les informations"
-      class="w-full bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 rounded transition-colors"
-      (click)="toggleEdit()">
-    </button>
-  </div>
-
-  <div class="profil-edit space-y-4" *ngIf="isEditing">
-    <app-client-form [isEditing]="isEditing" [user]="user" />
-    <br/>
-    <br/>
+<div class="profil-container max-w-3xl mx-auto mt-8 p-6 bg-white rounded shadow space-y-6" *ngIf="user">
+  @if(isEditing){
+    <div class="profil-edit space-y-4">
+      <app-client-form [isEditing]="isEditing" [user]="user" />
+      <hr/>
+    </div>
+    <div class="profil-details space-y-4">
+      <app-driver-info-form [isEditing]="isEditing" [user]="user" />
+    </div>
     <button
       pButton
       type="button"
@@ -23,5 +14,22 @@
       class="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-2 rounded transition-colors"
       (click)="toggleEdit()">
     </button>
-  </div>
+  }@else{
+    <h1 class="text-2xl font-bold text-gray-800">Profil</h1>
+    <div class="profil-details space-y-4 flex gap-5 items-center"><hr/>
+      <app-client-form [isEditing]="isEditing" [user]="user" />
+    </div>
+
+    <div class="profil-details space-y-4">
+      <app-driver-info-form [isEditing]="isEditing" [user]="user" />
+    </div>
+
+    <button
+      pButton
+      type="button"
+      label="Modifier les informations"
+      class="w-full bg-primary-500 hover:bg-primary-600 text-white font-bold py-2 rounded transition-colors"
+      (click)="toggleEdit()">
+    </button>
+  }
 </div>

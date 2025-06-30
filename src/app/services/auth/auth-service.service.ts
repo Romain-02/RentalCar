@@ -62,7 +62,6 @@ export class AuthService {
       if(!this.user()){
         const user: string | null = localStorage.getItem('user');
         if(user){
-          console.log(JSON.parse(user), "test");
           this.user.set(JSON.parse(user));
         }
       }
@@ -92,6 +91,7 @@ export class AuthService {
       map((response: any) => {
         const user: User | undefined = response?.data?.user;
         if (user) {
+          this.user.set(user);
           return user
         }
         throw new Error('Invalid response format');

@@ -23,7 +23,6 @@ export class CarsService {
       map(res => res.data),
       catchError(() => of([]))
     ).subscribe(data => {
-      console.log(data, "data")
       this.cars.set(data);
     });
   }
