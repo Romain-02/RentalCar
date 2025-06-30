@@ -1,16 +1,16 @@
 export type DriverInfo = {
-  birthDate: Date,
+  birthDate: string,
   drivingLicenseNumber: string,
-  drivingLicenseAcquisition: Date,
-  drivingLicenseValidation: Date,
+  drivingLicenseAcquisition: string,
+  drivingLicenseValidation: string,
   drivingLicenseCountry: string
 }
 
 export const DEFAULT_DRIVER_INFO: DriverInfo = {
-  birthDate: new Date(),
+  birthDate: "02-05-2025",
   drivingLicenseNumber: "",
-  drivingLicenseAcquisition: new Date(),
-  drivingLicenseValidation: new Date(),
+  drivingLicenseAcquisition: "02-05-2025",
+  drivingLicenseValidation: "02-05-2025",
   drivingLicenseCountry: ""
 }
 

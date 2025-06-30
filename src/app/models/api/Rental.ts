@@ -28,7 +28,7 @@ export type RentalBody = {
   endDate: Date,
   client: Client,
   guarantee: Guarantee,
-  options: Options
+  options: Options,
   car: Car
 };
 

@@ -18,7 +18,7 @@ export class ClientsService {
   public clients: WritableSignal<any[]> = signal<any[]>([]);
 
   public fetchClients(): void {
-    const token: string | null = this.authService.getToken();
+    const token: string | null = this.authService.token();
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
