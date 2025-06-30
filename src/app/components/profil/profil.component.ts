@@ -44,7 +44,7 @@ export class ProfilComponent implements OnInit {
     this.isEditing = !this.isEditing;
     if (!this.isEditing && this.user.client) {
       this.authService.updateMe(this.user.id, this.user.client).subscribe({
-        next: (updatedClient: Client) => {
+        next: (updatedClient: {data: Client}) => {
           console.log('Client data updated successfully:', updatedClient);
         },
         error: (err) => {

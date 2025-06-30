@@ -99,10 +99,11 @@ export class AuthService {
     );
   }
 
-  updateMe(id: any, client: Client): Observable<Client> {
-    const response: Observable<Client> = this.http.patch<Client>(`${this.apiUrl}/clients/${id}`, client)
+  updateMe(id: any, client: Client): Observable<{data: Client}> {
+    const response: Observable<{data: Client}> = this.http.patch<{data: Client}>(`${this.apiUrl}/clients/${id}`, client)
     response.subscribe({
-      next: (updatedClient: Client) => {
+      next: (clientResponse) => {
+        const updatedClient: Client = clientResponse.data;
         const currentUser: User | null = this.user();
         if (currentUser) {
           this.user.set({...currentUser, client: updatedClient});

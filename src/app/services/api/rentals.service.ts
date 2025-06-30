@@ -13,6 +13,7 @@ import {environment} from '../../../environments/environment';
 export class RentalsService {
   public rentals: WritableSignal<Rental[]> = signal([]);
   public rentalBody: WritableSignal<RentalBody> = signal(DEFAULT_RENTAL_BODY);
+  public rentalResult: WritableSignal<Rental | null> = signal(null);
   private httpClient: HttpClient = inject(HttpClient);
 
   constructor() {
@@ -21,18 +22,32 @@ export class RentalsService {
 
   public updateRentalBody(rentalBody: Partial<RentalBody>): void{
     const currentRentalBody: RentalBody = this.rentalBody();
+    console.log({...currentRentalBody, ...rentalBody}, "update test")
+    const newRentalBody: RentalBody = {...currentRentalBody, ...rentalBody};
     if(typeof localStorage !== 'undefined') {
-      localStorage.setItem('rentalBody', JSON.stringify(currentRentalBody));
+      console.log(newRentalBody, "current")
+      localStorage.setItem('rentalBody', JSON.stringify(newRentalBody));
     }
-    this.rentalBody.set({...currentRentalBody, ...rentalBody})
+    this.rentalBody.set(newRentalBody);
+  }
+
+  public rentalBodyToBody(rentalBody: RentalBody){
+    return {
+      ...rentalBody,
+      car_id: rentalBody.car.id,
+      client_id: rentalBody.client.id,
+      guarantee_id: rentalBody.guarantee.id
+    }
   }
 
   public createRental(): void {
-    this.httpClient.post(`${environment.apiUrl}/rentals`, this.rentalBody())
-      .pipe(map(response => response), catchError(() => of([])))
+    this.httpClient.post<{data: Rental}>(`${environment.apiUrl}/rentals`, this.rentalBodyToBody(this.rentalBody()))
+      .pipe(map(response => response.data), catchError(() => of(null)))
       .subscribe(data => {
-        console.log(data)
-        }
+        if(data){
+          console.log(data, "create")
+          this.rentalResult.set(data)
+        }}
       );
   }
 
@@ -40,6 +55,7 @@ export class RentalsService {
     this.httpClient.get<{ data: any[] }>(`${environment.apiUrl}/rentals`)
       .pipe(map(response => response.data), catchError(() => of([])))
       .subscribe(data => {
+        console.log(data, "fetch r")
         this.rentals.set(data);
       }
     );
@@ -48,11 +64,10 @@ export class RentalsService {
   restoreRentalBody(): void{
     if(typeof localStorage !== 'undefined'){
       const rentalBody: string | null = localStorage.getItem('rentalBody');
-      if (!this.rentalBody() && rentalBody) {
-        if (rentalBody) {
-          console.log(rentalBody)
+      console.log(rentalBody && JSON.parse(rentalBody),  this.rentalBody(), "current")
+      if (this.rentalBody().car.id === -1 && rentalBody) {
+        console.log(rentalBody, "restore")
           this.rentalBody.set(JSON.parse(rentalBody));
-        }
       }
     }
   }

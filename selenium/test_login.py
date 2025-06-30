@@ -13,19 +13,25 @@ PASSWORD_USER="motDePasse"
 
 driver = Selenium(URL)
 
-#register
-driver.click_to_element(By.XPATH, '//span[text()="Inscription"]')
-driver.write_to_element(NAME_USER, By.NAME, 'name')
-driver.write_to_element(EMAIL_USER, By.NAME, 'email')
-driver.write_to_element(PASSWORD_USER, By.NAME, 'password')
-driver.click_to_element(By.XPATH, '//button[span[text()="S\'inscrire"]]')
+def register():
+  driver.click_to_element(By.XPATH, '//span[text()="Inscription"]')
+  driver.write_to_element(NAME_USER, By.NAME, 'name')
+  driver.write_to_element(EMAIL_USER, By.NAME, 'email')
+  driver.write_to_element(PASSWORD_USER, By.NAME, 'password')
+  driver.click_to_element(By.XPATH, '//button[span[text()="S\'inscrire"]]')
 
+
+def login():
+  driver.click_to_element(By.XPATH, '//span[text()="Connexion"]')
+  driver.write_to_element(EMAIL_USER, By.NAME, 'email')
+  driver.write_to_element(PASSWORD_USER, By.NAME, 'password')
+  driver.write_to_element(Keys.TAB, By.NAME, 'password')
+  driver.click_to_element(By.XPATH, '//button[span[text()="Login"]]')
+
+#login
+register()
 #connection
-driver.click_to_element(By.XPATH, '//span[text()="Connexion"]')
-driver.write_to_element(EMAIL_USER, By.NAME, 'email')
-driver.write_to_element(PASSWORD_USER, By.NAME, 'password')
-driver.write_to_element(Keys.TAB, By.NAME, 'password')
-driver.click_to_element(By.XPATH, '//button[span[text()="Login"]]')
+login()
 
 try:
   driver.get_element(By.XPATH, '//span[text()="Déconnexion"]')

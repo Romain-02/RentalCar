@@ -38,4 +38,7 @@
     <em>Aucune option sélectionnée</em>
   </div>
   }
+
+  <button class="back-button" [routerLink]="['/rental/client-info', carId]">Retour aux garanties</button>
+  <button class="continue-button" (click)="rent()">Réserver</button>
 </div>
