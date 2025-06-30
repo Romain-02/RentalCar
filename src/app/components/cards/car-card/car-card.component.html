@@ -5,5 +5,8 @@
     <p class="infos">{{car.miles}} miles | {{car.agency.name}}</p>
   </span>
   <p>{{car.description}}</p>
+  <div class="w-fit p-2 rounded-2xl border-2 border-green-400/50 font-semibold bg-green-400/20">
+    {{car.state | carState }}
+  </div>
   <button class="reserve-button" [routerLink]="['/rental/guarantees', car.id]">Réserver</button>
 </div>
