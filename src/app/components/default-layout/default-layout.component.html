@@ -1,10 +1,64 @@
-<header class="bg-gray-950 text-white py-4 px-6">
+<!--<header class="bg-gray-950 text-white py-4 px-6">
   <div class="flex items-center justify-between">
     <h4 class="font-bold text-xl">
       <a href="" class="hover:text-primary-400 transition-colors">RentalCarLens</a>
     </h4>
     <p-menubar [model]="items()" class="bg-gray-950 border-none text-white mx-auto"></p-menubar>
   </div>
+</header>-->
+
+<header class="relative bg-white/80 dark:bg-gray-900/80 backdrop-blur-xl border-b border-gray-200/30 dark:border-gray-700/30 transition-all duration-300">
+  <!--  Effet profondeur-->
+  <div class="absolute inset-0 bg-gradient-to-r from-green-700/5 via-transparent to-green-700/5"></div>
+
+  <div class="container mx-auto px-6 relative z-10">
+    <div class="flex items-center justify-between h-20">
+      <!--Logo-->
+      <div class="relative group">
+        <a href="" class="relative z-10 font-bold text-2xl text-gray-900 dark:text-white hover:text-green-700 transition-all duration-300">
+          <span class="relative">
+            RentalCarLens
+            <div class="absolute -bottom-1 left-0 w-0 h-0.5 bg-green-700 group-hover:w-full transition-all duration-300"></div>
+          </span>
+        </a>
+        <!--Effet-->
+        <div class="absolute inset-0 bg-green-700/10 rounded-lg blur-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 -z-10"></div>
+      </div>
+
+      <!--Menu navigation-->
+      <nav class="hidden md:flex items-center">
+        <div class="flex items-center bg-gray-50/80 dark:bg-gray-800/80 backdrop-blur-sm rounded-full p-2 border border-gray-200/30 dark:border-gray-700/30">
+          @for (item of items(); track $index) {
+            <div class="relative group">
+              <!--Lien de nav-->
+              @if (item.routerLink) {
+                <a
+                  [routerLink]="item.routerLink"
+                  class="relative px-6 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-green-700 dark:hover:text-green-400 transition-all duration-300 rounded-full flex items-center gap-2 group-hover:bg-white/60 dark:group-hover:bg-gray-700/60">
+                  {{ item.label }}
+                  <!--Indicateur actif-->
+                  <div class="absolute bottom-1 left-1/2 transform -translate-x-1/2 w-1 h-1 bg-green-700 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                </a>
+              }
+
+              <!--Boutons d'action-->
+              @if (item.command) {
+                <button
+                  (click)="item.command && item.command({})"
+                  class="relative px-6 py-3 text-sm font-medium text-gray-700 dark:text-gray-300 hover:text-red-600 dark:hover:text-red-400 transition-all duration-300 rounded-full flex items-center gap-2 group-hover:bg-white/60 dark:group-hover:bg-gray-700/60">
+                  {{ item.label }}
+                  <i class="ri-logout-box-line text-sm"></i>
+                </button>
+              }
+            </div>
+          }
+        </div>
+      </nav>
+    </div>
+  </div>
+
+  <div class="absolute top-0 left-1/4 w-px h-full bg-gradient-to-b from-transparent via-green-700/20 to-transparent"></div>
+  <div class="absolute top-0 right-1/4 w-px h-full bg-gradient-to-b from-transparent via-green-700/20 to-transparent"></div>
 </header>
 
 <main>
