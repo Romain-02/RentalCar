@@ -91,6 +91,7 @@ export class AuthService {
       map((response: any) => {
         const user: User | undefined = response?.data?.user;
         if (user) {
+          this.user.set(user);
           return user
         }
         throw new Error('Invalid response format');

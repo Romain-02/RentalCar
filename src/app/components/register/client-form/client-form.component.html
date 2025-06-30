@@ -15,37 +15,51 @@
       <label>
         <span>Prénom :</span>
         <input type="text" class="w-full border rounded p-2" required [(ngModel)]="user.client.firstname">
-        <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.firstname }}</p>
+        @if(clientFormErrors){
+          <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.firstname }}</p>
+        }
       </label>
       <label>
         <span>Nom :</span>
         <input type="text" class="w-full border rounded p-2" required [(ngModel)]="user.client.lastname">
-        <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.lastname }}</p>
+        @if(clientFormErrors){
+          <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.lastname }}</p>
+        }
       </label>
       <label>
         <span>Ville :</span>
         <input type="text" class="w-full border rounded p-2" required [(ngModel)]="user.client.city">
-        <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.city }}</p>
+        @if(clientFormErrors){
+          <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.city }}</p>
+        }
       </label>
       <label>
         <span>Pays :</span>
         <input type="text" class="w-full border rounded p-2" required [(ngModel)]="user.client.country">
-        <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.country }}</p>
+        @if(clientFormErrors){
+          <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.country }}</p>
+        }
       </label>
       <label>
         <span>Code postal :</span>
         <input type="text" maxlength="5" minlength="5" class="w-full border rounded p-2" required [(ngModel)]="user.client.postalCode">
-        <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.postalCode }}</p>
+        @if(clientFormErrors){
+          <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.postalCode }}</p>
+        }
       </label>
       <label>
         <span>Téléphone : (123-456-7891)</span>
         <input type="tel" class="w-full border rounded p-2" required minlength="12" maxlength="12" [(ngModel)]="user.client.phone">
-        <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.phone }}</p>
+        @if(clientFormErrors){
+          <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.phone }}</p>
+        }
       </label>
       <label>
         <span>Adresse de facturation :</span>
         <input type="text" class="w-full border rounded p-2" required [(ngModel)]="user.client.billingAdress">
-        <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.billingAdress }}</p>
+        @if(clientFormErrors){
+          <p class="text-red-500 text-sm mt-1">{{ clientFormErrors.billingAdress }}</p>
+        }
       </label>
     </div>
   }

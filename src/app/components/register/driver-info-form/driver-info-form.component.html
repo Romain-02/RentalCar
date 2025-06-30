@@ -18,7 +18,9 @@
       <label>
         <span>Numéro de permis :</span>
         <input type="email" class="w-full border rounded p-2" [(ngModel)]="user.client.driverInfo.drivingLicenseNumber">
-        <p class="text-red-500 text-sm mt-1">{{ driverInfoFormErrors.drivingLicenseNumber }}</p>
+        @if(driverInfoFormErrors){
+          <p class="text-red-500 text-sm mt-1">{{ driverInfoFormErrors.drivingLicenseNumber }}</p>
+        }
       </label>
       <label>
         <span>Date d'obtention du permis :</span>
@@ -31,7 +33,9 @@
       <label>
         <span>Pays d'obtention :</span>
         <input type="text" class="w-full border rounded p-2" [(ngModel)]="user.client.driverInfo.drivingLicenseCountry">
-        <p class="text-red-500 text-sm mt-1">{{ driverInfoFormErrors.drivingLicenseCountry }}</p>
+        @if(driverInfoFormErrors){
+          <p class="text-red-500 text-sm mt-1">{{ driverInfoFormErrors.drivingLicenseCountry }}</p>
+        }
       </label>
     </div>
   }

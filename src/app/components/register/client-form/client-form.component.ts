@@ -1,4 +1,4 @@
-import {Component, Input} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {User} from '../../../models/api/User';
 import {ClientFormErrors} from '../../../models/api/Client';
 import {FormsModule} from '@angular/forms';
@@ -12,11 +12,17 @@ import {FormsModule} from '@angular/forms';
   standalone: true,
   styleUrl: './client-form.component.scss'
 })
-export class ClientFormComponent{
+export class ClientFormComponent implements OnInit{
   @Input()
   public clientFormErrors!: ClientFormErrors;
   @Input()
-  public isEditing: boolean = false;
+  public isEditing!: boolean;
   @Input()
   public user!: User;
+
+  ngOnInit(): void {
+    console.log(this.user, "user ", this.isEditing)
+  }
+
+
 }
