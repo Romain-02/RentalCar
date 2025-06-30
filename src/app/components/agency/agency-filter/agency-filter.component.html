@@ -1,37 +1,55 @@
 <div class="flex flex-wrap gap-4">
-  <p-dropdown
-    [options]="cityFilters()"
-    placeholder="Filtrer par ville"
-    [styleClass]="'w-full md:w-60 bg-gray-900 text-white border-gray-700'"
-    (onChange)="addAgencyFilter('city_filter', $event.value)">
-  </p-dropdown>
+  <!-- Filtre par ville -->
+  <div class="flex flex-col gap-2">
+    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+      Filtrer par ville
+    </label>
+    <p-dropdown
+      [options]="cityFilters()"
+      placeholder="Sélectionnez une ville"
+      [styleClass]="'w-full md:w-60 bg-gray-900 text-white border-gray-700'"
+      (onChange)="addAgencyFilter('city_filter', $event.value)">
+    </p-dropdown>
+  </div>
 
-  <p-dropdown
-    [options]="postalCodeFilters()"
-    placeholder="Filtrer par code postal"
-    [styleClass]="'w-full md:w-60 bg-gray-900 text-white border-gray-700'"
-    (onChange)="addAgencyFilter('postalCode_filter', $event.value)">
-  </p-dropdown>
+  <!-- Filtre par code postal -->
+  <div class="flex flex-col gap-2">
+    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+      Filtrer par code postal
+    </label>
+    <p-dropdown
+      [options]="postalCodeFilters()"
+      placeholder="Sélectionnez un code postal"
+      [styleClass]="'w-full md:w-60 bg-gray-900 text-white border-gray-700'"
+      (onChange)="addAgencyFilter('postalCode_filter', $event.value)">
+    </p-dropdown>
+  </div>
 
-  <p-dropdown
-    [options]="orders"
-    optionLabel="name"
-    placeholder="Trieer par ville"
-    [styleClass]="'w-full md:w-60 bg-gray-900 text-white border-gray-700'"
-    (onChange)="addAgencyFilter('city_order', $event.value.order)">
-  </p-dropdown>
+  <!-- Tri par ville -->
+  <div class="flex flex-col gap-2">
+    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+      Trier par ville
+    </label>
+    <p-dropdown
+      [options]="orders"
+      optionLabel="name"
+      placeholder="Ordre de tri"
+      [styleClass]="'w-full md:w-60 bg-gray-900 text-white border-gray-700'"
+      (onChange)="addAgencyFilter('city_order', $event.value.order)">
+    </p-dropdown>
+  </div>
 
-  <p-dropdown
-    [options]="orders"
-    optionLabel="name"
-    placeholder="Trieer code postal"
-    [styleClass]="'w-full md:w-60 bg-gray-900 text-white border-gray-700'"
-    (onChange)="addAgencyFilter('postalCode_order', $event.value.order)">
-  </p-dropdown>
+  <!-- Tri par code postal -->
+  <div class="flex flex-col gap-2">
+    <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
+      Trier par code postal
+    </label>
+    <p-dropdown
+      [options]="orders"
+      optionLabel="name"
+      placeholder="Ordre de tri"
+      [styleClass]="'w-full md:w-60 bg-gray-900 text-white border-gray-700'"
+      (onChange)="addAgencyFilter('postalCode_order', $event.value.order)">
+    </p-dropdown>
+  </div>
 </div>
-
-
-
-
-
-
