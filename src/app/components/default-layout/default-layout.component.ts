@@ -1,5 +1,5 @@
 import {Component, computed, effect, inject, OnInit, Signal} from '@angular/core';
-import {Router, RouterOutlet} from '@angular/router';
+import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
 import { AuthService } from '../../services/auth/auth-service.service';
@@ -9,6 +9,7 @@ import { AuthService } from '../../services/auth/auth-service.service';
   imports: [
     RouterOutlet,
     Menubar,
+    RouterLink,
   ],
   templateUrl: './default-layout.component.html',
   standalone: true,
@@ -20,7 +21,7 @@ export class DefaultLayoutComponent{
 
   private isLoggedIn: Signal<boolean> = this.authService.isLoggedIn;
   protected items: Signal<MenuItem[]> = computed(() => this.updateMenuItems(this.isLoggedIn()));
-
+  protected isMobileMenuOpen = false;
 
   updateMenuItems(isLoggedIn: boolean) {
     return [
@@ -30,13 +31,21 @@ export class DefaultLayoutComponent{
       ...(isLoggedIn
         ? [
           { label: 'Profil', routerLink: '/profil' },
-          { label: 'Déconnexion', command: () => this.logout() }
+          { label: 'Déconnexion', command: (event: any) => this.logout() }
         ]
         : [
           { label: 'Connexion', routerLink: '/login' },
           { label: 'Inscription', routerLink: '/register' }
         ])
     ];
+  }
+
+  toggleMobileMenu() {
+    this.isMobileMenuOpen = !this.isMobileMenuOpen;
+  }
+
+  closeMobileMenu() {
+    this.isMobileMenuOpen = false;
   }
 
   logout() {
