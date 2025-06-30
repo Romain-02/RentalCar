@@ -2,7 +2,7 @@ import {Component, inject, Input} from '@angular/core';
 import {FormBuilder, FormGroup, FormsModule, Validators} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import {RegisterService} from '../../services/auth/register.service';
-import {Router} from '@angular/router';
+import {Router, RouterLink} from '@angular/router';
 import {Button, ButtonDirective} from 'primeng/button';
 import {UserFormComponent} from './user-form/user-form.component';
 import {DEFAULT_USER, User} from '../../models/api/User';
@@ -22,7 +22,8 @@ import {ProgressSpinner} from 'primeng/progressspinner';
     FormsModule,
     ButtonDirective,
     UserFormComponent,
-    ProgressSpinner
+    ProgressSpinner,
+    RouterLink
   ],
   templateUrl: './register.component.html',
   standalone: true,
