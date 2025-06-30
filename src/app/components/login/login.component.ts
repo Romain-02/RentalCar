@@ -29,8 +29,8 @@ export class LoginComponent {
         next: (response) => {
           window.location.href = '/';
         },
-        error: (error) => {
-          this.errorMessage = error;
+        error: (response) => {
+          this.errorMessage = response.error.message;
         }
       });
     }

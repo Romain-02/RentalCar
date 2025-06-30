@@ -50,7 +50,6 @@ export class AuthService {
 
   restoreSession(): void{
     if(typeof localStorage !== 'undefined'){
-      console.log(JSON.parse(localStorage.getItem('user') ?? ""), "tet")
       if (!this.token()) {
         const token: string | null = localStorage.getItem('token');
         if (token) {
