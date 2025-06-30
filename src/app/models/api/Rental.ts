@@ -1,9 +1,10 @@
 // Types
 import { Withdrawal } from './Withdrawal';
 import {ReturnCar} from './ReturnCar';
-import {Car} from './Car';
-import {Guarantees} from './Guarantee';
-import {User} from './User';
+import {Car, DEFAULT_CAR} from './Car';
+import {DEFAULT_GUARANTEE, Guarantee} from './Guarantee';
+import {Options} from './Option';
+import {Client, DEFAULT_CLIENT} from './Client';
 
 // ==============================================
 
@@ -14,12 +15,30 @@ export type Rental = {
   startDate: string,
   endDate: string,
   withdrawal: Withdrawal | null,
-  "client": User,
-  "guarantee": Guarantees,
-  "bill": null,
-  "returnCar": ReturnCar | null,
-  "additionalClause": null,
-  "car": Car
+  client: Client,
+  guarantee: Guarantee,
+  bill: null,
+  returnCar: ReturnCar | null,
+  additionalClause: null,
+  car: Car
+};
+
+export type RentalBody = {
+  startDate: Date,
+  endDate: Date,
+  client: Client,
+  guarantee: Guarantee,
+  options: Options
+  car: Car
+};
+
+export const DEFAULT_RENTAL_BODY: RentalBody = {
+  startDate: new Date(),
+  endDate: new Date(),
+  client: DEFAULT_CLIENT,
+  guarantee: DEFAULT_GUARANTEE,
+  options: [],
+  car: DEFAULT_CAR
 };
 
 export type RentalFormErrors = {

@@ -1,0 +1,41 @@
+<div class="summary-card">
+  <h2>Résumé de la réservation</h2>
+
+  <div>
+    <strong>Date de début :</strong> {{ rental.startDate | date: 'shortDate' }}
+  </div>
+
+  <div>
+    <strong>Date de fin :</strong> {{ rental.endDate | date: 'shortDate' }}
+  </div>
+
+  <div>
+    <strong>Client :</strong> {{ rental.client.lastname }} {{ rental.client.firstname }}
+  </div>
+
+  <div>
+    <strong>Véhicule :</strong> {{ rental.car.brand }} {{ rental.car.name }}
+  </div>
+
+  <div>
+    <strong>Garantie :</strong> {{ rental.guarantee.amount * 100 }} %
+  </div>
+
+  @if(rental.options.length > 0){
+    <div>
+      <strong>Options sélectionnées :</strong>
+      <ul>
+        @for(option of rental.options; track option.id){
+          <li>{{ option.name }} ({{ option.price | currency:'EUR' }})</li>
+        }
+      </ul>
+    </div>
+  }
+
+
+  @if(rental.options.length === 0){
+    <div>
+    <em>Aucune option sélectionnée</em>
+  </div>
+  }
+</div>

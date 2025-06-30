@@ -8,4 +8,14 @@ export type Agency = {
   mail: string
 };
 
+export const DEFAULT_AGENCY: Agency = {
+  id: -1,
+  name: "",
+  postalCode: "",
+  city: "",
+  address: "",
+  phone: "",
+  mail: ""
+};
+
 export type Agencies = Agency[];

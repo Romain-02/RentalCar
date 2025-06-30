@@ -20,6 +20,9 @@
                 <app-login-form [user]="user" [userFormErrors]="rentalFormErrors" />
               }
               <div class="flex pt-6 justify-end">
+                @if(!alreadyConnected){
+                  <button class="back-button" [routerLink]="['/rental/options', carId]">Retour aux options</button>
+                }
                 <p class="text-red-500 text-sm mt-1">{{ errorMessage }}</p>
                 <p-button [label]="!alreadyAccount ? 'Se connecter' : 'S\'enregistrer'" icon="pi pi-arrow-right" iconPos="right" (onClick)="changeAlreadyAccount()" />
                 <p-button [disabled]="!isFirstStepValid()" label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="updateUserInfo()" />
@@ -34,7 +37,11 @@
           <div class="flex flex-col h-48">
             <app-client-form [isEditing]="true" [user]="user" [clientFormErrors]="rentalFormErrors" />
             <div class="flex pt-6 justify-between">
-              <p></p>
+              @if(alreadyConnected){
+                <button type="reset" class="back-button" [routerLink]="['/rental/options', carId]">Retour aux options</button>
+              }@else{
+                <p></p>
+              }
               <p-button [disabled]="!isSecondStepValid()" label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="next()" />
             </div>
           </div>

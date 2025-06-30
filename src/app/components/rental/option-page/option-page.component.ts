@@ -3,9 +3,10 @@ import {Component, computed, inject, OnInit, Signal, WritableSignal} from '@angu
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { OptionsService } from '../../../services/api/options.service';
-import { Options } from '../../../models/api/Option';
+import {DEFAULT_OPTION, Options} from '../../../models/api/Option';
 import {CarsService} from '../../../services/api/cars.service';
 import {Car, Cars} from '../../../models/api/Car';
+import {RentalsService} from '../../../services/api/rentals.service';
 
 @Component({
   selector: 'app-options-page',
@@ -18,6 +19,7 @@ export class OptionsPageComponent implements OnInit {
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
   private readonly optionsService: OptionsService = inject(OptionsService);
   private readonly carsService: CarsService = inject(CarsService);
+  private readonly rentalsService: RentalsService = inject(RentalsService);
 
   protected options: WritableSignal<Options> = this.optionsService.options;
   protected cars: WritableSignal<Cars> = this.carsService.cars;
@@ -44,12 +46,16 @@ export class OptionsPageComponent implements OnInit {
   }
 
   toggleOption(optionId: number): void {
-    const index = this.selectedOptions.indexOf(optionId);
+    const index: number = this.selectedOptions.indexOf(optionId);
     if (index > -1) {
       this.selectedOptions.splice(index, 1);
     } else {
       this.selectedOptions.push(optionId);
     }
+    const options: Options = this.selectedOptions.map((selectedOptionId) =>
+      this.options().find((option) => selectedOptionId === option.id) ?? DEFAULT_OPTION
+    )
+    this.rentalsService.updateRentalBody({options: options});
   }
 
   isOptionSelected(optionId: number): boolean {

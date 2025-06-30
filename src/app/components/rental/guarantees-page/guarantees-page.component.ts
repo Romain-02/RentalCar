@@ -1,4 +1,4 @@
-import {Component, inject, OnInit, computed, WritableSignal, Signal} from '@angular/core';
+import {Component, inject, OnInit, computed, WritableSignal, Signal, effect} from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { GuaranteesService } from '../../../services/api/guarantees.service';
@@ -6,6 +6,7 @@ import {Guarantee, Guarantees} from '../../../models/api/Guarantee';
 import { CarsService } from '../../../services/api/cars.service';
 import {Car, Cars} from '../../../models/api/Car';
 import {ProgressSpinner} from 'primeng/progressspinner';
+import {RentalsService} from '../../../services/api/rentals.service';
 
 @Component({
   selector: 'app-guarantees-page',
@@ -16,6 +17,7 @@ import {ProgressSpinner} from 'primeng/progressspinner';
 })
 export class GuaranteesPageComponent implements OnInit {
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private readonly rentalService: RentalsService = inject(RentalsService);
   private readonly guaranteesService: GuaranteesService = inject(GuaranteesService);
   private readonly carsService: CarsService = inject(CarsService);
 
@@ -29,6 +31,16 @@ export class GuaranteesPageComponent implements OnInit {
   protected loading: boolean = true;
   protected error: boolean = false;
 
+  constructor() {
+    effect(() => {
+      const car: Car | undefined = this.car();
+      const currentCar: Car = this.rentalService.rentalBody().car;
+
+      if (car && (!currentCar || currentCar.id !== car.id) && car.id >= 0) {
+        this.rentalService.updateRentalBody({car: car});
+      }
+    });
+  }
 
   ngOnInit(): void {
     this.activatedRoute.paramMap.subscribe(async params => {
@@ -45,6 +57,8 @@ export class GuaranteesPageComponent implements OnInit {
 
   selectGuarantee(guaranteeId: number): void {
     this.selectedGuarantee = guaranteeId;
+    this.rentalService.updateRentalBody({guarantee: this.guarantees().find(
+      (guarantee) => guarantee.id === guaranteeId)})
   }
 
   isGuaranteeSelected(guaranteeId: number): boolean {

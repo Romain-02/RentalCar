@@ -27,7 +27,9 @@ export class AuthService {
       ...response.user,
       client: {
         ...response.user.client,
-        driverInfo: DEFAULT_DRIVER_INFO
+        driverInfo: {
+          ...response.user.client.driverInfo
+        }
       }
     }
   }
@@ -60,6 +62,7 @@ export class AuthService {
       if(!this.user()){
         const user: string | null = localStorage.getItem('user');
         if(user){
+          console.log(JSON.parse(user), "test");
           this.user.set(JSON.parse(user));
         }
       }
