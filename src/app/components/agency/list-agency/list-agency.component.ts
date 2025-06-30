@@ -1,4 +1,4 @@
-import {Component, effect, inject, OnInit, WritableSignal} from '@angular/core';
+import {Component, inject, OnInit, WritableSignal} from '@angular/core';
 import {PrimeTemplate} from 'primeng/api';
 import {TableModule} from 'primeng/table';
 import {AgenciesService} from '../../../services/api/agencies.service';
@@ -25,4 +25,5 @@ export class ListAgencyComponent implements OnInit{
     this.agenciesService.fetchAgencies();
   }
 
+  protected readonly length = length;
 }

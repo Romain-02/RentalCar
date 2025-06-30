@@ -1,6 +1,7 @@
 import { Component, Input } from '@angular/core';
 import { Car } from '../../../models/api/Car';
 import {RouterLink} from '@angular/router';
+import {CarStatePipe} from '../../../pipes/car-state.pipe';
 
 // ==============================================
 
@@ -8,7 +9,8 @@ import {RouterLink} from '@angular/router';
 @Component({
   selector: 'app-car-card',
   imports: [
-    RouterLink
+    RouterLink,
+    CarStatePipe
   ],
   templateUrl: './car-card.component.html',
   standalone: true,
