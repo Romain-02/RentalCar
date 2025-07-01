@@ -18,7 +18,7 @@ export class DriverInfoFormComponent{
   @Input()
   public driverInfoFormErrors!: DriverInfoFormErrors;
   @Input()
-  isEditing: boolean = false;
+  public isEditing!: boolean;
   @Input()
   public user!: User;
 }

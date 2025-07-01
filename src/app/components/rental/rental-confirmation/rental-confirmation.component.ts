@@ -1,13 +1,16 @@
-import {Component, inject, OnInit} from '@angular/core';
-import {RentalBody} from '../../../models/api/Rental';
+import {Component, effect, inject, OnInit, WritableSignal} from '@angular/core';
+import {Rental, RentalBody} from '../../../models/api/Rental';
 import {RentalsService} from '../../../services/api/rentals.service';
 import {CurrencyPipe, DatePipe} from '@angular/common';
+import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {CarsService} from '../../../services/api/cars.service';
 
 @Component({
   selector: 'app-rental-confirmation',
   imports: [
     DatePipe,
-    CurrencyPipe
+    CurrencyPipe,
+    RouterLink
   ],
   templateUrl: './rental-confirmation.component.html',
   standalone: true,
@@ -15,10 +18,36 @@ import {CurrencyPipe, DatePipe} from '@angular/common';
 })
 export class RentalConfirmationComponent implements OnInit{
   private rentalService: RentalsService = inject(RentalsService);
+  private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private carsService: CarsService = inject(CarsService);
+  private router: Router = inject(Router);
 
   protected rental: RentalBody = this.rentalService.rentalBody();
+  protected rentalResultSignal: WritableSignal<Rental | null> = this.rentalService.rentalResult;
+  protected carId: number | null = null;
+  protected loading: boolean = false;
+
+  constructor() {
+    effect(() => {
+      if(this.rentalResultSignal() !== null){
+        this.router.navigate(['/rentals'])
+      }
+    });
+  }
+
+  rent(): void{
+    this.rentalService.createRental();
+  }
 
   ngOnInit(): void {
-    console.log(this.rental, "rental")
+    this.activatedRoute.paramMap.subscribe(async params => {
+      const id: string | null = params.get('carId');
+      this.carId = id ? +id : null;
+
+      if (this.carId) {
+        this.carsService.fetchCars();
+        this.loading = false;
+      }
+    });
   }
 }

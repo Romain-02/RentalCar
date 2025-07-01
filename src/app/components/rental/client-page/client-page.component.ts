@@ -105,9 +105,8 @@ export class ClientPageComponent implements OnInit{
     this.loading = true;
     if(this.user.client){
       this.authService.updateMe(this.user.client?.id, this.user.client).subscribe({
-        next: (updatedClient: Client) => {
+        next: (updatedClient: {data: Client}) => {
           console.log('Client data updated successfully:', updatedClient);
-          console.log(this.rentalService.rentalBody().car.id);
           this.router.navigate(['rental', 'confirmation',this.carId])
           this.rentalService.updateRentalBody({client: this.user.client})
           this.loading = false;
@@ -158,7 +157,6 @@ export class ClientPageComponent implements OnInit{
   isSecondStepValid(): boolean{
     this.rentalFormErrors = {...DEFAULT_RENTAL_FORM_ERRORS};
     let isValid: boolean = true;
-    console.log(this.user)
 
     if(!this.user.client?.firstname){
       this.rentalFormErrors.firstname = this.getEmptyFieldError("prénom")
