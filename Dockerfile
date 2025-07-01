@@ -1,4 +1,4 @@
-FROM node:20-alpine
+FROM dh-iutl.univ-artois.fr/node:20-alpine
 
 WORKDIR /app
 
