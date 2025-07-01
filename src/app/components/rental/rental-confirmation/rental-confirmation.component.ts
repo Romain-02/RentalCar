@@ -31,7 +31,7 @@ export class RentalConfirmationComponent implements OnInit{
   constructor() {
     effect(() => {
       if(this.rentalResultSignal() !== null){
-        this.router.navigate(['/rentals'])
+        this.router.navigate(['/profil'])
       }
     });
   }

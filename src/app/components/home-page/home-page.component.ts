@@ -1,7 +1,6 @@
 import { Component, inject, OnInit, WritableSignal } from '@angular/core';
 import { CarsService } from '../../services/api/cars.service';
 import { Cars } from '../../models/api/Car';
-import {NgForOf} from '@angular/common';
 import {Router} from '@angular/router';
 
 @Component({

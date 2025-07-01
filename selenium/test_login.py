@@ -14,19 +14,19 @@ PASSWORD_USER="motDePasse"
 driver = Selenium(URL)
 
 def register():
-  driver.click_to_element(By.XPATH, '//span[text()="Inscription"]')
+  driver.click_to_element(By.XPATH, '//a[text()=" Inscription "]')
   driver.write_to_element(NAME_USER, By.NAME, 'name')
   driver.write_to_element(EMAIL_USER, By.NAME, 'email')
   driver.write_to_element(PASSWORD_USER, By.NAME, 'password')
-  driver.click_to_element(By.XPATH, '//button[span[text()="S\'inscrire"]]')
+  driver.click_to_element(By.XPATH, '//button')
 
 
 def login():
-  driver.click_to_element(By.XPATH, '//span[text()="Connexion"]')
+  driver.click_to_element(By.XPATH, '//a[text()=" Connexion "]')
   driver.write_to_element(EMAIL_USER, By.NAME, 'email')
   driver.write_to_element(PASSWORD_USER, By.NAME, 'password')
   driver.write_to_element(Keys.TAB, By.NAME, 'password')
-  driver.click_to_element(By.XPATH, '//button[span[text()="Login"]]')
+  driver.click_to_element(By.XPATH, '//button')
 
 #login
 register()
@@ -39,4 +39,5 @@ try:
   driver.wait()
 except:
   print("Il y a eu une erreur dans la connexion")
+  driver.wait()
 

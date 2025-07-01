@@ -13,7 +13,7 @@ class Selenium:
     self.driver.get(url)
 
   def get_element(self, by, name):
-    WebDriverWait(self.driver, 10).until(EC.element_to_be_clickable((by, name)))
+    WebDriverWait(self.driver, 5).until(EC.element_to_be_clickable((by, name)))
     return self.driver.find_element(by, name)
 
   def write_to_element(self, text, by, name):
@@ -25,4 +25,4 @@ class Selenium:
     element.click()
 
   def wait(self):
-    WebDriverWait(self.driver, 1000)
+    self.driver.implicitly_wait(1000)
