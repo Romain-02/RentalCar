@@ -67,7 +67,7 @@
     <div class="grid md:grid-cols-2 xl:grid-cols-3 gap-8">
       @for (agency of agencies(); track agency.id) {
         <!--Carte agence-->
-        <div class="group relative bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 hover:border-green-700 rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 cursor-pointer">
+        <div class="group relative bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 hover:border-green-700 rounded-2xl p-6 transition-all duration-300 hover:shadow-2xl hover:-translate-y-2 cursor-pointer" (click)="clickAgency(agency.id)">
           <!--Deco Barre-->
           <div class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-green-700 to-green-600 rounded-t-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
 

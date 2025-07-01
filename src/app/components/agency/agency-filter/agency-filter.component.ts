@@ -1,4 +1,4 @@
-import {Component, computed, inject, Signal, WritableSignal} from '@angular/core';
+import {Component, computed, inject, OnInit, Signal, WritableSignal} from '@angular/core';
 import {DropdownModule} from 'primeng/dropdown';
 import {AgenciesService} from '../../../services/api/agencies.service';
 import {Agencies} from '../../../models/api/Agency';
@@ -16,7 +16,7 @@ const DEFAULT_VALUE_FILTER: string = "Tous"
   standalone: true,
   styleUrl: './agency-filter.component.scss'
 })
-export class AgencyFilterComponent {
+export class AgencyFilterComponent{
   protected paramService: ParamService = inject(ParamService);
   protected agenciesService: AgenciesService = inject(AgenciesService);
 

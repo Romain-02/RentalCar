@@ -4,11 +4,13 @@ import {Agencies, Agency} from '../../../models/api/Agency';
 import {CarsService} from '../../../services/api/cars.service';
 import {DropdownModule} from 'primeng/dropdown';
 import {CarFilter, CarFilters} from '../../../models/api/Car';
+import {FormsModule} from '@angular/forms';
 
 @Component({
   selector: 'app-car-filter',
   imports: [
-    DropdownModule
+    DropdownModule,
+    FormsModule
   ],
   templateUrl: './car-filter.component.html',
   standalone: true,
@@ -39,6 +41,14 @@ export class CarFilterComponent implements OnInit{
   }
 
   ngOnInit(): void {
+    if(typeof localStorage !== 'undefined'){
+      const agencyId: string | null = localStorage.getItem('agencyId')
+      if(agencyId){
+        localStorage.removeItem('agencyId')
+        this.carsService.fetchCarsByAgency(Number(agencyId));
+        return;
+      }
+    }
     this.agenciesService.fetchAgencies();
   }
 }
