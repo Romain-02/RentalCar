@@ -35,7 +35,12 @@
         <option value="POOR">Acceptable</option>
         <option value="GOOD">Bien</option>
         <option value="EXCELLENT">Excellent</option>
-      </select>    </div>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="interiorState">Date du retrait *</label>
+      <input type="date" [(ngModel)]="date">
+    </div>
     <div class="form-group">
       <label for="commentary">Commentaire *</label>
       <input id="commentary" type="text" placeholder="Commentaire" [(ngModel)]="commentary" name="commentary">
