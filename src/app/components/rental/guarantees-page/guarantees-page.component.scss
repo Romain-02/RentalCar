@@ -1,102 +1,68 @@
-.guarantees-container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
-
-  h2 {
-    margin-bottom: 20px;
-    color: #333;
+:host {
+  // Animation d'apparition des cartes
+  .grid > div {
+    animation: slideInUp 0.6s ease-out forwards;
   }
 
-  .loading, .error {
-    padding: 20px;
-    border-radius: 8px;
-    text-align: center;
+  .grid > div:nth-child(2) {
+    animation-delay: 0.1s;
   }
 
-  .loading {
-    background-color: #f8f9fa;
-  }
-
-  .error {
-    background-color: #f8d7da;
-    color: #721c24;
-  }
-
-  .car-info {
-    margin-bottom: 30px;
-
-    .car-details {
-      display: flex;
-      gap: 20px;
-      background-color: #fff;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
-      img {
-        width: 300px;
-        border-radius: 8px;
-        object-fit: cover;
-      }
-
-      .car-text {
-        flex: 1;
-
-        h4 {
-          margin-top: 0;
-          color: #333;
-        }
-      }
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 
-  .guarantees-list {
-    background-color: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-
-    .guarantee-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px;
-      margin-bottom: 15px;
-      border: 1px solid #e0e0e0;
-      border-radius: 8px;
+  // Styles pour les inputs
+  input[type="date"] {
+    &::-webkit-calendar-picker-indicator {
+      background-color: transparent;
+      color: rgb(21 128 61);
       cursor: pointer;
-      transition: all 0.3s;
-
-      h4 {
-        margin-top: 0;
-        color: #4CAF50;
-      }
-
-      &:last-child {
-        margin-bottom: 0;
-      }
     }
   }
-}
 
-.actions {
-  margin-top: 30px;
-  display: flex;
-  justify-content: flex-end;
-
-  .continue-button {
-    background-color: #2196F3;
-    color: white;
-    padding: 12px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    transition: background-color 0.3s;
-
+  // Animation pour le bouton
+  button:not(:disabled) {
     &:hover {
-      background-color: #0b7dda;
+      box-shadow: 0 10px 25px rgba(21, 128, 61, 0.3);
+    }
+  }
+
+  // Responsive
+  @media (max-width: 1024px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .flex-col.lg\\:flex-row {
+      flex-direction: column;
+    }
+
+    .lg\\:w-80 {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .text-3xl.md\\:text-4xl {
+      font-size: 1.875rem;
+    }
+
+    .px-6 {
+      padding-left: 1rem;
+      padding-right: 1rem;
     }
   }
 }
