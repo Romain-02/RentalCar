@@ -8,6 +8,8 @@ import {ClientFormComponent} from '../register/client-form/client-form.component
 import {UserFormComponent} from '../register/user-form/user-form.component';
 import {Client} from '../../models/api/Client';
 import {DriverInfoFormComponent} from '../register/driver-info-form/driver-info-form.component';
+import {DEFAULT_RENTAL_FORM_ERRORS, RentalFormErrors, RentalValidation} from '../../models/api/Rental';
+import {FormValidatorService} from '../../services/form/form-validator.service';
 
 @Component({
   selector: 'app-profil',
@@ -17,7 +19,6 @@ import {DriverInfoFormComponent} from '../register/driver-info-form/driver-info-
     NgIf,
     FormsModule,
     ClientFormComponent,
-    UserFormComponent,
     DriverInfoFormComponent
   ],
   standalone: true,
@@ -25,9 +26,11 @@ import {DriverInfoFormComponent} from '../register/driver-info-form/driver-info-
 })
 export class ProfilComponent implements OnInit {
   private authService: AuthService = inject(AuthService);
+  private formValidatorService: FormValidatorService = inject(FormValidatorService);
 
   user: User = DEFAULT_USER;
   isEditing: boolean = false;
+  protected rentalFormErrors: RentalFormErrors = DEFAULT_RENTAL_FORM_ERRORS;
 
   ngOnInit(): void {
     this.authService.getMe().subscribe({
@@ -44,7 +47,7 @@ export class ProfilComponent implements OnInit {
   toggleEdit(): void {
     this.isEditing = !this.isEditing;
     if (!this.isEditing && this.user.client) {
-      this.authService.updateMe(this.user.id, this.user.client).subscribe({
+      this.authService.updateMe(this.user.client.id, this.user.client).subscribe({
         next: (updatedClient: {data: Client}) => {
           console.log('Client data updated successfully:', updatedClient);
         },
@@ -53,5 +56,13 @@ export class ProfilComponent implements OnInit {
         }
       });
     }
+  }
+
+  isInfosValid(): boolean{
+    const rentalFirstValidation: RentalValidation = this.formValidatorService.isThridStepValid(this.user);
+    this.rentalFormErrors = {...rentalFirstValidation.rentalFormErrors};
+    const rentalSecondValidation: RentalValidation = this.formValidatorService.isSecondStepValid(this.user, this.rentalFormErrors);
+    this.rentalFormErrors = {...rentalSecondValidation.rentalFormErrors};
+    return rentalFirstValidation.isValid && rentalSecondValidation.isValid
   }
 }

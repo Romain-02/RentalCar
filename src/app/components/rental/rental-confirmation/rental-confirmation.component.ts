@@ -24,6 +24,7 @@ export class RentalConfirmationComponent implements OnInit{
 
   protected rental: RentalBody = this.rentalService.rentalBody();
   protected rentalResultSignal: WritableSignal<Rental | null> = this.rentalService.rentalResult;
+  protected rentalError: WritableSignal<string> = this.rentalService.rentalError;
   protected carId: number | null = null;
   protected loading: boolean = false;
 

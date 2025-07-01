@@ -17,7 +17,7 @@ import {User, UserFormErrors} from '../../../models/api/User';
 })
 export class LoginFormComponent {
   @Input()
-   userFormErrors!: UserFormErrors;
+   userFormErrors: UserFormErrors | null = null;
   @Input()
   user: Partial<User> = {email: "", password: ""}
 }

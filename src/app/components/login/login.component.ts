@@ -4,7 +4,8 @@ import {FormsModule} from '@angular/forms';
 import {NgIf} from '@angular/common';
 import {ButtonDirective} from 'primeng/button';
 import {LoginFormComponent} from './login-form/login-form.component';
-import {User} from '../../models/api/User';
+import {User, UserFormErrors} from '../../models/api/User';
+import {RouterLink} from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -12,13 +13,15 @@ import {User} from '../../models/api/User';
   imports: [
     FormsModule,
     ButtonDirective,
-    LoginFormComponent
+    LoginFormComponent,
+    RouterLink
   ],
   standalone: true,
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
   protected user: Partial<User> = {email: "", password: ""};
+  userFormErrors: UserFormErrors | null = null;
   errorMessage: string | null = null;
 
   constructor(private authService: AuthService) {}
@@ -31,6 +34,7 @@ export class LoginComponent {
         },
         error: (response) => {
           this.errorMessage = response.error.message;
+          this.userFormErrors = response.error.errors || null;
         }
       });
     }

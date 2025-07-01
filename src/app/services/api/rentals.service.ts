@@ -14,6 +14,7 @@ export class RentalsService {
   public rentals: WritableSignal<Rental[]> = signal([]);
   public rentalBody: WritableSignal<RentalBody> = signal(DEFAULT_RENTAL_BODY);
   public rentalResult: WritableSignal<Rental | null> = signal(null);
+  public rentalError: WritableSignal<string> = signal("");
   private httpClient: HttpClient = inject(HttpClient);
 
   constructor() {
@@ -39,13 +40,24 @@ export class RentalsService {
   }
 
   public createRental(): void {
-    this.httpClient.post<{data: Rental}>(`${environment.apiUrl}/rentals`, this.rentalBodyToBody(this.rentalBody()))
-      .pipe(map(response => response.data), catchError(() => of(null)))
-      .subscribe(data => {
-        if(data){
-          this.rentalResult.set(data)
-        }}
-      );
+    this.httpClient.post<{ data: Rental }>(
+      `${environment.apiUrl}/rentals`,
+      this.rentalBodyToBody(this.rentalBody())
+    )
+      .pipe(
+        map(response => response.data),
+        catchError((error) => {
+          this.rentalError.set(error?.error?.error || "Une erreur inconnue est survenue");
+          this.rentalResult.set(null);
+          return of(null);
+        })
+      )
+      .subscribe((data) => {
+        if (data) {
+          this.rentalResult.set(data);
+          this.rentalError.set("");
+        }
+      });
   }
 
   public fetchRentals (): void {
