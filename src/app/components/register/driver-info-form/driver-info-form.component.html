@@ -54,7 +54,7 @@
                [class.opacity-100]="user.client.driverInfo.drivingLicenseNumber && user.client.driverInfo.drivingLicenseNumber.length > 0"></i>
           </div>
         </div>
-        @if(driverInfoFormErrors?.drivingLicenseNumber){
+        @if(driverInfoFormErrors.drivingLicenseNumber){
           <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
             <i class="ri-error-warning-line"></i>
             <span>{{ driverInfoFormErrors.drivingLicenseNumber }}</span>
@@ -127,7 +127,7 @@
                [class.opacity-100]="user.client.driverInfo.drivingLicenseCountry && user.client.driverInfo.drivingLicenseCountry.length > 0"></i>
           </div>
         </div>
-        @if(driverInfoFormErrors?.drivingLicenseCountry){
+        @if(driverInfoFormErrors.drivingLicenseCountry){
           <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
             <i class="ri-error-warning-line"></i>
             <span>{{ driverInfoFormErrors.drivingLicenseCountry }}</span>

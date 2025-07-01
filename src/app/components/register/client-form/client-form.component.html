@@ -34,7 +34,7 @@
                [class.opacity-100]="user.client.firstname && user.client.firstname.length > 0"></i>
           </div>
         </div>
-        @if(clientFormErrors?.firstname){
+        @if(clientFormErrors.firstname){
           <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
             <i class="ri-error-warning-line"></i>
             <span>{{ clientFormErrors.firstname }}</span>
@@ -63,7 +63,7 @@
                [class.opacity-100]="user.client.lastname && user.client.lastname.length > 0"></i>
           </div>
         </div>
-        @if(clientFormErrors?.lastname){
+        @if(clientFormErrors.lastname){
           <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
             <i class="ri-error-warning-line"></i>
             <span>{{ clientFormErrors.lastname }}</span>
@@ -92,7 +92,7 @@
                [class.opacity-100]="user.client.city && user.client.city.length > 0"></i>
           </div>
         </div>
-        @if(clientFormErrors?.city){
+        @if(clientFormErrors.city){
           <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
             <i class="ri-error-warning-line"></i>
             <span>{{ clientFormErrors.city }}</span>
@@ -121,7 +121,7 @@
                [class.opacity-100]="user.client.country && user.client.country.length > 0"></i>
           </div>
         </div>
-        @if(clientFormErrors?.country){
+        @if(clientFormErrors.country){
           <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
             <i class="ri-error-warning-line"></i>
             <span>{{ clientFormErrors.country }}</span>
@@ -152,7 +152,7 @@
                [class.opacity-100]="user.client.postalCode && user.client.postalCode.length === 5"></i>
           </div>
         </div>
-        @if(clientFormErrors?.postalCode){
+        @if(clientFormErrors.postalCode){
           <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
             <i class="ri-error-warning-line"></i>
             <span>{{ clientFormErrors.postalCode }}</span>
@@ -183,7 +183,7 @@
                [class.opacity-100]="user.client.phone && user.client.phone.length === 12"></i>
           </div>
         </div>
-        @if(clientFormErrors?.phone){
+        @if(clientFormErrors.phone){
           <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
             <i class="ri-error-warning-line"></i>
             <span>{{ clientFormErrors.phone }}</span>
@@ -212,7 +212,7 @@
                [class.opacity-100]="user.client.billingAdress && user.client.billingAdress.length > 0"></i>
           </div>
         </div>
-        @if(clientFormErrors?.billingAdress){
+        @if(clientFormErrors.billingAdress){
           <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
             <i class="ri-error-warning-line"></i>
             <span>{{ clientFormErrors.billingAdress }}</span>

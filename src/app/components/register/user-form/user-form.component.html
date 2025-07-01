@@ -20,7 +20,7 @@
            [class.opacity-100]="user.name && user.name.length > 0"></i>
       </div>
     </div>
-    @if(userFormErrors?.name){
+    @if(userFormErrors.name){
       <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
         <i class="ri-error-warning-line"></i>
         <span>{{ userFormErrors.name }}</span>
@@ -49,7 +49,7 @@
            [class.opacity-100]="user.email && user.email.includes('@')"></i>
       </div>
     </div>
-    @if(userFormErrors?.email){
+    @if(userFormErrors.email){
       <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
         <i class="ri-error-warning-line"></i>
         <span>{{ userFormErrors.email }}</span>
@@ -75,7 +75,7 @@
         [feedback]="false"
         class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 transition-all duration-300 focus:border-green-700 focus:ring-4 focus:ring-green-700/10" />
     </div>
-    @if(userFormErrors?.password){
+    @if(userFormErrors.password){
       <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
         <i class="ri-error-warning-line"></i>
         <span>{{ userFormErrors.password }}</span>

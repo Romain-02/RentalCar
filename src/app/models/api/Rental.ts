@@ -70,3 +70,8 @@ export const DEFAULT_RENTAL_FORM_ERRORS: RentalFormErrors = {
   drivingLicenseNumber: "",
   drivingLicenseCountry: ""
 };
+
+export type RentalValidation = {
+  isValid: boolean,
+  rentalFormErrors: RentalFormErrors
+}
