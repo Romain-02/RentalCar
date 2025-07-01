@@ -1,0 +1,41 @@
+// Animations inputs
+.group {
+  &:hover {
+    .ri-check-line {
+      transform: scale(1.1);
+    }
+  }
+}
+
+// Style personnalisé pour les inputs
+:deep(.p-inputtext) {
+  &:hover {
+    border-color: rgb(34, 197, 94);
+    transform: translateY(-1px);
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.1);
+  }
+}
+
+// Animation icônes de validation
+.ri-check-line {
+  transition: all 0.3s ease;
+}
+
+// Style messages d'erreur
+.text-red-600 {
+  animation: fadeInUp 0.3s ease-out;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
