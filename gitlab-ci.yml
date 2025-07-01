@@ -1,0 +1,13 @@
+stages:
+  - test
+
+selenium_tests:
+  stage: test
+  image: python:3.12
+  services:
+    - name: selenium/standalone-chrome
+      alias: selenium
+  before_script:
+    - pip install -r requirements.txt
+  script:
+    - python selenium/test_create_rental.py
