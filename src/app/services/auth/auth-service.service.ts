@@ -1,5 +1,5 @@
 import {computed, inject, Injectable, Signal, signal, WritableSignal} from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
 import {map, Observable} from 'rxjs';
 import { tap } from 'rxjs/operators';
 import {User} from '../../models/api/User';
@@ -100,7 +100,12 @@ export class AuthService {
   }
 
   updateMe(id: any, client: Client): Observable<{data: Client}> {
-    const response: Observable<{data: Client}> = this.http.patch<{data: Client}>(`${this.apiUrl}/clients/${id}`, client)
+    const token: string | null = this.token();
+    const headers: HttpHeaders = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    const response: Observable<{data: Client}> = this.http.patch<{data: Client}>(`${this.apiUrl}/clients/${id}`, client, {headers})
     response.subscribe({
       next: (clientResponse) => {
         const updatedClient: Client = clientResponse.data;
