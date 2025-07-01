@@ -1,6 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
+  standalone: true,
   name: 'carState'
 })
 export class CarStatePipe implements PipeTransform {
@@ -9,6 +10,7 @@ export class CarStatePipe implements PipeTransform {
     if(value === "BOOKED") return "Réservé";
     if(value === "AVAILABLE") return "Disponible";
     if(value === "MAINTENANCE") return "Maintenance";
+    if (value === "REPARATION") return "En réparation";
     return "Réservé";
   }
 
