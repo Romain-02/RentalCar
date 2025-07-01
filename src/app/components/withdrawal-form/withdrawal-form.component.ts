@@ -31,6 +31,7 @@ export class WithdrawalFormComponent implements OnInit {
   protected interiorState !: string;
   protected exteriorState !: string;
   protected commentary !: string;
+  protected date !: string;
 
 
   public ngOnInit(): void {
@@ -47,15 +48,16 @@ export class WithdrawalFormComponent implements OnInit {
   }
 
   public submit(): void {
+    console.log("tests");
     this.withdrawalService.scheduleWithdrawal({
-      dateRetrait: new Date().toString(),
       idVoiture: this.rental().car.id,
       idReservation: this.rental().id,
       kilometrage: this.miles,
       niveauEssence: this.fuel,
       etatExterieur: this.exteriorState,
       etatInterieur: this.interiorState,
-      commentaire: this.commentary
+      commentaire: this.commentary,
+      date: this.date
     });
   }
 

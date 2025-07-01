@@ -13,6 +13,20 @@ import { catchError, map, of } from 'rxjs';
 export class WithdrawalsService {
   private httpClient: HttpClient = inject(HttpClient);
 
-  public scheduleWithdrawal = (data: any) => this.httpClient.post(`${environment.apiUrl}/withdrawals`, data);
+  public scheduleWithdrawal = (data: any) => {
+    try{
+      this.httpClient.post(`${environment.apiUrl}/withdrawals`, data).subscribe({
+        next: (response) => {
+          console.log('Réponse serveur:', response);
+        },
+        error: (error) => {
+          console.error('Erreur lors de la requête:', error);
+        }
+      });;
+    }
+    catch(error){
+      console.log(error);
+    }
+  }
 
 }
