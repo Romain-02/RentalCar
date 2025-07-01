@@ -14,6 +14,10 @@ npx ng serve
 If you use docker in your process, follow the next steps in the bottom to create your image, container and launch it 
 
 ```bash
-docker build -t angular-app .
-docker run -p 4200:4200 mon-app-angular
+docker build -t app-angular .
+docker run -p 4200:4200 --name angular-container app-angular
+```
+
+```bash
+docker start angular-container
 ```
