@@ -46,10 +46,24 @@
       </div>
     </div>
 
+    <div>
+      <label>
+        <span>Date de départ :</span>
+        <input type="date" class="w-full border rounded p-2" required [(ngModel)]="startDate">
+      </label>
+      <label>
+        <span>Date de fin :</span>
+        <input type="date" class="w-full border rounded p-2" required [(ngModel)]="endDate">
+        @if(dateError){
+          <p class="text-red-500 text-sm mt-1">{{ dateError }}</p>
+        }
+      </label>
+    </div>
+
     <div class="actions">
       <button class="continue-button"
-              [routerLink]="['/rental/options', carId]"
-              [disabled]="selectedGuarantee === null">
+              (click)="next()"
+              [disabled]="!isValid()">
         Continuer vers les options
       </button>
     </div>

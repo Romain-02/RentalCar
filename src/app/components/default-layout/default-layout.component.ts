@@ -8,7 +8,6 @@ import { AuthService } from '../../services/auth/auth-service.service';
   selector: 'app-default-layout',
   imports: [
     RouterOutlet,
-    Menubar,
     RouterLink,
   ],
   templateUrl: './default-layout.component.html',

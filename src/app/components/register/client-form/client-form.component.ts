@@ -12,17 +12,11 @@ import {FormsModule} from '@angular/forms';
   standalone: true,
   styleUrl: './client-form.component.scss'
 })
-export class ClientFormComponent implements OnInit{
+export class ClientFormComponent{
   @Input()
   public clientFormErrors!: ClientFormErrors;
   @Input()
   public isEditing!: boolean;
   @Input()
   public user!: User;
-
-  ngOnInit(): void {
-    console.log(this.user, "user ", this.isEditing)
-  }
-
-
 }

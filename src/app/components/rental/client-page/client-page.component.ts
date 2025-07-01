@@ -1,6 +1,6 @@
 import {Component, computed, effect, inject, OnInit, Signal, WritableSignal} from '@angular/core';
 import {DEFAULT_USER, User} from "../../../models/api/User";
-import {DEFAULT_RENTAL_FORM_ERRORS, RentalFormErrors} from "../../../models/api/Rental";
+import {DEFAULT_RENTAL_FORM_ERRORS, RentalFormErrors, RentalValidation} from "../../../models/api/Rental";
 import {AuthService} from '../../../services/auth/auth-service.service';
 import {FormsModule} from '@angular/forms';
 import {RegisterService} from '../../../services/auth/register.service';
@@ -15,6 +15,7 @@ import {Client} from '../../../models/api/Client';
 import {RentalsService} from '../../../services/api/rentals.service';
 import {CarsService} from '../../../services/api/cars.service';
 import {Car, Cars} from '../../../models/api/Car';
+import {FormValidatorService} from '../../../services/form/form-validator.service';
 
 @Component({
   selector: 'app-client-page',
@@ -42,6 +43,7 @@ export class ClientPageComponent implements OnInit{
   private readonly registerService: RegisterService = inject(RegisterService);
   private readonly router: Router = inject(Router);
   private readonly activatedRoute: ActivatedRoute = inject(ActivatedRoute);
+  private readonly formValidatorService: FormValidatorService = inject(FormValidatorService);
 
   protected actualUser: WritableSignal<User | null>  = this.authService.user;
   protected user: User = this.actualUser() ?? DEFAULT_USER;
@@ -124,10 +126,6 @@ export class ClientPageComponent implements OnInit{
     this.alreadyAccount = !this.alreadyAccount;
   }
 
-  getEmptyFieldError(field: string): string{
-    return `Le champs ${field} ne peut pas être vide`;
-  }
-
   next(): void{
     this.activeIndex++;
   }
@@ -137,69 +135,20 @@ export class ClientPageComponent implements OnInit{
   }
 
   isFirstStepValid(): boolean{
-    this.rentalFormErrors = {...DEFAULT_RENTAL_FORM_ERRORS};
-    let isValid: boolean = true;
-    if(!this.user.email){
-      this.rentalFormErrors.email = this.getEmptyFieldError("email")
-      isValid = false;
-    }
-    if(this.user.password.length < 6){
-      this.rentalFormErrors.password = "Le mot de passe doit faire au moins 6 caractères"
-      isValid = false;
-    }
-    if(!this.user.name && !this.alreadyAccount){
-      this.rentalFormErrors.name = this.getEmptyFieldError("name")
-      isValid = false;
-    }
-    return isValid
+    const rentalValidation: RentalValidation = this.formValidatorService.isFirstStepValid(this.user, this.alreadyAccount);
+    this.rentalFormErrors = rentalValidation.rentalFormErrors
+    return rentalValidation.isValid;
   }
 
   isSecondStepValid(): boolean{
-    this.rentalFormErrors = {...DEFAULT_RENTAL_FORM_ERRORS};
-    let isValid: boolean = true;
-
-    if(!this.user.client?.firstname){
-      this.rentalFormErrors.firstname = this.getEmptyFieldError("prénom")
-      isValid = false;
-    }
-    if(!this.user.client?.lastname){
-      this.rentalFormErrors.lastname = this.getEmptyFieldError("nom")
-      isValid = false;
-    }
-    if(!this.user.client?.city){
-      this.rentalFormErrors.city = this.getEmptyFieldError("ville")
-      isValid = false;
-    }
-    if(!this.user.client?.country){
-      this.rentalFormErrors.country = this.getEmptyFieldError("pays")
-      isValid = false;
-    }
-    if(!(/^[0-9]{5}$/.test(this.user.client?.postalCode ?? ""))){
-      this.rentalFormErrors.postalCode = "Le code postal doit être composé de 5 chiffres";
-      isValid = false;
-    }
-    if (!/^[0-9]{3}-[0-9]{3}-[0-9]{4}$/.test(this.user.client?.phone || '')) {
-      this.rentalFormErrors.phone = "Le numéro de téléphone n'a pas le bon format";
-      isValid = false;
-    }
-    if(!this.user.client?.billingAdress){
-      this.rentalFormErrors.billingAdress = this.getEmptyFieldError("adresse de facturation")
-      isValid = false;
-    }
-    return isValid
+    const rentalValidation: RentalValidation = this.formValidatorService.isSecondStepValid(this.user);
+    this.rentalFormErrors = rentalValidation.rentalFormErrors
+    return rentalValidation.isValid;
   }
 
   isThridStepValid(): boolean{
-    this.rentalFormErrors = {...DEFAULT_RENTAL_FORM_ERRORS};
-    let isValid: boolean = true;
-    if(!/^[a-zA-Z0-9]{1,15}(\d{2}){2}$/.test(this.user.client?.driverInfo?.drivingLicenseNumber ?? "")){
-      this.rentalFormErrors.drivingLicenseNumber = "Le permis doit être composé de 1 à 15 caractère puis 4 chiffres"
-      isValid = false;
-    }
-    if(!this.user.client?.driverInfo?.drivingLicenseCountry){
-      this.rentalFormErrors.drivingLicenseCountry = this.getEmptyFieldError("pays d'obtention")
-      isValid = false;
-    }
-    return isValid;
+    const rentalValidation: RentalValidation = this.formValidatorService.isThridStepValid(this.user);
+    this.rentalFormErrors = rentalValidation.rentalFormErrors
+    return rentalValidation.isValid;
   }
 }
