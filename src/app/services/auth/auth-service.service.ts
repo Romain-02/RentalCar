@@ -6,6 +6,7 @@ import {User} from '../../models/api/User';
 import {environment} from '../../../environments/environment';
 import {DEFAULT_DRIVER_INFO} from '../../models/api/DriverInfo';
 import {Client} from '../../models/api/Client';
+import { Rental } from '../../models/api/Rental';
 
 @Injectable({
   providedIn: 'root'
@@ -116,5 +117,12 @@ export class AuthService {
       }
     });
     return response;
+  }
+
+  getReservations(id: any): Observable<Rental[]> {
+    console.log('ID CLIENT', id);
+    return this.http.get<{ data: Rental[]}>(`${this.apiUrl}/rentals/client/${id}`).pipe(
+      map((response: any) => response.data),
+    );
   }
 }

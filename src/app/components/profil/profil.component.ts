@@ -10,6 +10,7 @@ import {Client} from '../../models/api/Client';
 import {DriverInfoFormComponent} from '../register/driver-info-form/driver-info-form.component';
 import {DEFAULT_RENTAL_FORM_ERRORS, RentalFormErrors, RentalValidation} from '../../models/api/Rental';
 import {FormValidatorService} from '../../services/form/form-validator.service';
+import {RentalListComponent} from '../rental-list/rental-list.component';
 
 @Component({
   selector: 'app-profil',
@@ -19,7 +20,8 @@ import {FormValidatorService} from '../../services/form/form-validator.service';
     NgIf,
     FormsModule,
     ClientFormComponent,
-    DriverInfoFormComponent
+    DriverInfoFormComponent,
+    RentalListComponent
   ],
   standalone: true,
   styleUrls: ['./profil.component.scss']
