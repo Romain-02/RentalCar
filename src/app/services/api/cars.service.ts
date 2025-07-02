@@ -13,7 +13,7 @@ import {environment} from '../../../environments/environment';
 export class CarsService {
 
   private readonly urlCars: string = environment.apiUrl + '/cars';
-  private readonly urlCarsAvailability: string = this.urlCars + '/availability';
+  private readonly urlCarsAvailability: string = environment.apiUrl + '/availability';
   private readonly urlCarsByAgency: string = this.urlCars + "/agency/";
   private readonly httpClient: HttpClient = inject(HttpClient);
 
@@ -40,14 +40,20 @@ export class CarsService {
   }
 
   public fetchAvailableCars(startDate: string, endDate: string): void {
+    console.log('Requête API avec params:', { start_date: startDate, end_date: endDate });
+
     const params = new HttpParams()
-      .set('startDate', startDate)
-      .set('endDate', endDate);
+      .set('start_date', startDate)
+      .set('end_date', endDate);
 
     this.httpClient.get<{data: Cars}>(this.urlCarsAvailability, {params}).pipe(
       map(res => res.data),
-      catchError(() => of([]))
+      catchError((error) => {
+        console.error('Erreur API fetchAvailableCars:', error);
+        return of([]);
+      })
     ).subscribe(data => {
+      console.log('Voitures disponibles reçues:', data);
       this.cars.set(data);
       this.startDate.set(startDate);
       this.endDate.set(endDate);
