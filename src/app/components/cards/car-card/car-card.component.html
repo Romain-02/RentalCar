@@ -33,6 +33,17 @@
         {{car.state | carState}}
       </div>
     </div>
+
+    @if(!isProfile){
+      <!-- Badge favoris -->
+      <div class="absolute top-3 left-3">
+        <div
+          (click)="favorite(car.id)"
+          class="px-3 py-1 rounded-full text-3xl font-semibold text-yellow-500 backdrop-blur-sm transition-colors duration-300">
+          {{isFavorite() ? "★" : "☆"}}
+        </div>
+      </div>
+    }
   </div>
 
   <!-- Contenu -->

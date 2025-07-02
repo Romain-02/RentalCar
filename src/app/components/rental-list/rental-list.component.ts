@@ -14,6 +14,7 @@ import {DatePipe, NgForOf, NgIf} from '@angular/common';
     DatePipe,
   ],
   templateUrl: './rental-list.component.html',
+  standalone: true,
   styleUrl: './rental-list.component.scss'
 })
 export class RentalListComponent {
