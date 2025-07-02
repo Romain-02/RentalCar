@@ -84,4 +84,11 @@ export class GuaranteesPageComponent implements OnInit {
     this.rentalService.updateRentalBody({startDate: new Date(this.startDate), endDate: new Date(this.endDate)})
     this.router.navigate(['rental', 'options', this.carId])
   }
+
+  calculateDurationInDays(): number {
+    if (!this.startDate || !this.endDate) return 0;
+    const start = new Date(this.startDate);
+    const end = new Date(this.endDate);
+    return Math.ceil((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24));
+  }
 }
