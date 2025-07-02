@@ -23,6 +23,20 @@ export type Rental = {
   car: Car
 };
 
+export const DEFAULT_RENTAL: Rental = {
+  id: -1,
+  state: "",
+  startDate: "",
+  endDate: "",
+  withdrawal: null,
+  client: DEFAULT_CLIENT,
+  guarantee: DEFAULT_GUARANTEE,
+  bill: null,
+  returnCar: null,
+  additionalClause: null,
+  car: DEFAULT_CAR
+};
+
 export type RentalBody = {
   startDate: Date,
   endDate: Date,

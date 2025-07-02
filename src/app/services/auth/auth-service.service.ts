@@ -27,9 +27,9 @@ export class AuthService {
     return {
       ...response.user,
       client: {
-        ...response.user.client,
+        ...response.user?.client,
         driverInfo: {
-          ...response.user.client.driverInfo
+          ...response.user?.client?.driverInfo
         }
       }
     }

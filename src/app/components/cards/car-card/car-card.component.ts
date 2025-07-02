@@ -1,8 +1,10 @@
-import {Component, Input} from '@angular/core';
+import {Component, inject, Input, Signal} from '@angular/core';
 import {Car} from '../../../models/api/Car';
 import {RouterLink} from '@angular/router';
 import {CarStatePipe} from '../../../pipes/car-state.pipe';
 import {NgClass} from '@angular/common';
+import {AuthService} from '../../../services/auth/auth-service.service';
+import {User} from '../../../models/api/User';
 
 // ==============================================
 
@@ -19,6 +21,7 @@ import {NgClass} from '@angular/common';
   styleUrl: './car-card.component.scss'
 })
 export class CarCardComponent {
+
   @Input() car!: Car;
 
   getStateClasses(state: string): string {
