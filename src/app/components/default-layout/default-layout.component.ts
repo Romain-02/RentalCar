@@ -1,4 +1,4 @@
-import {Component, computed, effect, inject, OnInit, Signal} from '@angular/core';
+import {Component, computed, effect, inject, OnInit, Signal, WritableSignal} from '@angular/core';
 import {Router, RouterLink, RouterOutlet} from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { Menubar } from 'primeng/menubar';
@@ -18,6 +18,7 @@ export class DefaultLayoutComponent{
   private authService: AuthService = inject(AuthService);
   private router: Router = inject(Router);
 
+  private isAgent: Signal<boolean> = computed(() => !!this.authService.user()?.agency)
   private isLoggedIn: Signal<boolean> = this.authService.isLoggedIn;
   protected items: Signal<MenuItem[]> = computed(() => this.updateMenuItems(this.isLoggedIn()));
   protected isMobileMenuOpen = false;
@@ -29,7 +30,10 @@ export class DefaultLayoutComponent{
       { label: 'Agences', routerLink: '/list-agency' },
       ...(isLoggedIn
         ? [
-          { label: 'Profil', routerLink: '/profil' },
+          (this.isAgent() ?
+            { label: 'Profil', routerLink: '/profil' }
+            : { label: 'Réservation', routerLink: '/agent/rentals' }
+          ),
           { label: 'Déconnexion', command: (event: any) => this.logout() }
         ]
         : [

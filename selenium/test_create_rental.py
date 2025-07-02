@@ -38,12 +38,13 @@ def rent():
   driver.click_to_element(By.XPATH, '//button[contains(., "Réserver")]')
 
 def choose_guarantee():
+  time.sleep(1)
   driver.click_to_element(By.XPATH, '//h4[contains(text(), "Garantie #1")]')
-  driver.click_to_element(By.XPATH, '//span[contains(text(), "Date de départ :")]')
-  driver.write_to_element('01082025', By.XPATH, '//label[contains(., "Date de départ :")]')
-  driver.click_to_element(By.XPATH, '//span[contains(text(), "Date de fin :")]')
-  driver.write_to_element('01082025', By.XPATH, '//label[contains(., "Date de fin :")]')
-  driver.click_to_element(By.XPATH, '//button[text()=" Continuer vers les options "]')
+  driver.click_to_element(By.XPATH, '//label[text()=" Date de départ "]')
+  driver.write_to_element('01082025', By.XPATH, '(//input[@type="date"])[1]')
+  driver.click_to_element(By.XPATH, '(//input[@type="date"])[2]')
+  driver.write_to_element('01082025', By.XPATH, '(//input[@type="date"])[2]')
+  driver.click_to_element(By.XPATH, '//span[text()="Continuer vers les options"]')
 
 
 def choose_option():
