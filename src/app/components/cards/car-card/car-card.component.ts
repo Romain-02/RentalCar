@@ -1,13 +1,19 @@
-import {Component, inject, Input, Signal} from '@angular/core';
+import {Component, inject, Input, WritableSignal} from '@angular/core';
 import {Car} from '../../../models/api/Car';
 import {RouterLink} from '@angular/router';
 import {CarStatePipe} from '../../../pipes/car-state.pipe';
 import {NgClass} from '@angular/common';
 import {AuthService} from '../../../services/auth/auth-service.service';
 import {User} from '../../../models/api/User';
+import {ClientsService} from '../../../services/api/clients.service';
+import {Favorite} from '../../../models/api/Client';
 
 // ==============================================
 
+export type FavoriteResponse = {
+  message: string,
+  favorites: Favorite[]
+}
 
 @Component({
   selector: 'app-car-card',
@@ -21,8 +27,30 @@ import {User} from '../../../models/api/User';
   styleUrl: './car-card.component.scss'
 })
 export class CarCardComponent {
+  private authService: AuthService = inject(AuthService);
+  private clientService: ClientsService = inject(ClientsService);
+
+  private user: WritableSignal<User | null> = this.authService.user;
 
   @Input() car!: Car;
+  @Input() isProfile!: boolean;
+
+  isFavorite(): boolean{
+    if(!this.isProfile && this.car.clients){
+      return this.car.clients.some((client) => client.id === this.user()?.client?.id)
+    }
+    return false;
+  }
+
+  favorite(car_id: number): void{
+    const user: User | null = this.user();
+    if(user && user?.client){
+      this.clientService.favorite({
+        car_id: car_id,
+        client_id: user.client.id
+      });
+    }
+  }
 
   getStateClasses(state: string): string {
     switch (state) {

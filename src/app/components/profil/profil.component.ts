@@ -11,6 +11,7 @@ import {DriverInfoFormComponent} from '../register/driver-info-form/driver-info-
 import {DEFAULT_RENTAL_FORM_ERRORS, RentalFormErrors, RentalValidation} from '../../models/api/Rental';
 import {FormValidatorService} from '../../services/form/form-validator.service';
 import {RentalListComponent} from '../rental-list/rental-list.component';
+import {CarListComponent} from '../car/car-list/car-list.component';
 
 @Component({
   selector: 'app-profil',
@@ -21,7 +22,8 @@ import {RentalListComponent} from '../rental-list/rental-list.component';
     FormsModule,
     ClientFormComponent,
     DriverInfoFormComponent,
-    RentalListComponent
+    RentalListComponent,
+    CarListComponent
   ],
   standalone: true,
   styleUrls: ['./profil.component.scss']
@@ -37,7 +39,7 @@ export class ProfilComponent implements OnInit {
   ngOnInit(): void {
     this.authService.getMe().subscribe({
       next: (user) => {
-        this.user = user;
+        this.user = {...user};
         console.log('User data fetched successfully:', this.user);
       },
       error: (err) => {

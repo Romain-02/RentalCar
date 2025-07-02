@@ -34,4 +34,7 @@
     </button>
   }
 </div>
-<app-rental-list></app-rental-list>
+<app-rental-list />
+@if(user?.client?.favoriteCars){
+  <app-car-list [parentCars]="user?.client?.favoriteCars" />
+}

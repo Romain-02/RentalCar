@@ -1,5 +1,6 @@
 import {Category, DEFAULT_CATEGORY} from './Category';
 import {Agency, DEFAULT_AGENCY} from './Agency';
+import {Clients} from './Client';
 
 // ==============================================
 
@@ -15,7 +16,8 @@ export type Car = {
   releaseYear: number,
   image: string,
   category: Category,
-  agency: Agency
+  agency: Agency,
+  clients: Clients
 };
 
 export const DEFAULT_CAR: Car = {
@@ -29,7 +31,8 @@ export const DEFAULT_CAR: Car = {
   releaseYear: 2025,
   image: "",
   category: DEFAULT_CATEGORY,
-  agency: DEFAULT_AGENCY
+  agency: DEFAULT_AGENCY,
+  clients: []
 };
 
 export type Cars = Car[];
