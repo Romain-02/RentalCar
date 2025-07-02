@@ -48,6 +48,18 @@ export class RentalListComponent {
     return reservation.id;
   }
 
+  cancelReservation(id: any): void {
+    this.authService.cancelReservations(id).subscribe({
+      next: (message) => {
+        console.log('Reservation canceled successfully:', message);
+        this.reservations = this.reservations.filter(reservation => reservation.id !== id);
+      },
+      error: (err) => {
+        console.error('Failed to cancel reservation:', err);
+      }
+    });
+  }
+
   protected readonly Date = Date;
   protected readonly translateString = translateString;
 }
