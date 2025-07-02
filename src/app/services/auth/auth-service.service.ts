@@ -27,9 +27,9 @@ export class AuthService {
     return {
       ...response.user,
       client: {
-        ...response.user.client,
+        ...response.user?.client,
         driverInfo: {
-          ...response.user.client.driverInfo
+          ...response.user?.client?.driverInfo
         }
       }
     }
@@ -120,9 +120,14 @@ export class AuthService {
   }
 
   getReservations(id: any): Observable<Rental[]> {
-    console.log('ID CLIENT', id);
     return this.http.get<{ data: Rental[]}>(`${this.apiUrl}/rentals/client/${id}`).pipe(
       map((response: any) => response.data),
+    );
+  }
+
+  cancelReservations(id: any): Observable<any> {
+    return this.http.get<{ data: Rental[]}>(`${this.apiUrl}/rentals/cancel/${id}`).pipe(
+      map((response: any) => response.message),
     );
   }
 }

@@ -4,11 +4,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 import time
+import string
+import random
 
 
 URL="http://localhost:4200"
-NAME_USER="newUserRent"
-EMAIL_USER="newUserRent@gmail.com"
+NAME_USER=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(30))
+EMAIL_USER=NAME_USER + "@gmail.com"
 PASSWORD_USER="motDePasse"
 
 client_info = {
@@ -33,7 +35,7 @@ driver = Selenium(URL)
 
 def rent():
   driver.click_to_element(By.XPATH, '//span[text()="Réserver maintenant"]')
-  driver.click_to_element(By.XPATH, '//button[text()="Réserver"]')
+  driver.click_to_element(By.XPATH, '//button[contains(., "Réserver")]')
 
 def choose_guarantee():
   driver.click_to_element(By.XPATH, '//h4[contains(text(), "Garantie #1")]')
@@ -91,7 +93,7 @@ complete_rental()
 
 try:
   driver.get_element(By.XPATH, '//div[contains(., "firstname")]')
-  print("Vous vous êtes connecter avec succès")
+  print("Vous avez réserver une voiture avec succès")
   driver.wait()
 except:
   print("Il y a eu une erreur dans la connexion")

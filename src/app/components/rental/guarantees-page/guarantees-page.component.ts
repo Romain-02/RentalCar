@@ -1,8 +1,8 @@
 import {Component, inject, OnInit, computed, WritableSignal, Signal, effect} from '@angular/core';
-import {ActivatedRoute, Router, RouterLink} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { GuaranteesService } from '../../../services/api/guarantees.service';
-import {Guarantee, Guarantees} from '../../../models/api/Guarantee';
+import {Guarantees} from '../../../models/api/Guarantee';
 import { CarsService } from '../../../services/api/cars.service';
 import {Car, Cars} from '../../../models/api/Car';
 import {ProgressSpinner} from 'primeng/progressspinner';

@@ -11,6 +11,7 @@ import {CarListComponent} from './components/car/car-list/car-list.component';
 import {ClientPageComponent} from './components/rental/client-page/client-page.component';
 import {WithdrawalFormComponent} from './components/withdrawal-form/withdrawal-form.component';
 import {RentalConfirmationComponent} from './components/rental/rental-confirmation/rental-confirmation.component';
+import {ReturnCarFormComponent} from './components/return-car-form/return-car-form.component';
 
 
 export const routes: Routes = [
@@ -52,6 +53,11 @@ export const routes: Routes = [
         path: 'rental/guarantees/:carId',
         title: 'guarantees',
         component: GuaranteesPageComponent
+      },
+      {
+        path: 'returnCar/:rentalId',
+        title: 'returnCar',
+        component: ReturnCarFormComponent
       },
       {
         path: 'rental/options/:carId',

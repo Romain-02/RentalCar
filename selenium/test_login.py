@@ -3,11 +3,13 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-
+import time
+import string
+import random
 
 URL="http://localhost:4200"
-NAME_USER="newUser"
-EMAIL_USER="newUser@gmail.com"
+NAME_USER=''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(30))
+EMAIL_USER=NAME_USER + "@gmail.com"
 PASSWORD_USER="motDePasse"
 
 
@@ -34,7 +36,7 @@ register()
 login()
 
 try:
-  driver.get_element(By.XPATH, '//span[text()="Déconnexion"]')
+  driver.get_element(By.XPATH, '//a[text()=" Déconnexion "]')
   print("Vous vous êtes connecter avec succès")
   driver.wait()
 except:

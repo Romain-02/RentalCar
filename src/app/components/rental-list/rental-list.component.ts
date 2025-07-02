@@ -3,7 +3,7 @@ import {User} from '../../models/api/User';
 import {Rental} from '../../models/api/Rental';
 import {AuthService} from '../../services/auth/auth-service.service';
 import {translateString} from "../../services/utils/translateString";
-import {NgForOf, NgIf} from '@angular/common';
+import {DatePipe, NgForOf, NgIf} from '@angular/common';
 
 
 @Component({
@@ -11,6 +11,7 @@ import {NgForOf, NgIf} from '@angular/common';
   imports: [
     NgIf,
     NgForOf,
+    DatePipe,
   ],
   templateUrl: './rental-list.component.html',
   styleUrl: './rental-list.component.scss'
@@ -46,6 +47,18 @@ export class RentalListComponent {
 
   trackByReservationId(index: number, reservation: Rental): any {
     return reservation.id;
+  }
+
+  cancelReservation(id: any): void {
+    this.authService.cancelReservations(id).subscribe({
+      next: (message) => {
+        console.log('Reservation canceled successfully:', message);
+        this.reservations = this.reservations.filter(reservation => reservation.id !== id);
+      },
+      error: (err) => {
+        console.error('Failed to cancel reservation:', err);
+      }
+    });
   }
 
   protected readonly Date = Date;
