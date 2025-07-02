@@ -11,7 +11,7 @@
         Vos Réservations
       </h2>
       <p class="text-md text-gray-600 dark:text-gray-300 max-w-xl mx-auto mt-2">
-        Retrouvez ici toutes vos réservations en cours.
+        Retrouvez ici toutes vos réservations.
       </p>
     </div>
 
@@ -27,7 +27,7 @@
                 <strong>État :</strong> {{ translateString(reservation.state) }}
               </p>
               <p class="text-sm text-gray-600 dark:text-gray-300">
-                <strong>Date :</strong> {{ reservation.startDate }} - {{ reservation.endDate }}
+                <strong>Date :</strong> {{ reservation.startDate | date:'dd/MM/yyyy' }} - {{ reservation.endDate | date:'dd/MM/yyyy' }}
               </p>
             </div>
             <div class="mt-4">

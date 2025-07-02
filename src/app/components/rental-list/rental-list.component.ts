@@ -3,7 +3,7 @@ import {User} from '../../models/api/User';
 import {Rental} from '../../models/api/Rental';
 import {AuthService} from '../../services/auth/auth-service.service';
 import {translateString} from "../../services/utils/translateString";
-import {NgForOf, NgIf} from '@angular/common';
+import {DatePipe, NgForOf, NgIf} from '@angular/common';
 
 
 @Component({
@@ -11,6 +11,7 @@ import {NgForOf, NgIf} from '@angular/common';
   imports: [
     NgIf,
     NgForOf,
+    DatePipe,
   ],
   templateUrl: './rental-list.component.html',
   styleUrl: './rental-list.component.scss'
