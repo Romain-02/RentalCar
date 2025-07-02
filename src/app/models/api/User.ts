@@ -1,4 +1,5 @@
 import {Client, DEFAULT_CLIENT} from './Client';
+import {Agency} from './Agency';
 
 export type User = {
   id: number,
@@ -6,6 +7,7 @@ export type User = {
   password: string,
   email: string
   client?: Client
+  agency?: Agency
 };
 
 export const DEFAULT_USER: User = {

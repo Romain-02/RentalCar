@@ -1,0 +1,184 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-6 relative overflow-hidden">
+  <!-- Éléments décoratifs -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute top-20 left-10 w-32 h-32 border border-green-700 rotate-45"></div>
+    <div class="absolute bottom-20 right-20 w-24 h-24 bg-green-700 rounded-full blur-xl"></div>
+  </div>
+
+  <div class="w-full max-w-md relative z-10" *ngIf="user() as u">
+    <!-- Header -->
+    <div class="text-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+        Réaliser un <span class="text-green-700">retour</span>
+      </h1>
+    </div>
+
+    <div class="rental-summary">
+      <h3 class="block text-l font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+        <u><b>Informations de la réservation</b></u></h3>
+      <ul>
+        <li class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          <u><b>Client:</b></u> {{rental().client.lastname}} {{rental().client.firstname}}</li>
+        <li class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          <u><b>ID:</b></u> Réservation n°{{rental().id}}</li>
+        <li class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          <u><b>Voiture: </b></u>{{rental().car.name}}</li>
+        <li class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          {{rental().startDate | date:'dd/MM/yyyy'}} - {{rental().endDate | date:'dd/MM/yyyy'}}</li>
+      </ul>
+    </div>
+
+    <!-- Formulaire -->
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm"
+          class="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-2xl space-y-6">
+
+      <!-- Kilométrage -->
+      <div class="group">
+        <label for="milesAfter" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          <i class="ri-road-map-line mr-2"></i>
+          Kilométrage après location
+        </label>
+        <div class="relative">
+          <input
+            pInputText
+            type="number"
+            id="milesAfter"
+            name="milesAfter"
+            [(ngModel)]="returnCarForm.milesAfter"
+            required
+            min="0"
+            placeholder="Ex: 45000"
+            class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 transition-all duration-300 focus:border-green-700 focus:ring-4 focus:ring-green-700/10" />
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <i class="ri-check-line text-green-700 opacity-0 transition-opacity duration-300"
+               [class.opacity-100]="returnCarForm.milesAfter > 0"></i>
+          </div>
+        </div>
+        @if(returnCarFormErrors.milesAfter){
+          <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
+            <i class="ri-error-warning-line"></i>
+            <span>{{ returnCarFormErrors.milesAfter }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- État intérieur -->
+      <div class="group">
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          <i class="ri-car-line mr-2"></i>
+          État extérieur
+        </label>
+
+        <p-dropdown
+          inputId="interiorState"
+          name="interiorState"
+          [options]="stateWithTranslations()"
+          optionLabel="translatedName"
+          optionValue="name"
+          [(ngModel)]="returnCarForm.interiorState"
+          [placeholder]="'Choisissez un état'"
+          [filter]="true"
+          [showClear]="true"
+          class="w-full border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300 focus:border-green-700 focus:ring-4 focus:ring-green-700/10"
+        />
+        @if(returnCarFormErrors.interiorState){
+          <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
+            <i class="ri-error-warning-line"></i>
+            <span>{{ returnCarFormErrors.interiorState }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- État extérieur -->
+      <div class="group">
+        <label class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          <i class="ri-car-line mr-2"></i>
+          État extérieur
+        </label>
+
+        <p-dropdown
+          inputId="exteriorState"
+          name="exteriorState"
+          [options]="stateWithTranslations()"
+          optionLabel="translatedName"
+          optionValue="name"
+          [(ngModel)]="returnCarForm.exteriorState"
+          [placeholder]="'Choisissez un état'"
+          [filter]="true"
+          [showClear]="true"
+          class="w-full border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white transition-all duration-300 focus:border-green-700 focus:ring-4 focus:ring-green-700/10"
+        />
+
+        @if(returnCarFormErrors.exteriorState){
+          <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
+            <i class="ri-error-warning-line"></i>
+            <span>{{ returnCarFormErrors.exteriorState }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- Niveau de carburant restant -->
+      <div class="group">
+        <label for="remainFuel" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          <i class="ri-gas-station-line mr-2"></i>
+          Carburant restant (en %)
+        </label>
+        <div class="relative">
+          <input
+            pInputText
+            type="number"
+            id="remainFuel"
+            name="remainFuel"
+            [(ngModel)]="returnCarForm.remainFuel"
+            required
+            min="0"
+            max="100"
+            placeholder="Ex: 50"
+            class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 transition-all duration-300 focus:border-green-700 focus:ring-4 focus:ring-green-700/10" />
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <i class="ri-check-line text-green-700 opacity-0 transition-opacity duration-300"
+               [class.opacity-100]="returnCarForm.remainFuel >= 0 && returnCarForm.remainFuel <= 100"></i>
+          </div>
+        </div>
+        @if(returnCarFormErrors.remainFuel){
+          <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
+            <i class="ri-error-warning-line"></i>
+            <span>{{ returnCarFormErrors.remainFuel }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- Commentaire -->
+      <div class="group">
+        <label for="commentary" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          <i class="ri-chat-3-line mr-2"></i>
+          Commentaire
+        </label>
+        <textarea
+          pInputTextarea
+          id="commentary"
+          name="commentary"
+          [(ngModel)]="returnCarForm.commentary"
+          placeholder="Informations supplémentaires sur le retour..."
+          rows="4"
+          class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 transition-all duration-300 focus:border-green-700 focus:ring-4 focus:ring-green-700/10">
+</textarea>
+        @if(returnCarFormErrors.commentary){
+          <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
+            <i class="ri-error-warning-line"></i>
+            <span>{{ returnCarFormErrors.commentary }}</span>
+          </div>
+        }
+        </div>
+
+      <button
+        pButton
+        type="submit"
+        [disabled]="!isValid()"
+        class="group w-full bg-green-700 hover:bg-green-800 disabled:cursor-not-allowed text-white font-semibold py-4 px-6 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl disabled:hover:scale-100 disabled:hover:shadow-none flex items-center justify-center gap-3">
+        <span>Effectuer le retour</span>
+        <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
+      </button>
+      </form>
+    </div>
+</div>
