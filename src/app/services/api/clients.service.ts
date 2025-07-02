@@ -2,7 +2,7 @@ import { inject, Injectable, signal, WritableSignal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
 import { catchError, map, of } from 'rxjs';
-import { User } from '../../models/User';
+import { User } from '../../models/api/User';
 import {AuthService} from '../auth/auth-service.service';
 
 // ==============================================
@@ -16,6 +16,7 @@ export class ClientsService {
   private httpClient: HttpClient = inject(HttpClient);
   private authService: AuthService = inject(AuthService);
   public clients: WritableSignal<any[]> = signal<any[]>([]);
+  public users: WritableSignal<any[]> = signal<any[]>([]);
 
   public fetchClients(): void {
     const token: string | null = this.authService.token();
@@ -29,6 +30,34 @@ export class ClientsService {
         this.clients.set(data);
       }
     );
+  }
+
+  public createClient(data: any): void {
+    const token: string | null = this.authService.token();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.httpClient.post<{ data: User }>(this.urlClients, data, { headers })
+      .pipe(map(response => response.data), catchError(() => of([])))
+      .subscribe(data => {
+
+      }
+    );
+  }
+
+  public fetchUsers(): void {
+    const token: string | null = this.authService.token();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.httpClient.get<{ data: any[] }>(`${environment.apiUrl}/users`, { headers })
+      .pipe(map(response => response.data), catchError(() => of([])))
+      .subscribe(data => {
+          this.users.set(data);
+        }
+      );
   }
 
 }

@@ -1,0 +1,17 @@
+<div class="flex flex-col gap-4 shadow-md p-8 px-16 rounded-xl">
+  <h2 class="font-bold text-xl">Informations de facturation</h2>
+
+  <label for="billingAdress">Adresse de facturation</label>
+  <input type="text" [(ngModel)]="billingInformations.billingAdress" id="billingAdress" placeholder="ex: 30 rue du pres" >
+
+  <label for="country">Pays</label>
+  <input type="text" [(ngModel)]="billingInformations.country" id="country" >
+
+  <label for="city">Ville</label>
+  <input type="tel" [(ngModel)]="billingInformations.city" id="city">
+
+  <label for="postalCode">Code postal</label>
+  <input type="tel" [(ngModel)]="billingInformations.postalCode" id="postalCode" placeholder="ex: 62300">
+
+  <button class="submitButton" (click)="submit()">Finaliser</button>
+</div>

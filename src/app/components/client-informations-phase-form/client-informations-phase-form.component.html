@@ -1,0 +1,21 @@
+<div class="flex flex-col gap-4 shadow-md p-8 px-16 rounded-xl">
+  <h2 class="font-bold text-xl">Création d'un client</h2>
+
+  <label for="userId">Utilisateur sélectionné</label>
+  <select [(ngModel)]="clientInformations.userId" id="userId">
+    @for(user of usersList(); track user.id){
+      <option [value]="user.id">{{user.name}}</option>
+    }
+  </select>
+
+  <label for="firstName">Prénom</label>
+  <input type="text" [(ngModel)]="clientInformations.firstName" id="firstName" >
+
+  <label for="lastName">Nom</label>
+  <input type="text" [(ngModel)]="clientInformations.lastName" id="lastName" >
+
+  <label for="phone">Téléphone</label>
+  <input type="tel" [(ngModel)]="clientInformations.phone" id="phone">
+
+  <button class="submitButton" (click)="submit()">Créer</button>
+</div>
