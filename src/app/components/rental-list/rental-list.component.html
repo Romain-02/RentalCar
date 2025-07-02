@@ -11,7 +11,7 @@
         Vos Réservations
       </h2>
       <p class="text-md text-gray-600 dark:text-gray-300 max-w-xl mx-auto mt-2">
-        Retrouvez ici toutes vos réservations en cours.
+        Retrouvez ici toutes vos réservations.
       </p>
     </div>
 
@@ -19,15 +19,24 @@
       <div *ngFor="let reservation of reservations; trackBy: trackByReservationId" class="group relative">
         <div class="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-md overflow-hidden transition-transform transform group-hover:scale-105">
           <img [src]="reservation.car.image" alt="{{ reservation.car.name }}" class="w-full h-40 object-cover rounded-t-lg" />
-          <div class="p-4">
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ reservation.car.name }}</h3>
-            <p class="text-sm text-gray-600 dark:text-gray-300">{{ reservation.car.agency.name }}</p>
-            <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">
-              <strong>État :</strong> {{ translateString(reservation.state) }}
-            </p>
-            <p class="text-sm text-gray-600 dark:text-gray-300">
-              <strong>Date :</strong> {{ reservation.startDate }} - {{ reservation.endDate }}
-            </p>
+          <div class="p-4 flex flex-col justify-between h-full">
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ reservation.car.name }}</h3>
+              <p class="text-sm text-gray-600 dark:text-gray-300">{{ reservation.car.agency.name }}</p>
+              <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">
+                <strong>État :</strong> {{ translateString(reservation.state) }}
+              </p>
+              <p class="text-sm text-gray-600 dark:text-gray-300">
+                <strong>Date :</strong> {{ reservation.startDate | date:'dd/MM/yyyy' }} - {{ reservation.endDate | date:'dd/MM/yyyy' }}
+              </p>
+            </div>
+            <div class="mt-4">
+              <button
+                class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium w-full transition-transform transform hover:scale-105"
+                (click)="cancelReservation(reservation.id)">
+                Annuler la réservation
+              </button>
+            </div>
           </div>
         </div>
       </div>
