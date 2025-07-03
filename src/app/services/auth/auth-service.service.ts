@@ -65,6 +65,7 @@ export class AuthService {
         if(user){
           this.user.set(JSON.parse(user));
         }
+        console.log(this.user())
       }
     }
   }
@@ -117,6 +118,12 @@ export class AuthService {
       }
     });
     return response;
+  }
+
+  getAgentReservations(): Observable<Rental[]> {
+    return this.http.get<{ data: Rental[]}>(`${this.apiUrl}/rentals`).pipe(
+      map((response: any) => response.data),
+    );
   }
 
   getReservations(id: any): Observable<Rental[]> {

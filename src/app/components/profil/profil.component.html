@@ -106,6 +106,9 @@
             Mes réservations
           </h3>
           <app-rental-list />
+          @if(user?.client?.favoriteCars){
+            <app-car-list [parentCars]="user?.client?.favoriteCars" />
+          }
         </div>
       </div>
     </div>

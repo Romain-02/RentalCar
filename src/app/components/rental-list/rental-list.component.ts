@@ -1,9 +1,12 @@
-import { Component } from '@angular/core';
+import {Component, effect, inject, OnInit, WritableSignal} from '@angular/core';
 import {User} from '../../models/api/User';
 import {Rental} from '../../models/api/Rental';
 import {AuthService} from '../../services/auth/auth-service.service';
 import {translateString} from "../../services/utils/translateString";
 import {DatePipe, NgForOf, NgIf} from '@angular/common';
+import {RouterLink} from '@angular/router';
+import {RentalsService} from '../../services/api/rentals.service';
+
 
 
 @Component({
@@ -12,15 +15,18 @@ import {DatePipe, NgForOf, NgIf} from '@angular/common';
     NgIf,
     NgForOf,
     DatePipe,
+    RouterLink
   ],
   templateUrl: './rental-list.component.html',
+  standalone: true,
   styleUrl: './rental-list.component.scss'
 })
-export class RentalListComponent {
+export class RentalListComponent implements OnInit{
+  private authService: AuthService = inject(AuthService);
+  private rentalsService: RentalsService = inject(RentalsService);
+
   user: User | null = null;
   reservations: Rental[] = [];
-
-  constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.authService.getMe().subscribe({
@@ -28,15 +34,27 @@ export class RentalListComponent {
         this.user = user;
         console.log('User data fetched successfully:', this.user);
 
-        this.authService.getReservations(user.client?.id).subscribe({
-          next: (reservations: Rental[]) => {
-            this.reservations = reservations;
-            console.log('Reservations fetched successfully:', this.reservations);
-          },
-          error: (err) => {
-            console.error('Failed to fetch reservations:', err);
-          }
-        });
+        if(!this.user.agency){
+          this.authService.getReservations(user.client?.id).subscribe({
+            next: (reservations: Rental[]) => {
+              this.reservations = reservations;
+              console.log('Reservations fetched successfully:', this.reservations);
+            },
+            error: (err) => {
+              console.error('Failed to fetch reservations:', err);
+            }
+          });
+        }else{
+          this.authService.getAgentReservations().subscribe({
+            next: (reservations: Rental[]) => {
+              this.reservations = reservations;
+              console.log('Reservations fetched successfully:', this.reservations);
+            },
+            error: (err) => {
+              console.error('Failed to fetch reservations:', err);
+            }
+          });
+        }
       },
       error: (err) => {
         console.error('Failed to fetch user data:', err);
@@ -53,7 +71,7 @@ export class RentalListComponent {
     this.authService.cancelReservations(id).subscribe({
       next: (message) => {
         console.log('Reservation canceled successfully:', message);
-        this.reservations = this.reservations.filter(reservation => reservation.id !== id);
+        this.rentalsService.fetchRentals()
       },
       error: (err) => {
         console.error('Failed to cancel reservation:', err);

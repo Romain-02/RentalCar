@@ -1,5 +1,6 @@
 import {DEFAULT_USER_WITHOUT_CLIENT, User} from './User';
 import {DEFAULT_DRIVER_INFO, DriverInfo} from './DriverInfo';
+import {Cars} from './Car';
 
 export type Client = {
   id: number,
@@ -12,7 +13,13 @@ export type Client = {
   phone: string,
   billingAdress: string,
   user: User,
-  driverInfo: DriverInfo
+  driverInfo: DriverInfo,
+  favoriteCars: Cars
+}
+
+export type Favorite = {
+  car_id: number,
+  client_id: number
 }
 
 export const DEFAULT_CLIENT: Client = {
@@ -26,7 +33,8 @@ export const DEFAULT_CLIENT: Client = {
   phone: "",
   billingAdress: "",
   user: DEFAULT_USER_WITHOUT_CLIENT,
-  driverInfo: DEFAULT_DRIVER_INFO
+  driverInfo: DEFAULT_DRIVER_INFO,
+  favoriteCars: []
 }
 
 export type Clients = Client[]

@@ -58,7 +58,7 @@ export class ReturnCarFormComponent implements OnInit{
     this.restoreReturnCarForm()
     effect(() => {
       if(this.returnCarResult()){
-        this.router.navigate(['/cars'])
+        this.router.navigate(['/agent/rentals'])
       }
     });
   }
@@ -120,13 +120,12 @@ export class ReturnCarFormComponent implements OnInit{
       this.returnCarFormErrors.interiorState = "Le champs d'état intérieur de retour de la voiture est vide";
       isValid = false;
     }
-    console.log(this.returnCarForm, "test", this.states())
     if(!this.states().includes(this.returnCarForm.exteriorState)){
       this.returnCarFormErrors.exteriorState = "Le champs d'état extérieur de retour de la voiture est vide"
       isValid = false;
     }
-    if(this.returnCarForm.milesAfter < 0){
-      this.returnCarFormErrors.milesAfter = "Le nombre de miles doit être remplis"
+    if(this.returnCarForm.milesAfter < this.rental().car.miles){
+      this.returnCarFormErrors.milesAfter = "Le nombre de miles doit être supérieur au nombre de miles avant la réservation"
       isValid = false;
     }
     if(this.returnCarForm.remainFuel < 0 || this.returnCarForm.remainFuel > 100){

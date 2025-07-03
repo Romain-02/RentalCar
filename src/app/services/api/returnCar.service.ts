@@ -3,6 +3,8 @@ import {DEFAULT_RETURN_CAR_FORM, ReturnCar, ReturnCarBody, ReturnCarForm} from '
 import {HttpClient} from '@angular/common/http';
 import {catchError, map, of} from 'rxjs';
 import {environment} from '../../../environments/environment';
+import {Rental} from '../../models/api/Rental';
+import {RentalsService} from './rentals.service';
 
 // ==============================================
 
@@ -11,11 +13,13 @@ import {environment} from '../../../environments/environment';
   providedIn: 'root'
 })
 export class ReturnCarsService {
+  private httpClient: HttpClient = inject(HttpClient);
+  private rentalsService: RentalsService = inject(RentalsService);
+
   public returnCars: WritableSignal<ReturnCar[]> = signal([]);
   public states: WritableSignal<string[]> = signal([]);
   public returnCarsError: WritableSignal<string> = signal("");
   public returnCarResult: WritableSignal<ReturnCar | null> = signal(null);
-  private httpClient: HttpClient = inject(HttpClient);
 
   public createReturnCar(returnCarBody: ReturnCarBody): void {
     this.httpClient.post<{ data: ReturnCar }>(
@@ -33,6 +37,7 @@ export class ReturnCarsService {
       .subscribe((data) => {
         if (data) {
           this.returnCarResult.set(data);
+          this.addReturnCarToReservation();
           this.returnCarsError.set("");
         }
       });
@@ -54,5 +59,19 @@ export class ReturnCarsService {
           this.states.set(data);
         }
       );
+  }
+
+  private addReturnCarToReservation(): void{
+    const rentals: Rental[] = this.rentalsService.rentals();
+    const newRentals: Rental[] = rentals.map((rental) => {
+      if(rental.id === this.returnCarResult()?.rental.id){
+        return {
+          ...rental,
+          returnCar: this.returnCarResult()
+        }
+      }
+      return rental
+    })
+    this.rentalsService.rentals.set(newRentals);
   }
 }
