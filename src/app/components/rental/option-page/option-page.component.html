@@ -1,54 +1,147 @@
-<div class="options-container">
-  <h2>Options supplémentaires</h2>
-
-  <div *ngIf="loading" class="loading">
-    Chargement des informations...
+<section class="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 py-12 px-4">
+  <!-- Éléments déco -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute top-20 left-10 w-32 h-32 border border-green-700 rotate-45"></div>
+    <div class="absolute bottom-20 right-20 w-24 h-24 bg-green-700 rounded-full blur-xl"></div>
+    <div class="absolute top-1/2 left-1/4 w-16 h-16 border border-green-700/30 rounded-full"></div>
   </div>
 
-  <div *ngIf="error" class="error">
-    Une erreur s'est produite lors du chargement des données.
-  </div>
+  <div class="relative z-10 max-w-4xl mx-auto">
+    <!-- En-tête -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 bg-green-700/10 border border-green-700/20 rounded-full px-4 py-2 text-sm font-medium text-green-700 mb-6">
+        <span class="w-2 h-2 bg-green-700 rounded-full animate-pulse"></span>
+        Options supplémentaires
+      </div>
 
-  <div *ngIf="!loading && !error">
-    <div *ngIf="car()" class="car-info">
-      <h3>Véhicule sélectionné</h3>
-      <div class="car-details">
-        <img [src]="car()?.image" alt="Image du véhicule">
-        <div class="car-text">
-          <h4>{{car()?.name}}</h4>
-          <p>{{car()?.miles}} miles | {{car()?.agency?.name}}</p>
-          <p>{{car()?.description}}</p>
-        </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        Personnalisez votre <span class="text-green-700">location</span>
+      </h1>
+
+      <p class="text-gray-600 dark:text-gray-300">
+        Sélectionnez les options qui vous conviennent pour un voyage optimal
+      </p>
+    </div>
+
+    <!-- État de chargement -->
+    <div *ngIf="loading" class="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-2xl text-center">
+      <div class="flex items-center justify-center gap-3">
+        <div class="w-6 h-6 border-3 border-green-700 border-t-transparent rounded-full animate-spin"></div>
+        <span class="text-gray-600 dark:text-gray-300">Chargement des informations...</span>
       </div>
     </div>
 
-    <div class="options-list">
-      <h3>Options disponibles</h3>
-      <div *ngIf="options()?.length === 0">
-        Aucune option disponible.
-      </div>
-
-      <div *ngFor="let option of options()" class="option-item" [class.selected]="isOptionSelected(option.id)" (click)="toggleOption(option.id)">
-        <div class="option-content">
-          <h4>{{option.name}}</h4>
-          <p class="price">{{option.price}} €</p>
-        </div>
-        <div class="checkbox">
-          <span *ngIf="isOptionSelected(option.id)" class="check-icon">✓</span>
-        </div>
-      </div>
-
-      <div *ngIf="selectedOptions.length > 0" class="total-price">
-        <h4>Total des options sélectionnées</h4>
-        <p>{{getTotalPrice()}} €</p>
+    <!-- État d'erreur -->
+    <div *ngIf="error" class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-2xl p-8 shadow-2xl">
+      <div class="flex items-center gap-3 justify-center">
+        <i class="ri-error-warning-line text-red-600 text-2xl"></i>
+        <p class="text-red-700 dark:text-red-400 font-medium">Une erreur s'est produite lors du chargement des données.</p>
       </div>
     </div>
 
-    <div class="actions">
-      <button class="back-button" [routerLink]="['/rental/guarantees', carId]">Retour aux garanties</button>
-      <button class="continue-button" [routerLink]="['/rental/client-info', carId]">
-        Finaliser la réservation
-      </button>
+    <!-- Contenu principal -->
+    <div *ngIf="!loading && !error" class="space-y-8">
+      <!-- Informations du véhicule -->
+      <div *ngIf="car()" class="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-6 shadow-2xl">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-4 flex items-center gap-2">
+          <i class="ri-car-line text-green-700"></i>
+          Véhicule sélectionné
+        </h3>
+
+        <div class="flex flex-col md:flex-row gap-6 items-start">
+          <div class="w-full md:w-48 h-32 rounded-xl overflow-hidden">
+            <img [src]="car()?.image" [alt]="car()?.name" class="w-full h-full object-cover">
+          </div>
+
+          <div class="flex-1 space-y-2">
+            <h4 class="text-lg font-semibold text-gray-900 dark:text-white">{{car()?.name}}</h4>
+            <div class="flex items-center gap-4 text-sm text-gray-600 dark:text-gray-300">
+              <span class="flex items-center gap-1">
+                <i class="ri-roadster-line"></i>
+                {{car()?.miles}} miles
+              </span>
+              <span class="flex items-center gap-1">
+                <i class="ri-building-line"></i>
+                {{car()?.agency?.name}}
+              </span>
+            </div>
+            <p class="text-gray-600 dark:text-gray-300 text-sm">{{car()?.description}}</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Liste des options -->
+      <div class="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-6 shadow-2xl">
+        <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+          <i class="ri-settings-3-line text-green-700"></i>
+          Options disponibles
+        </h3>
+
+        <div *ngIf="options()?.length === 0" class="text-center py-8">
+          <i class="ri-information-line text-4xl text-gray-400 mb-4"></i>
+          <p class="text-gray-600 dark:text-gray-300">Aucune option disponible pour ce véhicule.</p>
+        </div>
+
+        <div class="grid gap-4">
+          <div *ngFor="let option of options()"
+               class="group border-2 rounded-xl p-4 cursor-pointer transition-all duration-300 hover:shadow-lg"
+               [class]="isOptionSelected(option.id) ?
+                 'border-green-700 bg-green-50 dark:bg-green-900/20' :
+                 'border-gray-200 dark:border-gray-600 hover:border-green-300'"
+               (click)="toggleOption(option.id)">
+
+            <div class="flex items-center justify-between">
+              <div class="flex-1">
+                <h4 class="font-semibold text-gray-900 dark:text-white group-hover:text-green-700 transition-colors">
+                  {{option.name}}
+                </h4>
+                <p class="text-lg font-bold text-green-700 mt-1">{{option.price}} €</p>
+              </div>
+
+              <div class="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300"
+                   [class]="isOptionSelected(option.id) ?
+                     'border-green-700 bg-green-700' :
+                     'border-gray-300 dark:border-gray-600'">
+                <i *ngIf="isOptionSelected(option.id)" class="ri-check-line text-white text-sm"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Total des options -->
+        <div *ngIf="selectedOptions.length > 0" class="mt-6 pt-6 border-t-2 border-gray-100 dark:border-gray-700">
+          <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4">
+            <div class="flex items-center justify-between">
+              <h4 class="font-semibold text-gray-900 dark:text-white flex items-center gap-2">
+                <i class="ri-calculator-line text-green-700"></i>
+                Total des options sélectionnées
+              </h4>
+              <p class="text-2xl font-bold text-green-700">{{getTotalPrice()}} €</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Actions -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-between">
+        <button
+          [routerLink]="['/rental/guarantees', carId]"
+          class="group flex items-center justify-center gap-3 px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl transition-all duration-300 hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+          <i class="ri-arrow-left-line group-hover:-translate-x-1 transition-transform duration-300"></i>
+          Retour aux garanties
+        </button>
+
+        <button
+          [routerLink]="['/rental/client-info', carId]"
+          class="group flex items-center justify-center gap-3 px-6 py-3 bg-green-700 hover:bg-green-800 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+          Finaliser la réservation
+          <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
+        </button>
+      </div>
     </div>
   </div>
-</div>
+
+  <!-- Éléments déco -->
+  <div class="absolute -top-4 -right-4 w-20 h-20 bg-green-700/10 rounded-full blur-xl"></div>
+  <div class="absolute -bottom-6 -left-6 w-24 h-24 border-green-700/20 rounded-full"></div>
+</section>
