@@ -120,6 +120,12 @@ export class AuthService {
     return response;
   }
 
+  getAgentReservations(): Observable<Rental[]> {
+    return this.http.get<{ data: Rental[]}>(`${this.apiUrl}/rentals`).pipe(
+      map((response: any) => response.data),
+    );
+  }
+
   getReservations(id: any): Observable<Rental[]> {
     return this.http.get<{ data: Rental[]}>(`${this.apiUrl}/rentals/client/${id}`).pipe(
       map((response: any) => response.data),
