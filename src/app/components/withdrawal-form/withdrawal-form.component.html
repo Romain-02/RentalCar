@@ -5,7 +5,7 @@
       <li class="client-name"><u>Client:</u> {{rental().client.lastName}} {{rental().client.firstname}}</li>
       <li class="rental-id"><u>ID:</u> Réservation n°{{rental().id}}</li>
       <li class="car-name"><u>Voiture:</u>{{rental().car.name}}</li>
-      <li class="rental-dates">{{rental().startDate}} - {{rental().endDate}}</li>
+      <li class="rental-dates">{{rental().startDate | date:'dd/MM/yyyy'}} - {{rental().endDate | date:'dd/MM/yyyy'}}</li>
     </ul>
   </div>
 
