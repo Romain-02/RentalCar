@@ -27,6 +27,7 @@ export class RentalListComponent implements OnInit{
 
   user: User | null = null;
   reservations: Rental[] = [];
+  errorMessage: string = '';
 
   ngOnInit() {
     this.authService.getMe().subscribe({
@@ -68,6 +69,7 @@ export class RentalListComponent implements OnInit{
   }
 
   cancelReservation(id: any): void {
+    this.errorMessage = '';
     this.authService.cancelReservations(id).subscribe({
       next: (message) => {
         console.log('Reservation canceled successfully:', message);
@@ -75,6 +77,10 @@ export class RentalListComponent implements OnInit{
       },
       error: (err) => {
         console.error('Failed to cancel reservation:', err);
+        this.errorMessage = 'Vous ne pouvez plus annuler la location, la date de début est déjà dépassée.';
+        setTimeout(() => {
+          this.errorMessage = '';
+        }, 5000);
       }
     });
   }
