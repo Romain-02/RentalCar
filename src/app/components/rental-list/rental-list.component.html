@@ -29,6 +29,14 @@
               <p class="text-sm text-gray-600 dark:text-gray-300">
                 <strong>Date :</strong> {{ reservation.startDate | date:'dd/MM/yyyy' }} - {{ reservation.endDate | date:'dd/MM/yyyy' }}
               </p>
+              <p class="text-sm text-gray-600 dark:text-gray-300">
+                <strong>Options :</strong>
+                @if(reservation.options.length !== 0){
+                  {{optionsToString(reservation)}}
+                }@else{
+                  Aucune
+                }
+              </p>
             </div>
             <div class="mt-4 flex gap-2 items-center justify-center">
               <button

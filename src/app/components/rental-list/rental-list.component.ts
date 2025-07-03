@@ -79,6 +79,11 @@ export class RentalListComponent implements OnInit{
     });
   }
 
+  protected optionsToString(rental: Rental): string{
+    const optionNames: string[] = rental.options.map((rental) => rental.name)
+    return optionNames.join(', ')
+  }
+
   protected readonly Date = Date;
   protected readonly translateString = translateString;
 }

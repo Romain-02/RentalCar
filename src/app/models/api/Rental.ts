@@ -20,7 +20,8 @@ export type Rental = {
   bill: null,
   returnCar: ReturnCar | null,
   additionalClause: null,
-  car: Car
+  car: Car,
+  options: Options
 };
 
 export const DEFAULT_RENTAL: Rental = {
@@ -34,7 +35,8 @@ export const DEFAULT_RENTAL: Rental = {
   bill: null,
   returnCar: null,
   additionalClause: null,
-  car: DEFAULT_CAR
+  car: DEFAULT_CAR,
+  options: []
 };
 
 export type RentalBody = {

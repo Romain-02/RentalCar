@@ -5,7 +5,6 @@ import {ButtonDirective} from 'primeng/button';
 import {NgIf} from '@angular/common';
 import {FormsModule} from '@angular/forms';
 import {ClientFormComponent} from '../register/client-form/client-form.component';
-import {UserFormComponent} from '../register/user-form/user-form.component';
 import {Client} from '../../models/api/Client';
 import {DriverInfoFormComponent} from '../register/driver-info-form/driver-info-form.component';
 import {DEFAULT_RENTAL_FORM_ERRORS, RentalFormErrors, RentalValidation} from '../../models/api/Rental';
