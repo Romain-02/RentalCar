@@ -30,7 +30,7 @@ export class DefaultLayoutComponent{
       { label: 'Agences', routerLink: '/list-agency' },
       ...(isLoggedIn
         ? [
-          (this.isAgent() ?
+          (!this.isAgent() ?
             { label: 'Profil', routerLink: '/profil' }
             : { label: 'Réservation', routerLink: '/agent/rentals' }
           ),

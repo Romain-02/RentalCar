@@ -1,8 +1,10 @@
-import { Component, computed, inject, OnInit, signal, Signal } from '@angular/core';
+import {Component, computed, effect, inject, OnInit, signal, Signal, WritableSignal} from '@angular/core';
 import { RentalsService } from '../../services/api/rentals.service';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { WithdrawalsService } from '../../services/api/withdrawals.service';
+import {DatePipe} from '@angular/common';
+import {Withdrawal} from '../../models/api/Withdrawal';
 
 // ==============================================
 
@@ -10,17 +12,22 @@ import { WithdrawalsService } from '../../services/api/withdrawals.service';
 @Component({
   selector: 'app-withdrawal-form',
   imports: [
-    FormsModule
+    FormsModule,
+    DatePipe
   ],
   templateUrl: './withdrawal-form.component.html',
+  standalone: true,
   styleUrl: './withdrawal-form.component.scss'
 })
 export class WithdrawalFormComponent implements OnInit {
   private rentalService: RentalsService = inject(RentalsService);
   private activatedRoute: ActivatedRoute = inject(ActivatedRoute);
-  private withdrawalService = inject(WithdrawalsService);
-  protected rentalId = signal<number | null>(null);
+  private withdrawalService: WithdrawalsService = inject(WithdrawalsService);
+  private router: Router = inject(Router);
+
+  protected rentalId: WritableSignal<number | null> = signal<number | null>(null);
   private rentals: Signal<any[]> = this.rentalService.rentals;
+  private withdrawalResult: Signal<Withdrawal | null> = this.withdrawalService.withdrawalResult;
   protected rental = computed(() => {
     const id = this.rentalId();
     return this.rentals().find((rent) => rent.id === id) ?? null;
@@ -33,6 +40,13 @@ export class WithdrawalFormComponent implements OnInit {
   protected commentary !: string;
   protected date !: string;
 
+  constructor() {
+    effect(() => {
+      if(this.withdrawalResult()){
+        this.router.navigate(['agent/rentals'])
+      }
+    });
+  }
 
   public ngOnInit(): void {
     this.rentalService.fetchRentals();
@@ -48,7 +62,6 @@ export class WithdrawalFormComponent implements OnInit {
   }
 
   public submit(): void {
-    console.log("tests");
     this.withdrawalService.scheduleWithdrawal({
       idVoiture: this.rental().car.id,
       idReservation: this.rental().id,
@@ -60,5 +73,4 @@ export class WithdrawalFormComponent implements OnInit {
       date: this.date
     });
   }
-
 }

@@ -14,3 +14,9 @@ export type Withdrawal = {
   rental: Rental,
   client: User
 };
+
+export type WithdrawalResponse = {
+  message: string,
+  data: Withdrawal,
+  success: true
+};
