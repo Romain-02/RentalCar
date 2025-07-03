@@ -1,65 +1,194 @@
-<form (ngSubmit)="updateClientInfo()" #loginForm="ngForm" class="dark:bg-gray-900 mx-auto mt-8 p-6 shadow space-y-6">
+<section class="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 py-12 px-4">
+  <!-- Éléments déco -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute top-20 left-10 w-32 h-32 border border-green-700 rotate-45"></div>
+    <div class="absolute bottom-20 right-20 w-24 h-24 bg-green-700 rounded-full blur-xl"></div>
+    <div class="absolute top-1/2 left-1/4 w-16 h-16 border border-green-700/30 rounded-full"></div>
+  </div>
 
-  <p-stepper [value]="activeIndex" class="basis-[50rem]" [linear]="true">
-    <p-step-list>
-      @if(!alreadyConnected){
-        <p-step [value]="1">Connexion</p-step>
-      }
-      <p-step [value]="alreadyConnected ? 1 : 2">Infos</p-step>
-      <p-step [value]="alreadyConnected ? 2 : 3">Infos conducteur</p-step>
-    </p-step-list>
-    <p-step-panels>
+  <div class="relative z-10 max-w-4xl mx-auto">
+    <!-- En-tête -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 bg-green-700/10 border border-green-700/20 rounded-full px-4 py-2 text-sm font-medium text-green-700 mb-6">
+        <span class="w-2 h-2 bg-green-700 rounded-full animate-pulse"></span>
+        Finalisation
+      </div>
 
-      @if(!actualUser()){
-        <p-step-panel [value]="1" >
-          <ng-template #content>
-            <div class="flex flex-col h-48">
-              @if(!alreadyAccount) {
-                <app-user-form [user]="user" [userFormErrors]="rentalFormErrors" />
-              }@else{
-                <app-login-form [user]="user" [userFormErrors]="rentalFormErrors" />
-              }
-              <div class="flex pt-6 justify-end">
-                @if(!alreadyConnected){
-                  <button class="back-button" [routerLink]="['/rental/options', carId]">Retour aux options</button>
-                }
-                <p class="text-red-500 text-sm mt-1">{{ errorMessage }}</p>
-                <p-button [label]="!alreadyAccount ? 'Se connecter' : 'S\'enregistrer'" icon="pi pi-arrow-right" iconPos="right" (onClick)="changeAlreadyAccount()" />
-                <p-button [disabled]="!isFirstStepValid()" label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="updateUserInfo()" />
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        Complétez votre <span class="text-green-700">réservation</span>
+      </h1>
+
+      <p class="text-gray-600 dark:text-gray-300">
+        Quelques informations pour finaliser votre location
+      </p>
+    </div>
+
+    <!-- Formulaire principal -->
+    <form (ngSubmit)="updateClientInfo()" #loginForm="ngForm" class="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-2xl">
+
+      <!-- Stepper -->
+      <div class="mb-8">
+        <div class="flex items-center justify-between mb-6">
+          @if (!alreadyConnected) {
+            <div class="flex items-center gap-3">
+              <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
+                   [class]="activeIndex >= 1 ? 'bg-green-700 text-white' : 'bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-400'">
+                1
+              </div>
+              <span class="text-sm font-medium text-gray-900 dark:text-white">Connexion</span>
+            </div>
+          }
+
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
+                 [class]="activeIndex >= (alreadyConnected ? 1 : 2) ? 'bg-green-700 text-white' : 'bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-400'">
+              {{ alreadyConnected ? 1 : 2 }}
+            </div>
+            <span class="text-sm font-medium text-gray-900 dark:text-white">Informations</span>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <div class="w-8 h-8 rounded-full flex items-center justify-center text-sm font-semibold"
+                 [class]="activeIndex >= (alreadyConnected ? 2 : 3) ? 'bg-green-700 text-white' : 'bg-gray-200 dark:bg-gray-600 text-gray-600 dark:text-gray-400'">
+              {{ alreadyConnected ? 2 : 3 }}
+            </div>
+            <span class="text-sm font-medium text-gray-900 dark:text-white">Conducteur</span>
+          </div>
+        </div>
+
+        <!-- Barre de progression -->
+        <div class="w-full bg-gray-200 dark:bg-gray-600 rounded-full h-2">
+          <div class="bg-green-700 h-2 rounded-full transition-all duration-500"
+               [style.width.%]="(activeIndex / (alreadyConnected ? 2 : 3)) * 100"></div>
+        </div>
+      </div>
+
+      <!-- Étape 1: Connexion -->
+      @if (!actualUser() && activeIndex === 1) {
+        <div class="space-y-6">
+          <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4 mb-6">
+            <div class="flex items-center gap-3">
+              <i class="ri-information-line text-blue-600 text-lg"></i>
+              <p class="text-blue-700 dark:text-blue-400 text-sm">
+                {{ !alreadyAccount ? 'Créez votre compte pour continuer' : 'Connectez-vous à votre compte existant' }}
+              </p>
+            </div>
+          </div>
+
+          @if (!alreadyAccount) {
+            <app-user-form [user]="user" [userFormErrors]="rentalFormErrors" />
+          } @else {
+            <app-login-form [user]="user" [userFormErrors]="rentalFormErrors" />
+          }
+
+          @if (errorMessage) {
+            <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
+              <div class="flex items-center gap-3">
+                <i class="ri-error-warning-line text-red-600 text-lg"></i>
+                <p class="text-red-700 dark:text-red-400 text-sm">{{ errorMessage }}</p>
               </div>
             </div>
-          </ng-template>
-        </p-step-panel>
+          }
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-between pt-6">
+            <button type="button" [routerLink]="['/rental/options', carId]"
+                    class="group flex items-center justify-center gap-3 px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl transition-all duration-300 hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+              <i class="ri-arrow-left-line group-hover:-translate-x-1 transition-transform duration-300"></i>
+              Retour aux options
+            </button>
+
+            <div class="flex gap-3">
+              <button type="button" (click)="changeAlreadyAccount()"
+                      class="px-6 py-3 border-2 border-green-700 text-green-700 font-semibold rounded-xl transition-all duration-300 hover:bg-green-50 dark:hover:bg-green-900/20">
+                {{ !alreadyAccount ? 'Se connecter' : 'S\'enregistrer' }}
+              </button>
+
+              <button type="button" [disabled]="!isFirstStepValid()" (click)="updateUserInfo()"
+                      class="group flex items-center gap-3 px-6 py-3 bg-green-700 hover:bg-green-800 disabled:bg-gray-400 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl disabled:hover:scale-100 disabled:hover:shadow-none">
+                Suivant
+                <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
+              </button>
+            </div>
+          </div>
+        </div>
       }
 
-      <p-step-panel [value]="alreadyConnected ? 1 : 2">
-        <ng-template #content>
-          <div class="flex flex-col h-48">
-            <app-client-form [isEditing]="true" [user]="user" [clientFormErrors]="rentalFormErrors" />
-            <div class="flex pt-6 justify-between">
-              @if(alreadyConnected){
-                <button type="reset" class="back-button" [routerLink]="['/rental/options', carId]">Retour aux options</button>
-              }@else{
-                <p></p>
-              }
-              <p-button [disabled]="!isSecondStepValid()" label="Next" icon="pi pi-arrow-right" iconPos="right" (onClick)="next()" />
+      <!-- Étape 2: Informations client -->
+      @if (activeIndex === (alreadyConnected ? 1 : 2)) {
+        <div class="space-y-6">
+          <div class="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-xl p-4 mb-6">
+            <div class="flex items-center gap-3">
+              <i class="ri-user-line text-green-600 text-lg"></i>
+              <p class="text-green-700 dark:text-green-400 text-sm">
+                Complétez vos informations personnelles
+              </p>
             </div>
           </div>
-        </ng-template>
-      </p-step-panel>
 
-      <p-step-panel [value]="alreadyConnected ? 2 : 3">
-        <ng-template #content>
-          <div class="flex flex-col h-48">
-            <app-driver-info-form [user]="user" [isEditing]="true" [driverInfoFormErrors]="rentalFormErrors"/>
-            <div class="flex pt-6 justify-start">
-              <p-button label="Back" icon="pi pi-arrow-left" iconPos="right" (onClick)="last()" />
-              <p-button [disabled]="!isThridStepValid()" label="Enregistrer" icon="pi pi-arrow-left" iconPos="right" type="submit" />
-              <p class="text-red-500 text-sm mt-1">{{ errorMessage }}</p>
+          <app-client-form [isEditing]="true" [user]="user" [clientFormErrors]="rentalFormErrors" />
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-between pt-6">
+            @if (alreadyConnected) {
+              <button type="button" [routerLink]="['/rental/options', carId]"
+                      class="group flex items-center justify-center gap-3 px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl transition-all duration-300 hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+                <i class="ri-arrow-left-line group-hover:-translate-x-1 transition-transform duration-300"></i>
+                Retour aux options
+              </button>
+            } @else {
+              <div></div>
+            }
+
+            <button type="button" [disabled]="!isSecondStepValid()" (click)="next()"
+                    class="group flex items-center gap-3 px-6 py-3 bg-green-700 hover:bg-green-800 disabled:bg-gray-400 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl disabled:hover:scale-100 disabled:hover:shadow-none">
+              Suivant
+              <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
+            </button>
+          </div>
+        </div>
+      }
+
+      <!-- Étape 3: Informations conducteur -->
+      @if (activeIndex === (alreadyConnected ? 2 : 3)) {
+        <div class="space-y-6">
+          <div class="bg-orange-50 dark:bg-orange-900/20 border border-orange-200 dark:border-orange-800 rounded-xl p-4 mb-6">
+            <div class="flex items-center gap-3">
+              <i class="ri-steering-2-line text-orange-600 text-lg"></i>
+              <p class="text-orange-700 dark:text-orange-400 text-sm">
+                Informations sur le conducteur principal
+              </p>
             </div>
           </div>
-        </ng-template>
-      </p-step-panel>
-    </p-step-panels>
-  </p-stepper>
-</form>
+
+          <app-driver-info-form [user]="user" [isEditing]="true" [driverInfoFormErrors]="rentalFormErrors"/>
+
+          @if (errorMessage) {
+            <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
+              <div class="flex items-center gap-3">
+                <i class="ri-error-warning-line text-red-600 text-lg"></i>
+                <p class="text-red-700 dark:text-red-400 text-sm">{{ errorMessage }}</p>
+              </div>
+            </div>
+          }
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-between pt-6">
+            <button type="button" (click)="last()"
+                    class="group flex items-center justify-center gap-3 px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl transition-all duration-300 hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+              <i class="ri-arrow-left-line group-hover:-translate-x-1 transition-transform duration-300"></i>
+              Retour
+            </button>
+
+            <button type="submit" [disabled]="!isThridStepValid()"
+                    class="group flex items-center gap-3 px-6 py-3 bg-green-700 hover:bg-green-800 disabled:bg-gray-400 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl disabled:hover:scale-100 disabled:hover:shadow-none">
+              <i class="ri-check-line"></i>
+              Finaliser la réservation
+            </button>
+          </div>
+        </div>
+      }
+    </form>
+  </div>
+
+  <!-- Éléments déco -->
+  <div class="absolute -top-4 -right-4 w-20 h-20 bg-green-700/10 rounded-full blur-xl"></div>
+  <div class="absolute -bottom-6 -left-6 w-24 h-24 border-green-700/20 rounded-full"></div>
+</section>
