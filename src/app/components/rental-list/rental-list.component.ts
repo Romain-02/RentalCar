@@ -6,6 +6,7 @@ import {translateString} from "../../services/utils/translateString";
 import {DatePipe, NgForOf, NgIf} from '@angular/common';
 import {RouterLink} from '@angular/router';
 import {RentalsService} from '../../services/api/rentals.service';
+import {environment} from '../../../environments/environment';
 
 
 
@@ -85,6 +86,12 @@ export class RentalListComponent implements OnInit{
     });
   }
 
+  protected optionsToString(rental: Rental): string{
+    const optionNames: string[] = rental.options.map((rental) => rental.name)
+    return optionNames.join(', ')
+  }
+
   protected readonly Date = Date;
   protected readonly translateString = translateString;
+  protected readonly environment = environment;
 }

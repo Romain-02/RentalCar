@@ -29,6 +29,29 @@
           <img [src]="reservation.car.image" alt="{{ reservation.car.name }}" class="w-full h-40 object-cover rounded-t-lg" />
           <div class="p-4 flex flex-col justify-between h-full">
             <div>
+
+              @if(reservation.withdrawal?.id ?? -1 >= 0){
+                <div class="absolute top-3 right-3 ">
+                  <a
+                    class="px-3 py-1 rounded-full text-l font-semibold text-orange-500 backdrop-blur-sm transition-colors duration-300 hover:text-orange-600"
+                    href="{{ environment.apiUrl + '/download_pdf/withdrawal/' + reservation.withdrawal?.id }}"
+                    target="_blank">
+                    <i class="ri-download-2-fill">Pdf de retrait</i>
+                  </a>
+                </div>
+              }
+
+              @if(reservation.returnCar?.id ?? -1 >= 0){
+                <div class="absolute top-3 left-3 ">
+                  <a
+                    class="px-3 py-1 rounded-full text-l font-semibold text-blue-500 backdrop-blur-sm transition-colors duration-300 hover:text-blue-600"
+                    href="{{ environment.apiUrl + '/download_pdf/returnCar/' + reservation.returnCar?.id }}"
+                    target="_blank">
+                    <i class="ri-download-2-fill">Pdf de retour</i>
+                  </a>
+                </div>
+              }
+
               <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ reservation.car.name }}</h3>
               <p class="text-sm text-gray-600 dark:text-gray-300">{{ reservation.car.agency.name }}</p>
               <p class="text-sm text-gray-600 dark:text-gray-300 mt-2">
@@ -36,6 +59,14 @@
               </p>
               <p class="text-sm text-gray-600 dark:text-gray-300">
                 <strong>Date :</strong> {{ reservation.startDate | date:'dd/MM/yyyy' }} - {{ reservation.endDate | date:'dd/MM/yyyy' }}
+              </p>
+              <p class="text-sm text-gray-600 dark:text-gray-300">
+                <strong>Options :</strong>
+                @if(reservation.options.length !== 0){
+                  {{optionsToString(reservation)}}
+                }@else{
+                  Aucune
+                }
               </p>
             </div>
             <div class="mt-4 flex gap-2 items-center justify-center">
