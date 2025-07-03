@@ -1,0 +1,20 @@
+<div class="flex flex-col gap-4 shadow-md p-8 px-16 rounded-xl">
+  <h2 class="font-bold text-xl">Ajout des informations du conducteur</h2>
+
+  <label for="drivingLicenseNumber">Numéro de permis</label>
+  <input type="text" [(ngModel)]="driverInformations.drivingLicenseNumber" id="drivingLicenseNumber" >
+
+  <label for="drivingLicenseAcquisition">Date d'acquisition du permis</label>
+  <input type="date" [(ngModel)]="driverInformations.drivingLicenseAcquisition" id="drivingLicenseAcquisition" >
+
+  <label for="drivingLicenseValidation">Date de validation du permis</label>
+  <input type="date" [(ngModel)]="driverInformations.drivingLicenseValidation" id="drivingLicenseValidation">
+
+  <label for="birthDate">Date de naissance du conducteur</label>
+  <input type="date" [(ngModel)]="driverInformations.birthDate" id="birthDate">
+
+  <label for="drivingLicenseCountry">Pays du permis</label>
+  <input type="text" [(ngModel)]="driverInformations.drivingLicenseCountry" id="drivingLicenseCountry" placeholder="ex: France">
+
+  <button class="submitButton" (click)="submit()">Ajouter</button>
+</div>

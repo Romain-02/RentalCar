@@ -1,0 +1,49 @@
+:host {
+  display: block;
+  height: 100%;
+
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  // Au survol de l'image
+  .group:hover {
+    .transition-transform {
+      transform: scale(1.1);
+    }
+  }
+
+  // Styles pour les boutons désactivés
+  button:disabled {
+    transform: none !important;
+
+    &:hover {
+      transform: none !important;
+
+      .transition-transform {
+        transform: none !important;
+      }
+    }
+  }
+
+  // Responsive
+  @media (max-width: 768px) {
+    .text-xl {
+      font-size: 1.125rem;
+    }
+
+    .p-6 {
+      padding: 1rem;
+    }
+  }
+}

@@ -1,0 +1,116 @@
+<section class="relative min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 py-12 px-4">
+  <!-- Éléments déco -->
+  <div class="pointer-events-none">
+    <div class="absolute top-20 left-10 w-32 h-32 border border-green-700 rotate-45"></div>
+    <div class="absolute bottom-20 right-20 w-24 h-24 bg-green-700 rounded-full blur-xl"></div>
+    <div class="absolute top-1/2 left-1/4 w-16 h-16 border border-green-700/30 rounded-full"></div>
+    <div class="absolute -top-4 -right-4 w-20 h-20 bg-green-700/10 rounded-full blur-xl"></div>
+    <div class="absolute -bottom-6 -left-6 w-24 h-24 border-green-700/20 rounded-full"></div>
+  </div>
+
+  <div class="relative z-10 max-w-4xl mx-auto">
+    <!-- En-tête -->
+    <div class="text-center mb-8">
+      <div class="inline-flex items-center gap-2 bg-green-700/10 border border-green-700/20 rounded-full px-4 py-2 text-sm font-medium text-green-700 mb-6">
+        <span class="w-2 h-2 bg-green-700 rounded-full animate-pulse"></span>
+        Mon compte
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 dark:text-white mb-2">
+        {{ isEditing ? 'Modifier mon' : 'Mon' }} <span class="text-green-700">profil</span>
+      </h1>
+      <p class="text-gray-600 dark:text-gray-300">
+        {{ isEditing ? 'Mettez à jour vos informations personnelles' : 'Gérez vos informations personnelles et vos réservations' }}
+      </p>
+    </div>
+
+    <!-- Contenu principal -->
+    <div class="space-y-8" *ngIf="user">
+      @if (isEditing) {
+        <div class="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-2xl">
+          <div class="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-xl p-4 mb-6">
+            <div class="flex items-center gap-3">
+              <i class="ri-edit-line text-blue-600 text-lg"></i>
+              <p class="text-blue-700 dark:text-blue-400 text-sm font-medium">
+                Mode édition - Modifiez vos informations
+              </p>
+            </div>
+          </div>
+          <div class="mb-8">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+              <i class="ri-user-line text-green-700"></i>
+              Informations personnelles
+            </h3>
+            <app-client-form [isEditing]="isEditing" [user]="user" [clientFormErrors]="rentalFormErrors" />
+          </div>
+          <div class="border-t-2 border-gray-100 dark:border-gray-700 my-8"></div>
+          <div class="mb-8">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+              <i class="ri-steering-2-line text-orange-600"></i>
+              Informations conducteur
+            </h3>
+            <app-driver-info-form [isEditing]="isEditing" [user]="user" [driverInfoFormErrors]="rentalFormErrors" />
+          </div>
+          <div class="flex flex-col sm:flex-row gap-4 justify-end pt-6">
+            <button type="button" (click)="toggleEdit()"
+                    class="group flex items-center justify-center gap-3 px-6 py-3 border-2 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 font-semibold rounded-xl transition-all duration-300 hover:border-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700">
+              <i class="ri-close-line"></i>
+              Annuler
+            </button>
+            <button type="button" [disabled]="!isInfosValid()" (click)="toggleEdit()"
+                    class="group flex items-center gap-3 px-6 py-3 bg-green-700 hover:bg-green-800 disabled:bg-gray-400 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl disabled:hover:scale-100 disabled:hover:shadow-none">
+              <i class="ri-check-line"></i>
+              Valider les modifications
+            </button>
+          </div>
+        </div>
+      } @else {
+        <div class="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-2xl">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <i class="ri-user-line text-green-700"></i>
+              Informations personnelles
+            </h3>
+            <div class="inline-flex items-center gap-2 bg-green-100 dark:bg-green-900/30 text-green-700 px-3 py-1 rounded-full text-sm font-medium">
+              <i class="ri-shield-check-line"></i>
+              Vérifié
+            </div>
+          </div>
+          <app-client-form [isEditing]="isEditing" [user]="user" />
+        </div>
+        <div class="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-2xl">
+          <div class="flex items-center justify-between mb-6">
+            <h3 class="text-xl font-bold text-gray-900 dark:text-white flex items-center gap-2">
+              <i class="ri-steering-2-line text-orange-600"></i>
+              Permis de conduire
+            </h3>
+            <div class="inline-flex items-center gap-2 bg-orange-100 dark:bg-orange-900/30 text-orange-700 px-3 py-1 rounded-full text-sm font-medium">
+              <i class="ri-check-line"></i>
+              Valide
+            </div>
+          </div>
+          <app-driver-info-form [isEditing]="isEditing" [user]="user" [driverInfoFormErrors]="rentalFormErrors" />
+        </div>
+        <div class="flex justify-center">
+          <button type="button" (click)="toggleEdit()"
+                  class="group flex items-center gap-3 px-8 py-4 bg-green-700 hover:bg-green-800 text-white font-semibold rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl">
+            <i class="ri-edit-line"></i>
+            Modifier mes informations
+            <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform duration-300"></i>
+          </button>
+        </div>
+      }
+      <div class="mt-12">
+        <div class="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-2xl">
+          <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-6 flex items-center gap-2">
+            <i class="ri-calendar-check-line text-purple-600"></i>
+            Mes réservations
+          </h3>
+          <app-rental-list />
+          @if(user?.client?.favoriteCars){
+            <app-car-list [parentCars]="user?.client?.favoriteCars" />
+          }
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

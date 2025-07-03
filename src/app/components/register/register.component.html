@@ -1,0 +1,64 @@
+<div class="min-h-screen bg-gradient-to-br from-gray-50 to-white dark:from-gray-900 dark:to-gray-800 flex items-center justify-center p-6 relative overflow-hidden">
+  <!-- Éléments décoratifs -->
+  <div class="absolute inset-0 opacity-5">
+    <div class="absolute top-20 left-10 w-32 h-32 border border-green-700 rotate-45"></div>
+    <div class="absolute bottom-20 right-20 w-24 h-24 bg-green-700 rounded-full blur-xl"></div>
+  </div>
+
+  @if(loading){
+    <div class="flex flex-col items-center gap-4 bg-white dark:bg-gray-800 p-8 rounded-2xl shadow-2xl">
+      <p-progress-spinner styleClass="w-12 h-12" strokeWidth="3" fill="transparent" animationDuration="1s"/>
+      <p class="text-gray-600 dark:text-gray-300 font-medium">Création de votre compte...</p>
+    </div>
+  }@else{
+    <div class="w-full max-w-md relative z-10">
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <div class="inline-flex items-center gap-2 bg-green-700/10 border border-green-700/20 rounded-full px-4 py-2 text-sm font-medium text-green-700 mb-4">
+          <span class="w-2 h-2 bg-green-700 rounded-full animate-pulse"></span>
+          Nouveau membre
+        </div>
+        <h1 class="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          Rejoignez <span class="text-green-700">RentalCarLens</span>
+        </h1>
+        <p class="text-gray-600 dark:text-gray-300">
+          Créez votre compte et accédez à notre flotte de véhicules d'exception
+        </p>
+      </div>
+
+      <!-- Formulaire -->
+      <form (ngSubmit)="onSubmit()" #registerForm="ngForm"
+            class="bg-white dark:bg-gray-800 border-2 border-gray-100 dark:border-gray-700 rounded-2xl p-8 shadow-2xl space-y-6">
+
+        <app-user-form [user]="user" />
+
+        <button
+          pButton
+          type="submit"
+          label="Créer mon compte"
+          [disabled]="registerForm.invalid || loading"
+          class="w-full bg-green-700 hover:bg-green-800 text-white font-bold py-4 rounded-xl transition-all duration-300 transform hover:scale-105 hover:shadow-xl disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100">
+        </button>
+
+        @if(errorMessage){
+          <div class="bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl p-4">
+            <div class="flex items-center gap-3">
+              <i class="ri-error-warning-line text-red-600 text-xl"></i>
+              <p class="text-red-600 dark:text-red-400 font-medium">{{ errorMessage }}</p>
+            </div>
+          </div>
+        }
+
+        <!-- Lien vers connexion -->
+        <div class="text-center pt-4 border-t border-gray-100 dark:border-gray-700">
+          <p class="text-gray-600 dark:text-gray-300">
+            Déjà un compte ?
+            <a routerLink="/login" class="text-green-700 hover:text-green-800 font-semibold transition-colors duration-300 ml-1">
+              Se connecter
+            </a>
+          </p>
+        </div>
+      </form>
+    </div>
+  }
+</div>

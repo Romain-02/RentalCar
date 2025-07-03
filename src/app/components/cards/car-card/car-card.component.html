@@ -1,0 +1,84 @@
+<!--
+<div class="carCard">
+  <img [src]="car.image" alt="Image du véhicule">
+  <span>
+    <h3>{{car.name}}</h3>
+    <p class="infos">{{car.miles}} miles | {{car.agency.name}}</p>
+  </span>
+  <p>{{car.description}}</p>
+  <div class="w-fit p-2 rounded-2xl border-2 border-green-400/50 font-semibold bg-green-400/20">
+    {{car.state | carState }}
+  </div>
+  <button class="reserve-button" [routerLink]="['/rental/guarantees', car.id]">Réserver</button>
+</div>
+-->
+
+<div class="h-full flex flex-col bg-white dark:bg-gray-800 rounded-2xl overflow-hidden transition-all duration-300">
+  <!-- Image container -->
+  <div class="relative h-48 overflow-hidden">
+    <img
+      [src]="car.image"
+      alt="{{car.name}}"
+      class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+    >
+
+    <!-- Overlay gradient -->
+    <div class="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+
+    <!-- Badge état avec couleurs dynamiques -->
+    <div class="absolute top-3 right-3">
+      <div
+        class="px-3 py-1 rounded-full text-xs font-semibold text-white backdrop-blur-sm transition-colors duration-300"
+        [ngClass]="getStateClasses(car.state)">
+        {{car.state | carState}}
+      </div>
+    </div>
+
+    @if(!isProfile){
+      <!-- Badge favoris -->
+      <div class="absolute top-3 left-3">
+        <div
+          (click)="favorite(car.id)"
+          class="px-3 py-1 rounded-full text-3xl font-semibold text-yellow-500 backdrop-blur-sm transition-colors duration-300">
+          {{isFavorite() ? "★" : "☆"}}
+        </div>
+      </div>
+    }
+  </div>
+
+  <!-- Contenu -->
+  <div class="flex-1 p-6 flex flex-col">
+    <!-- Titre et infos -->
+    <div class="mb-4">
+      <h3 class="text-xl font-bold text-gray-900 dark:text-white mb-2 line-clamp-1">
+        {{car.name}}
+      </h3>
+
+      <div class="flex items-center gap-4 text-sm text-gray-500 dark:text-gray-400">
+        <div class="flex items-center gap-1">
+          <i class="ri-roadster-line text-green-700"></i>
+          <span>{{car.miles}} miles</span>
+        </div>
+        <div class="flex items-center gap-1">
+          <i class="ri-building-line text-green-700"></i>
+          <span>{{car.agency.name}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Description -->
+    <p class="text-gray-600 dark:text-gray-300 text-sm leading-relaxed flex-1 line-clamp-2 mb-6">
+      {{car.description}}
+    </p>
+
+    <!-- Bouton réserver -->
+    <button
+      [routerLink]="['/rental/guarantees', car.id]"
+      [disabled]="car.state !== 'AVAILABLE'"
+      class="group w-full py-3 px-4 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 flex items-center justify-center gap-2"
+      [ngClass]="getButtonClasses(car.state)">
+      <span>{{getButtonText(car.state)}}</span>
+      <i class="ri-arrow-right-line group-hover:translate-x-1 transition-transform text-sm"></i>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,68 @@
+:host {
+  // Animation d'apparition des cartes
+  .grid > div {
+    animation: slideInUp 0.6s ease-out forwards;
+  }
+
+  .grid > div:nth-child(2) {
+    animation-delay: 0.1s;
+  }
+
+  @keyframes slideInUp {
+    from {
+      opacity: 0;
+      transform: translateY(30px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  // Styles pour les inputs
+  input[type="date"] {
+    &::-webkit-calendar-picker-indicator {
+      background-color: transparent;
+      color: rgb(21 128 61);
+      cursor: pointer;
+    }
+  }
+
+  // Animation pour le bouton
+  button:not(:disabled) {
+    &:hover {
+      box-shadow: 0 10px 25px rgba(21, 128, 61, 0.3);
+    }
+  }
+
+  // Responsive
+  @media (max-width: 1024px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .flex-col.lg\\:flex-row {
+      flex-direction: column;
+    }
+
+    .lg\\:w-80 {
+      width: 100%;
+    }
+  }
+
+  @media (max-width: 768px) {
+    .container {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+
+    .text-3xl.md\\:text-4xl {
+      font-size: 1.875rem;
+    }
+
+    .px-6 {
+      padding-left: 1rem;
+      padding-right: 1rem;
+    }
+  }
+}

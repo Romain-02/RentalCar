@@ -1,0 +1,139 @@
+@if(user.client && user.client.driverInfo){
+  @if(!isEditing){
+    <div class="profil-details space-y-4">
+      <ul class="space-y-2">
+        <li><strong>Date de naissance:</strong> {{ user.client.driverInfo.birthDate }}</li>
+        <li><strong>Numéro de permis:</strong> {{ user.client.driverInfo.drivingLicenseNumber }}</li>
+        <li><strong>Date d'obtention du permis:</strong> {{ user.client.driverInfo.drivingLicenseAcquisition }}</li>
+        <li><strong>Date de validation du permis:</strong> {{ user.client.driverInfo.drivingLicenseValidation }}</li>
+        <li><strong>Pays d'obtention:</strong> {{ user.client.driverInfo.drivingLicenseCountry }}</li>
+      </ul>
+    </div>
+  } @else{
+    <div class="profil-edit space-y-6">
+      <!-- Date de naissance -->
+      <div class="group">
+        <label for="birthDate" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          <i class="ri-calendar-line mr-2"></i>
+          Date de naissance
+        </label>
+        <div class="relative">
+          <input
+            pInputText
+            type="date"
+            id="birthDate"
+            name="birthDate"
+            [(ngModel)]="user.client.driverInfo.birthDate"
+            required
+            class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 transition-all duration-300 focus:border-green-700 focus:ring-4 focus:ring-green-700/10" />
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <i class="ri-check-line text-green-700 opacity-0 transition-opacity duration-300"
+               [class.opacity-100]="user.client.driverInfo.birthDate"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Numéro de permis -->
+      <div class="group">
+        <label for="drivingLicenseNumber" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          <i class="ri-id-card-line mr-2"></i>
+          Numéro de permis
+        </label>
+        <div class="relative">
+          <input
+            pInputText
+            type="text"
+            id="drivingLicenseNumber"
+            name="drivingLicenseNumber"
+            [(ngModel)]="user.client.driverInfo.drivingLicenseNumber"
+            required
+            placeholder="Votre numéro de permis"
+            class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 transition-all duration-300 focus:border-green-700 focus:ring-4 focus:ring-green-700/10" />
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <i class="ri-check-line text-green-700 opacity-0 transition-opacity duration-300"
+               [class.opacity-100]="user.client.driverInfo.drivingLicenseNumber && user.client.driverInfo.drivingLicenseNumber.length > 0"></i>
+          </div>
+        </div>
+        @if(driverInfoFormErrors.drivingLicenseNumber){
+          <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
+            <i class="ri-error-warning-line"></i>
+            <span>{{ driverInfoFormErrors.drivingLicenseNumber }}</span>
+          </div>
+        }
+      </div>
+
+      <!-- Date d'obtention du permis -->
+      <div class="group">
+        <label for="drivingLicenseAcquisition" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          <i class="ri-calendar-check-line mr-2"></i>
+          Date d'obtention du permis
+        </label>
+        <div class="relative">
+          <input
+            pInputText
+            type="date"
+            id="drivingLicenseAcquisition"
+            name="drivingLicenseAcquisition"
+            [(ngModel)]="user.client.driverInfo.drivingLicenseAcquisition"
+            required
+            class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 transition-all duration-300 focus:border-green-700 focus:ring-4 focus:ring-green-700/10" />
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <i class="ri-check-line text-green-700 opacity-0 transition-opacity duration-300"
+               [class.opacity-100]="user.client.driverInfo.drivingLicenseAcquisition"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Date de validation du permis -->
+      <div class="group">
+        <label for="drivingLicenseValidation" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          <i class="ri-calendar-event-line mr-2"></i>
+          Date de validation du permis
+        </label>
+        <div class="relative">
+          <input
+            pInputText
+            type="date"
+            id="drivingLicenseValidation"
+            name="drivingLicenseValidation"
+            [(ngModel)]="user.client.driverInfo.drivingLicenseValidation"
+            required
+            class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 transition-all duration-300 focus:border-green-700 focus:ring-4 focus:ring-green-700/10" />
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <i class="ri-check-line text-green-700 opacity-0 transition-opacity duration-300"
+               [class.opacity-100]="user.client.driverInfo.drivingLicenseValidation"></i>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pays d'obtention -->
+      <div class="group">
+        <label for="drivingLicenseCountry" class="block text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2 transition-colors group-focus-within:text-green-700">
+          <i class="ri-earth-line mr-2"></i>
+          Pays d'obtention
+        </label>
+        <div class="relative">
+          <input
+            pInputText
+            type="text"
+            id="drivingLicenseCountry"
+            name="drivingLicenseCountry"
+            [(ngModel)]="user.client.driverInfo.drivingLicenseCountry"
+            required
+            placeholder="Pays d'obtention du permis"
+            class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-600 rounded-xl bg-white dark:bg-gray-700 text-gray-900 dark:text-white placeholder-gray-400 transition-all duration-300 focus:border-green-700 focus:ring-4 focus:ring-green-700/10" />
+          <div class="absolute inset-y-0 right-0 flex items-center pr-3">
+            <i class="ri-check-line text-green-700 opacity-0 transition-opacity duration-300"
+               [class.opacity-100]="user.client.driverInfo.drivingLicenseCountry && user.client.driverInfo.drivingLicenseCountry.length > 0"></i>
+          </div>
+        </div>
+        @if(driverInfoFormErrors.drivingLicenseCountry){
+          <div class="flex items-center gap-2 mt-2 text-red-600 dark:text-red-400 text-sm">
+            <i class="ri-error-warning-line"></i>
+            <span>{{ driverInfoFormErrors.drivingLicenseCountry }}</span>
+          </div>
+        }
+      </div>
+    </div>
+  }
+}
