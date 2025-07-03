@@ -31,11 +31,14 @@ export class DefaultLayoutComponent{
       ...(isLoggedIn
         ? [
           (!this.isAgent() ?
-            { label: 'Profil', routerLink: '/profil' }
-            : { label: 'Réservation', routerLink: '/agent/rentals' }
+              { label: 'Profil', routerLink: '/profil' }
+              : [
+                { label: 'Réservation', routerLink: '/agent/rentals' },
+                { label: 'Créer un client', routerLink: '/client/creation' }
+              ]
           ),
           { label: 'Déconnexion', command: (event: any) => this.logout() }
-        ]
+        ].flat()
         : [
           { label: 'Connexion', routerLink: '/login' },
           { label: 'Inscription', routerLink: '/register' }

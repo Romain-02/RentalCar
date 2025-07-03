@@ -13,7 +13,6 @@ import {WithdrawalFormComponent} from './components/withdrawal-form/withdrawal-f
 import {RentalConfirmationComponent} from './components/rental/rental-confirmation/rental-confirmation.component';
 import {ReturnCarFormComponent} from './components/return-car-form/return-car-form.component';
 import {ClientCreationFormComponent} from './components/client-creation-form/client-creation-form.component';
-import {clientCreationGuard} from './guards/client-creation.guard';
 import {AgentRentalsComponent} from './components/agent-rentals/agent-rentals.component';
 
 
@@ -90,8 +89,7 @@ export const routes: Routes = [
       {
         path: 'client/creation',
         title: 'Création du compte client',
-        component: ClientCreationFormComponent,
-        canActivate: [clientCreationGuard]
+        component: ClientCreationFormComponent
       }
     ]
   }
