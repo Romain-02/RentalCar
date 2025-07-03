@@ -21,6 +21,7 @@ export class ClientsService {
   private carsService: CarsService = inject(CarsService);
   public clients: WritableSignal<any[]> = signal<any[]>([]);
   public users: WritableSignal<any[]> = signal<any[]>([]);
+  public createdClientId: WritableSignal<number> = signal<number>(0);
 
   public fetchClients(): void {
     const token: string | null = this.authService.token();
@@ -43,11 +44,56 @@ export class ClientsService {
     });
 
     this.httpClient.post<{ data: User }>(this.urlClients, data, { headers })
-      .pipe(map(response => response.data), catchError(() => of([])))
-      .subscribe(data => {
+      .pipe(
+        map(response => {
+          this.createdClientId.set(response.data.id);
+          return response.data
+        }),
+        catchError((error) => {
+          const errorMsg = error.error?.message || 'Erreur lors de la création du client';
+          console.log(errorMsg);
+          return of([])
+        })
+      )
+      .subscribe({
+        next: () => {
+        },
+        error: () => {}
+      });
+  }
 
-      }
-    );
+  public createDriverInfos(data: any): void {
+    const token: string | null = this.authService.token();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.httpClient.post<{ data: User }>(`${this.urlClients}/${this.createdClientId()}/driver`, data, { headers })
+      .pipe(
+        map(response => response.data),
+        catchError((error) => {
+          const errorMsg = error.error?.message || 'Erreur lors de la création des infos conducteur';
+          return of([])
+        })
+      ).subscribe({next: () => {}});
+  }
+
+  public addClientBillingInformations(data: any): void {
+    const token: string | null = this.authService.token();
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+
+    this.httpClient.patch<{ data: User }>(`${this.urlClients}/${this.createdClientId()}/billing`, data, { headers })
+      .pipe(
+        map(response => response.data),
+        catchError((error) => {
+          const errorMsg = error.error?.message || 'Erreur lors de l ajout des informations de facturation';
+          return of([])
+        })
+      ).subscribe({next: () => {
+        this.createdClientId.set(0);
+      }});
   }
 
   public fetchUsers(): void {

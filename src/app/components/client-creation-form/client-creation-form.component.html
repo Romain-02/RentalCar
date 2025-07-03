@@ -1,11 +1,11 @@
 <div class="w-full h-fit p-4 flex justify-center items-center">
   @if(phaseNumber === 1){
-    <app-client-informations-phase-form [phaseNumber]="phaseNumber" />
+    <app-client-informations-phase-form [phaseNumber]="phaseNumber" (phaseChange)="phaseNumber = $event" />
   }
   @if(phaseNumber === 2){
-    <app-client-driver-phase-form [phaseNumber]="phaseNumber" />
+    <app-client-driver-phase-form [phaseNumber]="phaseNumber" (phaseChange)="phaseNumber = $event" />
   }
   @if(phaseNumber === 3){
-    <app-client-billing-phase-form [phaseNumber]="phaseNumber" />
+    <app-client-billing-phase-form />
   }
 </div>
