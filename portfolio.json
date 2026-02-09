@@ -1,0 +1,10 @@
+{
+  "title": {
+    "fr": "Location de voitures",
+    "en": "Car rental application"
+  },
+  "description": {
+    "fr": "Réalisation d’une application de location de voitures dans le cadre d’une SAE, développée en groupe avec Angular pour le front-end et communiquant avec un backend Laravel.",
+    "en": "Development of a car rental application as part of a graded learning project (SAE), built in a team using Angular for the front-end and connected to a Laravel backend."
+  }
+}
